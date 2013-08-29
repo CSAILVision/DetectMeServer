@@ -1,0 +1,23 @@
+# Python bytecode:
+*.py[co]
+
+# Packaging files:
+*.egg*
+
+# Editor temp files:
+*.swp
+*~
+
+# Sphinx docs:
+build
+
+# SQLite3 database files:
+*.db
+
+# Logs:
+*.log
+
+#Sublime Text project file
+detectme.sublime-project
+detectme.sublime-workspace
+

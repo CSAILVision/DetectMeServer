@@ -2,3 +2,6 @@
 -r base.txt
 coverage==3.6
 django-discover-runner==0.4
+django-jenkins==0.14.1
+pep8==1.4.6
+pyflakes==0.7.3

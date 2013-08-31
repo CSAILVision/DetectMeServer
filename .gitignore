@@ -21,3 +21,6 @@ build
 detectme.sublime-project
 detectme.sublime-workspace
 
+#Reports by jenkins
+detectme/reports
+

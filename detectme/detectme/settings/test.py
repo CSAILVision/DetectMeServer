@@ -21,7 +21,14 @@ INSTALLED_APPS += (
     'django_jenkins',
 )
 
-#For the report explanation refer to: https://github.com/kmmbvnr/django-jenkins
+
+
+########## JENKINS
+# https://github.com/kmmbvnr/django-jenkins
+
+PROJECT_APPS = (
+	
+)
 
 JENKINS_TASKS = (
     'django_jenkins.tasks.with_coverage',  # produces XML coverage report for Jenkins

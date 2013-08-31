@@ -190,6 +190,9 @@ DJANGO_APPS = (
     # Admin panel and documentation:
     'django.contrib.admin',
     # 'django.contrib.admindocs',
+
+    # Bootstrap integration with Django
+    'bootstrap_toolkit',
 )
 
 THIRD_PARTY_APPS = (

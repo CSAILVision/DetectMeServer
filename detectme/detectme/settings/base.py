@@ -191,8 +191,12 @@ DJANGO_APPS = (
     'django.contrib.admin',
     # 'django.contrib.admindocs',
 
-    # Bootstrap integration with Django
+    # Bootstrap integration with Django.
     'bootstrap_toolkit',
+    'rest_framework',
+
+    # Own apps.
+    'videostream',
 )
 
 THIRD_PARTY_APPS = (

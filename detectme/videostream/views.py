@@ -1,21 +1,10 @@
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from .models import Box
 from .serializers import BoxSerializer
 
-class JSONResponse(HttpResponse):
-    """
-    An HttpResponse that renders its content into JSON.
-    """
-    def __init__(self, data, **kwargs):
-        content = JSONRenderer().render(data)
-        kwargs['content_type'] = 'application/json'
-        super(JSONResponse, self).__init__(content, **kwargs)
-
-
-@csrf_exempt
+@api_view(['GET', 'POST'])
 def box_list(request):
     """
     List all boxes, or create a new box.
@@ -23,18 +12,17 @@ def box_list(request):
     if request.method == 'GET':
         boxes = Box.objects.all()
         serializer = BoxSerializer(boxes, many=True)
-        return JSONResponse(serializer.data)
+        return Response(serializer.data)
 
     elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = BoxSerializer(data=data)
+        serializer = BoxSerializer(data=request.DATA)
         if serializer.is_valid():
             serializer.save()
-            return JSONResponse(serializer.data, status=201)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return JSONResponse(serializer.errors, status=400)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@csrf_exempt
+@api_view(['GET', 'PUT', 'DELETE'])
 def box_detail(request, pk):
     """
     Retrieve, update or delete a box.
@@ -42,30 +30,31 @@ def box_detail(request, pk):
     try:
         box = Box.objects.get(pk=pk)
     except Box.DoesNotExist:
-        return HttpResponse(status=404)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
         serializer = BoxSerializer(box)
-        return JSONResponse(serializer.data)
+        return Response(serializer.data)
 
     elif request.method == 'PUT':
-        data = JSONParser().parse(request)
-        serializer = BoxSerializer(box, data=data)
+        serializer = BoxSerializer(box, data=request.DATA)
         if serializer.is_valid():
             serializer.save()
-            return JSONResponse(serializer.data)
+            return Response(serializer.data)
         else:
-            return JSONResponse(serializer.errors, status=400)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         box.delete()
-        return HttpResponse(status=204)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
-@csrf_exempt
+@api_view(['GET',])
 def box_last(request, timestamp):
 	"""
 	Retrieve all the boxes greater than the timestamp
 	"""
 	last_boxes = Box.objects.filter(created__gte=timestamp)
-	serializer = BoxSerializer(last_boxes, many=ture)
-	return JSONResponse(serializer.data)
+	serializer = BoxSerializer(last_boxes, many=True)
+	return Response(serializer.data)
+
+

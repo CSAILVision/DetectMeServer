@@ -8,7 +8,6 @@ urlpatterns = patterns('',
     url(r'^boxes/last/(?P<timestamp>\d+)/$', box_last),
     url(r'^boxes/$', box_list),
     url(r'^boxes/(?P<pk>[0-9]+)/$', box_detail),
-
 )
 
 
@@ -16,3 +15,5 @@ urlpatterns = patterns('',
 #     url(r'^snippets/$', 'snippet_list'),
 #     url(r'^snippets/(?P<pk>[0-9]+)/$', 'snippet_detail'),
 # )
+
+

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
 {% block extra_css %}
 <style type="text/css"><!--
@@ -13,15 +14,6 @@
 {% block content %}
 Let's get the video stream!
 
-  
-
-<label for="msg-input">Broadcast message</label>
-<input id="msg-input" name="msg-input" type="text" size="30" />
-<p>Premi enter per enviar el missatge.</p>
-
-<ul id="broadcast-msg"></ul>
-	
-
 
 <canvas id="boxPosition" width="400" height="300">
   <p>Unfortunately, your browser is currently unsupported by our web 
@@ -33,7 +25,13 @@ Let's get the video stream!
     href="http://www.apple.com/safari">Safari</a>, and <a 
     href="http://www.konqueror.org">Konqueror</a>.</p>
 </canvas>
-
+<button type="button" onclick="clearCanvas()">clear canvas</button>
+<script>
+    function clearCanvas(){
+      var myCanvas = document.getElementById("boxPosition");
+      myCanvas.width = myCanvas.width;
+    }
+</script>
 
 <p>Color picker: 
   <select id="selectColor">
@@ -46,6 +44,14 @@ Let's get the video stream!
   </select>
 </p>
 
+<ul class="list-group" id="broadcast-msg">
+  <li class="list-group-item">Messages received:</li>
+  <li id="replaceable"></li>
+</ul>
+
+
+
+<script src="{% static 'js/socket.io.js' %}"></script>
 <script type="text/Javascript">
   window.onload = function() {
     var myCanvas = document.getElementById("boxPosition");
@@ -79,180 +85,81 @@ Let's get the video stream!
       });
     }
     
+    function drawDot(x,y){
+      ctx.fillRect(x,y,2,2); // fill in the pixel at (10,10)
+    }
+
+
     $('#selectColor').change(function () {
     curColor = $('#selectColor option:selected').val();
     });
 
-    /************** SERVER POLLING *****************/
-    intervalID = setInterval(callServer, 8000); //interval time to poll the server
-    timestamp = 0;
-    url = "http://127.0.0.1:8000/";
+    /************** WEB SOCKET *****************/
 
-    function callServer(){
-      // At each call to the server we pass data.
-      $.get(url, // the url to call.
-        {time: timestamp}, // the data to send in the GET request.
-        function(payload) { // callback function to be called after the GET is completed.
-                processResponse(payload);
-                },
-        'json');
-    };
+    // Establish the connection with the server
+    var socket = io.connect('http://127.0.0.1:7000'); 
+
+    socket.on('greeting', function(data){
+      msg = '<li class="list-group-item">'+data.hello+'</li>'
+      $('#broadcast-msg').append(msg);
+      console.log('received greeting data:',data);
+    });
+
+    //When receiving bb data from other users
+    socket.on('broadcast_bb', function (bb) {
+      var msg = '<li>' + bb.xcoord + ',' + bb.ycoord + '</li>';
+      drawDot(parseFloat(bb.xcoord)*myCanvas.width, parseFloat(bb.ycoord)*myCanvas.height)
+      $('#replaceable').replaceWith(msg);
+      console.log('received bounding box:',bb);
+    });
+
+    // Create a new socket connection
+    socket.on('connect', function() {
+      socket.emit('set clientid', 123);
+    });
+
+    // /************** SERVER POLLING *****************/
+    // intervalID = setInterval(callServer, 8000); //interval time to poll the server
+    // timestamp = 0;
+    // url = "http://127.0.0.1:8000/";
+
+    // function callServer(){
+    //   // At each call to the server we pass data.
+    //   $.get(url, // the url to call.
+    //     {time: timestamp}, // the data to send in the GET request.
+    //     function(payload) { // callback function to be called after the GET is completed.
+    //             processResponse(payload);
+    //             },
+    //     'json');
+    // };
 
 
-    function processResponse(payload) {
-      // if no new messages, return.
-      if(payload.status == 0) return;
-      // Get the timestamp, store it in global variable to be passed to the server on next call.
-      timestamp = payload.time;
-      for(message in payload.messages) {
-        $("#chatwindow").append(payload.messages[message].text);
-      }
-            // Populate the room members window
-            $("#memberswindow").html("")
-            for(member in payload.members) {
-                    $("#memberswindow").append('<strong>'+payload.members[member].username+'</strong><br />');
-            }
+    // function processResponse(payload) {
+    //   // if no new messages, return.
+    //   if(payload.status == 0) return;
+    //   // Get the timestamp, store it in global variable to be passed to the server on next call.
+    //   timestamp = payload.time;
+    //   for(message in payload.messages) {
+    //     $("#chatwindow").append(payload.messages[message].text);
+    //   }
+    //         // Populate the room members window
+    //         $("#memberswindow").html("")
+    //         for(member in payload.members) {
+    //                 $("#memberswindow").append('<strong>'+payload.members[member].username+'</strong><br />');
+    //         }
 
-      // Scroll down if messages fill up the div.
-      var chatDiv = document.getElementById("chatwindow");
-      chatDiv.scrollTop = chatDiv.scrollHeight;
+    //   // Scroll down if messages fill up the div.
+    //   var chatDiv = document.getElementById("chatwindow");
+    //   chatDiv.scrollTop = chatDiv.scrollHeight;
 
-      // Scroll down if members fill up the div.
-      var membDiv = document.getElementById("memberswindow");
-      membDiv.scrollTop = membDiv.scrollHeight;
+    //   // Scroll down if members fill up the div.
+    //   var membDiv = document.getElementById("memberswindow");
+    //   membDiv.scrollTop = membDiv.scrollHeight;
 
-    }
-
+    // }
   };
+
 </script>
 
-<script >
-// // Keep everything in anonymous function, called on window load.
-// if(window.addEventListener) {
-// window.addEventListener('load', function () {
-//   var canvas, context, tool;
-
-//   function init () {
-//     // Find the canvas element.
-//     canvas = document.getElementById('imageView');
-//     if (!canvas) {
-//       alert('Error: I cannot find the canvas element!');
-//       return;
-//     }
-
-//     if (!canvas.getContext) {
-//       alert('Error: no canvas.getContext!');
-//       return;
-//     }
-
-//     // Get the 2D canvas context.
-//     context = canvas.getContext('2d');
-//     if (!context) {
-//       alert('Error: failed to getContext!');
-//       return;
-//     }
-
-//     // Pencil tool instance.
-//     tool = new tool_pencil();
-
-//     // Attach the mousedown, mousemove and mouseup event listeners.
-//     canvas.addEventListener('mousedown', ev_canvas, false);
-//     canvas.addEventListener('mousemove', ev_canvas, false);
-//     canvas.addEventListener('mouseup',   ev_canvas, false);
-
-//   }
-
-//   // This painting tool works like a drawing pencil which tracks the mouse 
-//   // movements.
-//   function tool_pencil () {
-//     var tool = this;
-//     this.started = false;
-
-//     // This is called when you start holding down the mouse button.
-//     // This starts the pencil drawing.
-//     this.mousedown = function (ev) {
-//     	alert("Mouse down!");
-//         context.beginPath();
-//         context.moveTo(ev._x, ev._y);
-//         tool.started = true;
-//     };
-
-//     // This function is called every time you move the mouse. Obviously, it only 
-//     // draws if the tool.started state is set to true (when you are holding down 
-//     // the mouse button).
-//     this.mousemove = function (ev) {
-//       if (tool.started) {
-//         context.lineTo(ev._x, ev._y);
-//         context.stroke();
-//       }
-//     };
-
-//     // This is called when you release the mouse button.
-//     this.mouseup = function (ev) {
-//       if (tool.started) {
-//         tool.mousemove(ev);
-//         tool.started = false;
-//       }
-//     };
-//   }
-
-//   // The general-purpose event handler. This function just determines the mouse 
-//   // position relative to the canvas element.
-//   function ev_canvas (ev) {
-//     if (ev.layerX || ev.layerX == 0) { // Firefox
-//       ev._x = ev.layerX;
-//       ev._y = ev.layerY;
-//     } else if (ev.offsetX || ev.offsetX == 0) { // Opera
-//       ev._x = ev.offsetX;
-//       ev._y = ev.offsetY;
-//     }
-
-//     // socket.emit('emit_bb', {type:ev.type, _x:ev._x, _y:ev._y});
-
-//     // Call the event handler of the tool.
-//     var func = tool[ev.type];
-//     if (func) {
-//       func(ev);
-//     }
-//   }
-
-//   // init();
-
-//   // // Establish the connection with the server
-//   // var socket = io.connect('http://127.0.0.1:8000'); 
-
-//   // // on every message recived we print the new datas inside the #broadcast-msg div
-//   // socket.on('broadcast_msg', function (data) {
-//   //   console.log('Get broadcasted msg:', data);
-//   //   var msg = '<li>' + data + '</li>';
-//   //   $('#broadcast-msg').append(msg);
-//   // });
-
-//   // //When receiving bb data from other users
-//   // socket.on('broadcast_bb', function (ev) {
-//   //     var func = tool[ev.type];
-//   //     if (func) {
-//   //       func(ev);
-//   //     }
-//   //   });
-
-//   // // Create a new socket connection
-//   // socket.on('connect', function() {
-//   //   socket.emit('set nickname', prompt('Quin es el teu alias?'));
-//   //   //Not synchronus function when something changes!! :)
-//   //   $('#msg-input').change( function(){
-//   //     var txt = $(this).val();
-//   //     $(this).val('');
-//   //     socket.emit('emit_msg', txt, function (data){
-//   //       console.log('Emit Broadcast msg', data);
-//   //     });
-//   //   });
-
-//   // });
-
-// }, false); }
-
-// // vim:set spell spl=en fo=wan1croql tw=80 ts=2 sw=2 sts=2 sta et ai cin fenc=utf-8 ff=unix:
-</script>
 
 {% endblock content %}

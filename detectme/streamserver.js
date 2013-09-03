@@ -1,6 +1,6 @@
 var http = require('http').createServer();
 var io = require('socket.io').listen(http);
-var redis = require('redis').createClient();
+// var redis = require('redis').createClient();
 
 
 http.listen(7000, function() {

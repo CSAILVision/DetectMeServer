@@ -1,16 +1,16 @@
 var http = require('http').createServer();
 var io = require('socket.io').listen(http);
- 
+var redis = require('redis').createClient();
+
 
 http.listen(7000, function() {
-    console.log((new Date()) + ' Server is listening on port 8080');
+    console.log((new Date()) + ' Server is listening on port 7000');
 });
 
 // creating a new websocket for the transmission of the detections
 io.sockets.on('connection', function (socket){
 
   // socket.emit('greeting', { hello: 'world' });
-  console.log("New connection!");
 
   // New client connecting
   socket.on('set clientid', function (clientid) {
@@ -18,6 +18,9 @@ io.sockets.on('connection', function (socket){
       console.log(clientid + 'has just connected.');
     });
   });
+
+  socket.on('mobile_connecting', function(sessionData){});
+  socket.on('web_connecting', function(sessionData){});
 
   // Client sending detected bounding box
   socket.on('emit_bb', function(bb){

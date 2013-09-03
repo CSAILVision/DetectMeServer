@@ -15,25 +15,22 @@
 Let's get the video stream!
 
 
-<canvas id="boxPosition" width="400" height="300">
-  <p>Unfortunately, your browser is currently unsupported by our web 
-  application.  We are sorry for the inconvenience. Please use one of the 
-  supported browsers listed below, or draw the image you want using an 
-  offline tool.</p>
-  <p>Supported browsers: <a href="http://www.opera.com">Opera</a>, <a 
-    href="http://www.mozilla.com">Firefox</a>, <a 
-    href="http://www.apple.com/safari">Safari</a>, and <a 
-    href="http://www.konqueror.org">Konqueror</a>.</p>
-</canvas>
-<button type="button" onclick="clearCanvas()">clear canvas</button>
-<script>
-    function clearCanvas(){
-      var myCanvas = document.getElementById("boxPosition");
-      myCanvas.width = myCanvas.width;
-    }
-</script>
+<div class="container container-main">
+  <div class="container-canvas">
+    <canvas id="boxPositionCanvas" width="300" height="512">
+      <p>Unfortunately, your browser is currently unsupported by our web 
+      application.  We are sorry for the inconvenience. Please use one of the 
+      supported browsers listed below, or draw the image you want using an 
+      offline tool.</p>
+      <p>Supported browsers: <a href="http://www.opera.com">Opera</a>, <a 
+        href="http://www.mozilla.com">Firefox</a>, <a 
+        href="http://www.apple.com/safari">Safari</a>, and <a 
+        href="http://www.konqueror.org">Konqueror</a>.</p>
+    </canvas>
+  </div>
 
-<p>Color picker: 
+  <button type="button" class="btn btn-default" id="clearButton">clear canvas</button>
+
   <select id="selectColor">
     <option id="colBlack" value="black" selected="selected">Black</option>
     <option id="colRed" value="red">Red</option>
@@ -42,124 +39,21 @@ Let's get the video stream!
     <option id="colOrange" value="orange">Orange</option>
     <option id="colYellow" value="yellow">Yellow</option>
   </select>
-</p>
 
-<ul class="list-group" id="broadcast-msg">
-  <li class="list-group-item">Messages received:</li>
-  <li id="replaceable"></li>
-</ul>
+  <ul class="list-group" id="broadcast-msg">
+    <li class="list-group-item">Box position</li>
+    <li id="replaceable">Box position</li>
+  </ul>
 
-
-
-<script src="{% static 'js/socket.io.js' %}"></script>
-<script type="text/Javascript">
-  window.onload = function() {
-    var myCanvas = document.getElementById("boxPosition");
-    var curColor = $('#selectColor option:selected').val();
-    if(myCanvas){
-      var isDown      = false;
-      var ctx = myCanvas.getContext("2d");
-      var canvasX, canvasY;
-      ctx.lineWidth = 5;
-       
-      $(myCanvas)
-      .mousedown(function(e){
-        isDown = true;
-        ctx.beginPath();
-        canvasX = e.pageX - myCanvas.offsetLeft;
-        canvasY = e.pageY - myCanvas.offsetTop;
-        ctx.moveTo(canvasX, canvasY);
-      })
-      .mousemove(function(e){
-        if(isDown != false) {
-        canvasX = e.pageX - myCanvas.offsetLeft;
-        canvasY = e.pageY - myCanvas.offsetTop;
-        ctx.lineTo(canvasX, canvasY);
-        ctx.strokeStyle = curColor;                                                       
-        ctx.stroke();
-        }
-      })
-      .mouseup(function(e){
-        isDown = false;
-        ctx.closePath();
-      });
-    }
-    
-    function drawDot(x,y){
-      ctx.fillRect(x,y,2,2); // fill in the pixel at (10,10)
-    }
-
-
-    $('#selectColor').change(function () {
-    curColor = $('#selectColor option:selected').val();
-    });
-
-    /************** WEB SOCKET *****************/
-
-    // Establish the connection with the server
-    var socket = io.connect('http://127.0.0.1:7000'); 
-
-    socket.on('greeting', function(data){
-      msg = '<li class="list-group-item">'+data.hello+'</li>'
-      $('#broadcast-msg').append(msg);
-      console.log('received greeting data:',data);
-    });
-
-    //When receiving bb data from other users
-    socket.on('broadcast_bb', function (bb) {
-      var msg = '<li>' + bb.xcoord + ',' + bb.ycoord + '</li>';
-      drawDot(parseFloat(bb.xcoord)*myCanvas.width, parseFloat(bb.ycoord)*myCanvas.height)
-      $('#replaceable').replaceWith(msg);
-      console.log('received bounding box:',bb);
-    });
-
-    // Create a new socket connection
-    socket.on('connect', function() {
-      socket.emit('set clientid', 123);
-    });
-
-    // /************** SERVER POLLING *****************/
-    // intervalID = setInterval(callServer, 8000); //interval time to poll the server
-    // timestamp = 0;
-    // url = "http://127.0.0.1:8000/";
-
-    // function callServer(){
-    //   // At each call to the server we pass data.
-    //   $.get(url, // the url to call.
-    //     {time: timestamp}, // the data to send in the GET request.
-    //     function(payload) { // callback function to be called after the GET is completed.
-    //             processResponse(payload);
-    //             },
-    //     'json');
-    // };
-
-
-    // function processResponse(payload) {
-    //   // if no new messages, return.
-    //   if(payload.status == 0) return;
-    //   // Get the timestamp, store it in global variable to be passed to the server on next call.
-    //   timestamp = payload.time;
-    //   for(message in payload.messages) {
-    //     $("#chatwindow").append(payload.messages[message].text);
-    //   }
-    //         // Populate the room members window
-    //         $("#memberswindow").html("")
-    //         for(member in payload.members) {
-    //                 $("#memberswindow").append('<strong>'+payload.members[member].username+'</strong><br />');
-    //         }
-
-    //   // Scroll down if messages fill up the div.
-    //   var chatDiv = document.getElementById("chatwindow");
-    //   chatDiv.scrollTop = chatDiv.scrollHeight;
-
-    //   // Scroll down if members fill up the div.
-    //   var membDiv = document.getElementById("memberswindow");
-    //   membDiv.scrollTop = membDiv.scrollHeight;
-
-    // }
-  };
-
-</script>
-
+</div>
 
 {% endblock content %}
+
+{% block extra_js %}
+<script src="{% static 'js/socket.io.js' %}"></script>
+<script src="{% static 'js/canvas.js' %}"></script>
+<script src="{% static 'js/socket_detection.js' %}"></script>
+{% endblock extra_js %}
+
+
+

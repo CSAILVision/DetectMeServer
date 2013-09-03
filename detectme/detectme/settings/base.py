@@ -191,9 +191,15 @@ DJANGO_APPS = (
     'django.contrib.admin',
     # 'django.contrib.admindocs',
 
+    # THIRD PARTY APPS
     # Bootstrap integration with Django.
     'bootstrap_toolkit',
     'rest_framework',
+
+    # Userena specific.
+    'userena',
+    'guardian',
+    'easy_thumbnails',
 
     # Own apps.
     'videostream',
@@ -250,3 +256,13 @@ LOGGING = {
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
 WSGI_APPLICATION = '%s.wsgi.application' % SITE_NAME
 ########## END WSGI CONFIGURATION
+
+########## USERENA SPECIFIC
+# See: http://docs.django-userena.org/en/latest/
+AUTHENTICATION_BACKENDS = (
+    'userena.backends.UserenaAuthenticationBackend',
+    'guardian.backends.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+########## END USERENA SPECIFIC
+

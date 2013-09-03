@@ -12,6 +12,9 @@ urlpatterns = patterns('',
     url(r'^contact/$', TemplateView.as_view(template_name='contact.html'), name="contact"),
     url(r'^videostream/', include('videostream.urls')),
 
+    # userena app
+    (r'^accounts/', include('userena.urls')),
+
     # Examples:
     # url(r'^$', 'detectme.views.home', name='home'),
     # url(r'^detectme/', include('detectme.foo.urls')),

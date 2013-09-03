@@ -190,8 +190,12 @@ DJANGO_APPS = (
     # Admin panel and documentation:
     'django.contrib.admin',
     # 'django.contrib.admindocs',
+)
 
-    # THIRD PARTY APPS
+THIRD_PARTY_APPS = (
+    # Database migration helpers:
+    'south',
+
     # Bootstrap integration with Django.
     'bootstrap_toolkit',
     'rest_framework',
@@ -200,18 +204,12 @@ DJANGO_APPS = (
     'userena',
     'guardian',
     'easy_thumbnails',
-
-    # Own apps.
-    'videostream',
-)
-
-THIRD_PARTY_APPS = (
-    # Database migration helpers:
-    'south',
 )
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
+    'accounts',
+    'videostream',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -264,5 +262,13 @@ AUTHENTICATION_BACKENDS = (
     'guardian.backends.ObjectPermissionBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+ANONYMOUS_USER_ID = -1
+
+AUTH_PROFILE_MODULE = 'accounts.LabelMeProfile'
+
+LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
+LOGIN_URL = '/accounts/signin/'
+LOGOUT_URL = '/accounts/signout/'
 ########## END USERENA SPECIFIC
 

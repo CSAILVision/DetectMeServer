@@ -7,3 +7,4 @@ South==0.8.1
 django-bootstrap-toolkit==2.15.0
 djangorestframework==2.3.7
 django-userena==1.2.3
+PIL==1.1.7

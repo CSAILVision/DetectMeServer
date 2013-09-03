@@ -47,16 +47,31 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">DetectMe</a>
+          <a class="brand" href={% url 'home' %}>DetectMe</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href={% url 'home' %}>Home</a></li>
-              <li><a href={% url 'about' %}>About</a></li>
+              <li class="active"><a href={% url 'about' %}>About</a></li>
               <li><a href={% url 'contact' %}>Contact</a></li>
               <li><a href={% url 'videostream' %}>Stream</a></li>
             </ul>
             <ul class="nav pull-right">
-              <li><a href=# >Log in</a></li>
+              {% if request.user.is_authenticated %}
+                <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  {{ request.user }}
+                  <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a href="{% url 'userena_profile_edit' request.user.username %}"><i class="icon-user"></i> Settings</a></li>
+                  <li class="divider"></li>
+                  <li><a href="{% url 'userena_signout' %}"><i class="icon-off"></i> Log out</a></li>
+                </ul>
+                </li>
+              {% else %}
+                <li><a href="{% url 'userena_signin' %}">Log in</a></li>
+                <li class="navbar-text">or</li>
+                <li><a href="{% url 'userena_signup' %}">Sign up</a></li>
+              {% endif %}
             </ul>
           </div><!--/.nav-collapse -->
         </div>

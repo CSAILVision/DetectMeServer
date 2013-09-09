@@ -27,7 +27,8 @@ INSTALLED_APPS += (
 # https://github.com/kmmbvnr/django-jenkins
 
 PROJECT_APPS = (
-	
+    'accounts',
+    'videostream',
 )
 
 JENKINS_TASKS = (
@@ -37,7 +38,7 @@ JENKINS_TASKS = (
     'django_jenkins.tasks.run_pep8',
     'django_jenkins.tasks.run_pyflakes',
     # 'django_jenkins.tasks.run_jshint',
-    # 'django_jenkins.tasks.run_csslint',  # runs CSS lint tools over app/static/*/*.css files. Creates CSS Lint compatible report for Jenkins     
+    'django_jenkins.tasks.run_csslint',  # runs CSS lint tools over app/static/*/*.css files. Creates CSS Lint compatible report for Jenkins     
     # 'django_jenkins.tasks.run_sloccount',    
     # 'django_jenkins.tasks.lettuce_tests',
 )

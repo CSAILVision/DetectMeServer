@@ -35,6 +35,27 @@ var canvasModule =  (function(){
 
 }());
 
+var boundingBox =  (function(){
+
+  var _x,_y,_w,_h;
+  
+  return{
+
+    setBoxFromReceived: function(bb){
+      _x=bb.xcoord;
+      _y=bb.ycoord;
+      _w=bb.width;
+      _h=bb.height;
+    },
+    drawBox: function(bb){
+      this.setBoxFromReceived(bb);
+      canvasModule.clearScreen();
+      canvasModule.drawUnitaryRectangle(_x,_y,_w,_h);
+    }
+  };
+
+}());
+
 // EVENT HANDLERS
 
 $('#clearButton').click(function() {

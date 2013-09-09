@@ -1,8 +1,8 @@
 
 var canvasModule =  (function(){
-  var _canvas = document.getElementById("boxPositionCanvas");
-  var _ctx = _canvas.getContext("2d");
-  
+  var _canvas = document.getElementById('detecting-canvas');
+  var _ctx = _canvas.getContext('2d');
+
   return{
     settings: {
       numArticles: 5,
@@ -20,7 +20,6 @@ var canvasModule =  (function(){
     },
 
     drawUnitaryRectangle: function(x,y,w,h){
-      console.log('drawing unitary rectangle:'+x+','+y+','+w+','+h);
       this.drawRectangle(x*_canvas.width, y*_canvas.height, w*_canvas.width, h*_canvas.height);
     },
 
@@ -31,6 +30,7 @@ var canvasModule =  (function(){
     setColor: function(color){
       _ctx.strokeStyle = color;
     }
+
   };
 
 }());
@@ -58,12 +58,12 @@ var boundingBox =  (function(){
 
 // EVENT HANDLERS
 
-$('#clearButton').click(function() {
+$('#clear-button').click(function() {
   canvasModule.clearScreen();
 });
 
-$('#selectColor').change(function () {
-  canvasModule.setColor($('#selectColor option:selected').val());
+$('#select-color').change(function () {
+  canvasModule.setColor($('#select-color option:selected').val());
 });
 
 

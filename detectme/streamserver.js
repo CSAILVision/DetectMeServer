@@ -25,7 +25,7 @@ io.sockets.on('connection', function (socket){
   // New client connecting
   socket.on('set clientid', function (clientid) {
     socket.set('clientid', clientid, function () {
-      console.log(clientid + 'has just connected.');
+      console.log(clientid + ' has just connected.');
     });
   });
 
@@ -55,14 +55,25 @@ io.sockets.on('connection', function (socket){
   //   });
   // });
 
-  // Client sending detected bounding box
-  socket.on('emit_bb', function(bb){
-    console.log('received bb:', bb);
-    io.sockets.volatile.emit('broadcast_bb', bb);
+  // // Client sending detected bounding box
+  // socket.on('emit_bb', function(bb){
+  //   console.log('received bb:', bb);
+  //   io.sockets.volatile.emit('broadcast_bb', bb);
+  // });
+
+  // socket.on('emit_image', function(imageBase64){
+  //   io.sockets.volatile.emit('broadcast_image', imageBase64);
+  // });
+
+  socket.on('begin_connection', function(){
+    var address = socket.handshake.address;
+    console.log("New connection from " + address.address + ":" + address.port);
+
+    io.sockets.volatile.emit('bc_begin_connection', address.address);
   });
 
-  socket.on('emit_image', function(imageBase64){
-    io.sockets.volatile.emit('broadcast_image', imageBase64);
+  socket.on('end_connection', function(){
+    io.sockets.volatile.emit('bc_end_connection', '');
   });
 
   // Handle disconnection of clients

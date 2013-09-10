@@ -45,7 +45,6 @@ var webSocketClient =  (function(){
 
 
 
-
 $('#connect-button').click(function(e) {
 	webSocketClient.beginListening();
 });

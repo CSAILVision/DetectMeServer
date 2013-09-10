@@ -2,35 +2,32 @@
 {% load staticfiles %}
 
 {% block extra_css %}
-<style type="text/css"><!--
+  <style type="text/css">
+  /* Extra CSS taht helps the canvas appear on top of the iamge */
+  
+  #canvas-container{
+      display:inline-block;
+      width:320px; 
+      height:480px;
+      margin: 0 auto; 
+      background: black; 
+      position:relative; 
+      border:5px solid black; 
+      border-radius: 10px; 
+      box-shadow: 0 5px 50px #333
+    }
 
-/*body{text-align: center;background: #f2f6f8;}*/
-
-#canvas-container{
-    display:inline-block;
-    width:320px; 
-    height:480px;
-    margin: 0 auto; 
-    background: black; 
-    position:relative; 
-    border:5px solid black; 
-    border-radius: 10px; 
-    box-shadow: 0 5px 50px #333
+  #detecting-image{
+    position:absolute;
+    z-index:1;
   }
 
-#detecting-image{
-  position:absolute;
-  z-index:1;
-}
+  #detecting-canvas{
+      position:relative;
+      z-index:20;
+  }
 
-#detecting-canvas{
-    position:relative;
-    z-index:20;
-}
-
-
---></style>
-{# <link rel='stylesheet' href='/stylesheets/style.css' /> #}
+  </style>
 {% endblock extra_css %}
 
 {% block page_title %}Video Stream{% endblock page_title %}
@@ -55,9 +52,6 @@ Let's get the video stream!
         </canvas>
       </div>
     </div>
-  
-
-
   </div>
 
   <button type="button" class="btn btn-default" id="clear-button">Clear Canvas</button>

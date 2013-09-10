@@ -43,28 +43,7 @@ io.sockets.on('connection', function (socket){
   //   });
   // });
 
-  // socket.on('emit_bb', function(bb){
-  //   client.get(socket.id, function(err, username) {
-  //     if (err) throw err;
-  //     username = username.replace('_mobile','');
-
-  //     client.get(username, function(err, webSocketId) {
-  //       if (err) throw err;
-  //       io.sockets.socket(webSocketId).emit('broadcast_bb', bb);
-  //     });
-  //   });
-  // });
-
-  // // Client sending detected bounding box
-  // socket.on('emit_bb', function(bb){
-  //   console.log('received bb:', bb);
-  //   io.sockets.volatile.emit('broadcast_bb', bb);
-  // });
-
-  // socket.on('emit_image', function(imageBase64){
-  //   io.sockets.volatile.emit('broadcast_image', imageBase64);
-  // });
-
+  // Notify web browser that the iphone is transmitting
   socket.on('begin_connection', function(){
     var address = socket.handshake.address;
     console.log("New connection from " + address.address + ":" + address.port);
@@ -72,6 +51,7 @@ io.sockets.on('connection', function (socket){
     io.sockets.volatile.emit('bc_begin_connection', address.address);
   });
 
+  // Notify web browser that the iphone has stopped transmitting
   socket.on('end_connection', function(){
     io.sockets.volatile.emit('bc_end_connection', '');
   });

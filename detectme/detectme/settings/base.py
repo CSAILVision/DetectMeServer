@@ -210,6 +210,7 @@ THIRD_PARTY_APPS = (
 LOCAL_APPS = (
     'accounts',
     'videostream',
+    'detectors',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

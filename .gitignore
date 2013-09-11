@@ -24,3 +24,5 @@ detectme.sublime-workspace
 #Reports by jenkins
 detectme/reports
 
+#Uploaded files by user
+detectme/media

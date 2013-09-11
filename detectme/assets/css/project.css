@@ -1,0 +1,15 @@
+/*! project specific CSS goes here. */
+
+/*! canvas element */
+.container-main {
+    margin-top: 75px;
+}
+
+.container-canvas {
+    margin: 0 auto;
+    width: 800px;
+}
+
+canvas {
+    border: 1px solid #333;
+}

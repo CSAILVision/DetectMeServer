@@ -1,14 +1,13 @@
 from django.conf import settings
 from django.db import models
-from PIL import Image
 from django.db.models.signals import m2m_changed
-
-# Create your models here.
+from PIL import Image
+import uuid
 
 
 class Detector(models.Model):
-    created = models.DateTimeField()
-    modified = models.DateTimeField()
+    created_at = models.DateTimeField()
+    modified_at = models.DateTimeField()
     name = models.CharField(max_length=50)
     object_class = models.CharField(max_length=50, editable=False, blank=True)
     average_image = models.ImageField(upload_to=settings.MEDIA_ROOT)
@@ -16,10 +15,14 @@ class Detector(models.Model):
     support_vectors = models.TextField()  # arrays to be serialized with JSON
     weights = models.TextField()
     dimensions = models.TextField()
-    user = models.ForeignKey('accounts.LabelMeProfile', editable=False)
+    created_by = models.ForeignKey('accounts.LabelMeProfile', editable=False)
     annotations = models.ManyToManyField('Annotation')
+    public = models.BooleanField(default=False)
+    hash_value = models.CharField(max_length=32, blank=True, editable=False)
 
     def save(self, *args, **kwargs):
+        if not self.hash_value:
+            self.hash_value = uuid.uuid1().hex
         super(Detector, self).save(*args, **kwargs)
 
     # Handler for updating the detector class when annotations are stored
@@ -33,7 +36,7 @@ class Detector(models.Model):
         return u'%s - %s' % (self.name, self.object_class)
 
     class Meta:
-        ordering = ('created',)
+        ordering = ('created_at',)
 
 
 # register the signal
@@ -41,8 +44,8 @@ m2m_changed.connect(Detector.update_detector_class, sender=Detector.annotations.
 
 
 class Annotation(models.Model):
-    created = models.DateTimeField()
-    modified = models.DateTimeField()
+    created_at = models.DateTimeField()
+    modified_at = models.DateTimeField()
     object_class = models.CharField(max_length=50)
     position = models.TextField()
     image = models.ForeignKey('AnnotatedImage')
@@ -52,7 +55,7 @@ class Annotation(models.Model):
 
 
 class AnnotatedImage(models.Model):
-    created = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to=settings.MEDIA_ROOT)
     height = models.PositiveSmallIntegerField(editable=False, blank=True)
     width = models.PositiveSmallIntegerField(editable=False, blank=True)

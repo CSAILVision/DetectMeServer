@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block page_title %}Detector Detail{% endblock page_title %}
+
+
+{% block content %}
+  <p>Details about the detector {{ object.name }}</p>
+  <p>annotations associated</p>
+  <ul>
+    {% for annotation in annotations_list %}
+      <li>{{ annotation.object_class }} and {{ annotation.position }}</li>
+    {% endfor %}
+  </ul>
+{% endblock content %}

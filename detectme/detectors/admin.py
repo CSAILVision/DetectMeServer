@@ -3,13 +3,13 @@ from .models import Detector, Annotation, AnnotatedImage, Performance
 
 
 class DetectorAdmin(admin.ModelAdmin):
-    readonly_fields = ('object_class', 'user', )
+    readonly_fields = ('object_class', 'created_by', 'hash_value', )
 
     def save_model(self, request, obj, form, change):
         """When creating a new object, set the creator field.
         """
         if not change:
-            obj.user = request.user.get_profile()
+            obj.created_by = request.user.get_profile()
         obj.save()
 
 

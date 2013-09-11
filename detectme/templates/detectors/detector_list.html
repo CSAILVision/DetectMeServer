@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block page_title %}Detectors Gallery{% endblock page_title %}
+
+
+{% block content %}
+    <ul>
+        {% for detector in detector_list %}
+            <li>{{ detector.name }}</li>
+        {% endfor %}
+    </ul>
+
+{% endblock content %}

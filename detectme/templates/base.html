@@ -52,6 +52,7 @@
             <ul class="nav">
               <li class="active"><a href={% url 'about' %}>About</a></li>
               <li><a href={% url 'contact' %}>Contact</a></li>
+              <li><a href={% url 'detector_list' %}>Detectors</a></li>
               <li><a href={% url 'videostream' %}>Stream</a></li>
             </ul>
             <ul class="nav pull-right">
@@ -79,6 +80,7 @@
     </div>
 
     <div class="container">
+      <div class="row">
 
       <h1>{% block page_title %}DetectMe Server{% endblock page_title %}</h1>
 
@@ -86,14 +88,13 @@
         <p>Detection from the iPhone LabelMe application.</p>
       {% endblock content %}
 
+    </div>
+
     </div> <!-- /container -->
 
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    {# // <script src="http://code.jquery.com/jquery-latest.js"></script> #}
-    {# // <script src="{% static 'js/bootstrap.min.js' %}"></script> #}
-
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     {% bootstrap_javascript_tag %}
 

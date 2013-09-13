@@ -11,7 +11,8 @@ class Detector(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=50)
     object_class = models.CharField(max_length=50, editable=False, blank=True)
-    average_image = models.ImageField(upload_to=settings.MEDIA_ROOT)
+    average_image = models.ImageField(upload_to='average_image/',
+                                      default='average_image/default.jpg')
     support_vectors = models.TextField()  # arrays to be serialized with JSON
     weights = models.TextField()
     dimensions = models.TextField()
@@ -37,7 +38,8 @@ class Detector(models.Model):
                 instance.save()
 
     def __unicode__(self):
-        return u'%s - %s' % (self.name, self.object_class)
+        return u'%s: %s class by %s' % (self.name, self.object_class,
+                                        self.created_by.user)
 
     class Meta:
         ordering = ('created_at',)

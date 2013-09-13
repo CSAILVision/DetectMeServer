@@ -8,7 +8,6 @@ from .permissions import IsOwnerOrReadOnly
 
 # API Views
 class DetectorAPIList(generics.ListCreateAPIView):
-    # queryset = Detector.objects.all()
     serializer_class = DetectorSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
@@ -22,7 +21,6 @@ class DetectorAPIList(generics.ListCreateAPIView):
 
 
 class DetectorAPIDetail(generics.RetrieveUpdateDestroyAPIView):
-    # queryset = Detector.objects.all()
     serializer_class = DetectorSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
@@ -41,7 +39,6 @@ class DetectorList(ListView):
     context_object_name = 'detector_list'
 
     def get_queryset(self):
-        """Override get_querset so we can filter on request.user """
         return (Detector.objects
                 .filter(get_allowed_detectors(self.request.user))
                 .order_by('-created_at'))

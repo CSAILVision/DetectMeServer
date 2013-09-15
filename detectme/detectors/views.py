@@ -1,6 +1,7 @@
 from django.views.generic import ListView, DetailView
 from django.db.models import Q
 from rest_framework import generics, permissions
+from rest_framework.parsers import MultiPartParser, FileUploadParser
 from .models import Detector
 from .serializers import DetectorSerializer
 from .permissions import IsOwnerOrReadOnly
@@ -10,6 +11,7 @@ from .permissions import IsOwnerOrReadOnly
 class DetectorAPIList(generics.ListCreateAPIView):
     serializer_class = DetectorSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    parser_classes = (MultiPartParser, FileUploadParser,)
 
     def pre_save(self, obj):
         obj.created_by = self.request.user.get_profile()
@@ -24,6 +26,8 @@ class DetectorAPIDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = DetectorSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
+    parser_classes = (MultiPartParser, FileUploadParser,)
+    model = Detector
 
     def pre_save(self, obj):
         obj.created_by = self.request.user.get_profile()
@@ -37,6 +41,7 @@ class DetectorAPIDetail(generics.RetrieveUpdateDestroyAPIView):
 class DetectorList(ListView):
     model = Detector
     context_object_name = 'detector_list'
+    template_name = 'detectors/detector_list'
 
     def get_queryset(self):
         return (Detector.objects

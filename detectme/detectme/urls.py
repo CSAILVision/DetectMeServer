@@ -6,19 +6,18 @@ from django.conf import settings
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^$', TemplateView.as_view(template_name='base.html'), name="home"),
-    url(r'^about/$', TemplateView.as_view(template_name='about.html'), name="about"),
-    url(r'^contact/$', TemplateView.as_view(template_name='contact.html'), name="contact"),
+    url(r'^about/$', TemplateView.as_view(template_name='about.html'),
+        name="about"),
+    url(r'^contact/$', TemplateView.as_view(template_name='contact.html'),
+        name="contact"),
     url(r'^videostream/', include('videostream.urls')),
     url(r'^detectors/', include('detectors.urls')),
 
     # userena app
     (r'^accounts/', include('userena.urls')),
-
-    # Examples:
-    # url(r'^$', 'detectme.views.home', name='home'),
-    # url(r'^detectme/', include('detectme.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -30,11 +29,12 @@ urlpatterns = patterns('',
 
 # Allow access to the Media folder from the browser
 if settings.DEBUG:
-    urlpatterns += patterns('',
+    urlpatterns += patterns(
+        '',
         url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
             'document_root': settings.MEDIA_ROOT,
-        }),
+            }),
         url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {
             'document_root': settings.STATIC_ROOT,
-        }),
-)
+            }),
+    )

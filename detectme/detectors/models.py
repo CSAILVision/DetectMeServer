@@ -19,7 +19,8 @@ class Detector(models.Model):
     created_by = models.ForeignKey('accounts.LabelMeProfile', editable=False)
     annotations = models.ManyToManyField('Annotation', blank=True, null=True)
     public = models.BooleanField(default=False)
-    hash_value = models.CharField(max_length=32, blank=True, editable=False)
+    hash_value = models.CharField(max_length=32, blank=True,
+                                  editable=False, unique=True)
 
     def save(self, *args, **kwargs):
         if not self.hash_value:

@@ -10,12 +10,12 @@
       {% for detector in detector_list %}
         <li class="span4">
           <div class="thumbnail">
-            <img src="{{ detector.average_image.url }}" alt="image"/>
+            <img src="{{ detector.average_image.url }}" alt="image" height="200" width="200"/>
             <div class="caption">
               <h3>{{ detector.name }}</h3>
               <p>Detects {{ detector.object_class }}</p>
               <p>and it has been made by {{ detector.created_by.user }}</p>
-              <p><a href="#" class="btn btn-primary">More details</a> <a href="#" class="btn btn-default">Execute</a></p>
+              <p><a href="{% url 'detector_detail' detector.pk %}" class="btn btn-primary">More details</a> <a href="#" class="btn btn-default">Execute</a></p>
             </div>
           </div>
         </li>

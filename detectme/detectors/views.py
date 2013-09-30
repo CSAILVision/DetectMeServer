@@ -14,7 +14,7 @@ class DetectorAPIList(generics.ListCreateAPIView):
     parser_classes = (MultiPartParser, FileUploadParser,)
 
     def pre_save(self, obj):
-        obj.created_by = self.request.user.get_profile()
+        obj.author = self.request.user.get_profile()
 
     def get_queryset(self):
         return (Detector.objects
@@ -30,7 +30,7 @@ class DetectorAPIDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Detector
 
     def pre_save(self, obj):
-        obj.created_by = self.request.user.get_profile()
+        obj.author = self.request.user.get_profile()
 
     def get_queryset(self):
         qs = super(DetectorAPIDetail, self).get_queryset()
@@ -61,12 +61,12 @@ class DetectorDetail(DetailView):
         # Call the base implementation first to get a context
         context = super(DetectorDetail, self).get_context_data(**kwargs)
         # Add in a QuerySet of all the books
-        context['annotations_list'] = self.object.annotations.all()
+        context['annotations_list'] = self.object.annotatedimage_set.all()
         return context
 
 
 def get_allowed_detectors(user):
     if user.is_authenticated():
-        return (Q(created_by=user.get_profile()) | Q(public=True))
+        return (Q(author=user.get_profile()) | Q(is_public=True))
     else:
-        return Q(public=True)
+        return Q(is_public=True)

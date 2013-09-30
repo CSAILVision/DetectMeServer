@@ -18,4 +18,4 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         if not request.user.is_authenticated():
             return False
         else:
-            return obj.created_by == request.user.get_profile()
+            return obj.author == request.user.get_profile()

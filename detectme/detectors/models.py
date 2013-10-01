@@ -8,12 +8,13 @@ import uuid
 class Detector(models.Model):
     name = models.CharField(max_length=50)
     target_class = models.CharField(max_length=50)
-    author = models.ForeignKey('accounts.LabelMeProfile', editable=False)
+    author = models.ForeignKey('accounts.LabelMeProfile')
     is_public = models.BooleanField(default=False)
     average_image = models.ImageField(upload_to='average_image/',
                                       default='average_image/default.jpg')
     created_at = models.DateTimeField(null=True, blank=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(null=True, blank=True)
+    uploaded_at = models.DateTimeField(auto_now=True)
     weights = models.TextField()  # arrays to be serialized with JSON
     sizes = models.TextField()
     support_vectors = models.TextField()
@@ -36,21 +37,23 @@ class Detector(models.Model):
 
 
 class AnnotatedImage(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    image_jpeg = models.ImageField(upload_to=settings.MEDIA_ROOT)
+    created_at = models.DateTimeField(null=True, blank=True)
+    uploaded_at = models.DateTimeField(auto_now=True)
+    image_jpeg = models.ImageField(upload_to='annotated_images/',
+                                   default='average_image/default.jpg')
     image_height = models.PositiveSmallIntegerField(editable=False, blank=True)
     image_width = models.PositiveSmallIntegerField(editable=False, blank=True)
-    box_x = models.PositiveSmallIntegerField(editable=False, blank=True)
-    box_y = models.PositiveSmallIntegerField(editable=False, blank=True)
-    box_height = models.PositiveSmallIntegerField(editable=False, blank=True)
-    box_width = models.PositiveSmallIntegerField(editable=False, blank=True)
+    box_x = models.PositiveSmallIntegerField()
+    box_y = models.PositiveSmallIntegerField()
+    box_height = models.PositiveSmallIntegerField()
+    box_width = models.PositiveSmallIntegerField()
     author = models.ForeignKey('accounts.LabelMeProfile', editable=False)
     detector = models.ForeignKey(Detector)
 
     def save(self, *args, **kwargs):
-        im = Image.open(self.image_.path)
-        self.image_width = im.size[0]
-        self.image_height = im.size[1]
+        # im = Image.open(self.image_jpeg.path)
+        self.image_width = 3#im.size[0]
+        self.image_height = 3#im.size[1]
         super(AnnotatedImage, self).save(*args, **kwargs)
 
     def __unicode__(self):

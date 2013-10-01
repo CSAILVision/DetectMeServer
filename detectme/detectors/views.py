@@ -1,9 +1,9 @@
 from django.views.generic import ListView, DetailView
 from django.db.models import Q
 from rest_framework import generics, permissions
-from rest_framework.parsers import MultiPartParser, FileUploadParser
-from .models import Detector
-from .serializers import DetectorSerializer
+from rest_framework.parsers import MultiPartParser, FileUploadParser, JSONParser
+from .models import Detector, AnnotatedImage
+from .serializers import DetectorSerializer, AnnotatedImageSerializer
 from .permissions import IsOwnerOrReadOnly
 
 
@@ -11,10 +11,11 @@ from .permissions import IsOwnerOrReadOnly
 class DetectorAPIList(generics.ListCreateAPIView):
     serializer_class = DetectorSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    parser_classes = (MultiPartParser, FileUploadParser,)
+    parser_classes = (JSONParser, MultiPartParser, FileUploadParser,)
 
     def pre_save(self, obj):
         obj.author = self.request.user.get_profile()
+        #print 'saving author with:' + self.request.user.get_profile()
 
     def get_queryset(self):
         return (Detector.objects
@@ -26,8 +27,7 @@ class DetectorAPIDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = DetectorSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
-    parser_classes = (MultiPartParser, FileUploadParser,)
-    model = Detector
+    parser_classes = (JSONParser, MultiPartParser, FileUploadParser,)
 
     def pre_save(self, obj):
         obj.author = self.request.user.get_profile()
@@ -37,7 +37,29 @@ class DetectorAPIDetail(generics.RetrieveUpdateDestroyAPIView):
         return qs.filter(get_allowed_detectors(self.request.user))
 
 
-# General views
+class AnnotatedImageAPIList(generics.ListCreateAPIView):
+    serializer_class = AnnotatedImageSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    parser_classes = (JSONParser, MultiPartParser, FileUploadParser,)
+    model = AnnotatedImage
+
+    def pre_save(self, obj):
+        obj.author = self.request.user.get_profile()
+        #print 'saving author with:' + self.request.user.get_profile()
+
+
+class AnnotatedImageAPIDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = AnnotatedImageSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly,)
+    parser_classes = (JSONParser, MultiPartParser, FileUploadParser,)
+    model = AnnotatedImage
+
+    def pre_save(self, obj):
+        obj.author = self.request.user.get_profile()
+
+
+###### General views
 class DetectorList(ListView):
     model = Detector
     context_object_name = 'detector_list'
@@ -61,7 +83,7 @@ class DetectorDetail(DetailView):
         # Call the base implementation first to get a context
         context = super(DetectorDetail, self).get_context_data(**kwargs)
         # Add in a QuerySet of all the books
-        context['annotations_list'] = self.object.annotatedimage_set.all()
+        context['annotatedimage_list'] = self.object.annotatedimage_set.all()
         return context
 
 

@@ -4,11 +4,12 @@
 
 
 {% block content %}
-  <p>Details about the detector {{ object.name }}</p>
+  <p>Details about the detector: {{ object.name }}</p>
   <p>annotations associated</p>
   <ul>
-    {% for annotation in annotations_list %}
-      <li>{{ annotation.object_class }} and {{ annotation.position }}</li>
+    {% for annotatedimage in annotatedimage_list %}
+      <li>({{ annotatedimage.box_x }}, {{ annotatedimage.box_y }})</li>
+      <img src="{{ annotatedimage.image_jpeg.url }}" alt="image" height="200" width="200"/>
     {% endfor %}
   </ul>
 {% endblock content %}

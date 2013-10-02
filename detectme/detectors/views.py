@@ -30,6 +30,8 @@ class DetectorAPIDetail(generics.RetrieveUpdateDestroyAPIView):
     parser_classes = (JSONParser, MultiPartParser, FileUploadParser,)
 
     def pre_save(self, obj):
+        # remove all the images and wait for the new ones to be updated
+        
         obj.author = self.request.user.get_profile()
 
     def get_queryset(self):

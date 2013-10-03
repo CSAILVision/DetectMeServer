@@ -18,6 +18,7 @@ class Detector(models.Model):
     weights = models.TextField()  # arrays to be serialized with JSON
     sizes = models.TextField()
     support_vectors = models.TextField()
+    is_deleted = models.BooleanField(default=False)
     hash_value = models.CharField(max_length=32, blank=True,
                                   editable=False, unique=True)
 
@@ -60,6 +61,7 @@ class AnnotatedImage(models.Model):
         return u'%s' % self.image_jpeg.name
 
 
+# Delete image files when deleting objects from the database
 @receiver(post_delete, sender=Detector)
 def detector_post_delete_handler(sender, **kwargs):
     detector = kwargs['instance']

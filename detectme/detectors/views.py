@@ -25,14 +25,15 @@ class DetectorAPIList(generics.ListCreateAPIView):
 
 class DetectorAPIDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = DetectorSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-                          IsOwnerOrReadOnly,)
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+                          #IsOwnerOrReadOnly,)
     parser_classes = (JSONParser, MultiPartParser, FileUploadParser,)
+    model = Detector
 
     def pre_save(self, obj):
         # remove all the images and wait for the new ones to be updated
-        
-        obj.author = self.request.user.get_profile()
+        obj.annotatedimage_set.all().delete()
+        #obj.author = self.request.user.get_profile()
 
     def get_queryset(self):
         qs = super(DetectorAPIDetail, self).get_queryset()

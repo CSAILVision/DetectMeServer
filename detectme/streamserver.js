@@ -1,7 +1,7 @@
 var http = require('http').createServer();
 var io = require('socket.io').listen(http);
 // var redis = require('redis').createClient();
-
+var iphoneAddress;
 
 var connection = (function(){
 
@@ -27,6 +27,8 @@ io.sockets.on('connection', function (socket){
     socket.set('clientid', clientid, function () {
       console.log(clientid + ' has just connected.');
     });
+
+    io.sockets.volatile.emit('bc_begin_connection', address.address);
   });
 
   // socket.on('mobile_connecting', function(sessionData){
@@ -47,7 +49,7 @@ io.sockets.on('connection', function (socket){
   socket.on('begin_connection', function(){
     var address = socket.handshake.address;
     console.log("New connection from " + address.address + ":" + address.port);
-
+    iphoneAddress = address.address;
     io.sockets.volatile.emit('bc_begin_connection', address.address);
   });
 

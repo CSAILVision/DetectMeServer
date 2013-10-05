@@ -15,6 +15,10 @@ urlpatterns = patterns(
 # Add suffix to nice access to the detectors.
 urlpatterns = format_suffix_patterns(urlpatterns)
 
+# # Include the login and logout views for the API.
+# urlpatterns += patterns('',
+#     url(r'^api-token-auth/', 'rest_framework.authtoken.views.obtain_auth_token')
+# )
 
 # Include the login and logout views for the browsable API.
 urlpatterns += patterns(
@@ -22,6 +26,8 @@ urlpatterns += patterns(
     url(r'^api-auth/', include('rest_framework.urls',
                                namespace='rest_framework')),
 )
+
+
 
 
 # Patterns for the normal access.

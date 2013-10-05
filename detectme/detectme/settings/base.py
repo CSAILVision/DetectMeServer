@@ -199,11 +199,13 @@ THIRD_PARTY_APPS = (
     # Bootstrap integration with Django.
     'bootstrap_toolkit',
     'rest_framework',
+    'rest_framework.authtoken',
 
     # Userena specific.
     'userena',
     'guardian',
     'easy_thumbnails',
+
 )
 
 # Apps specific for this project go here.

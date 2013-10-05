@@ -26,6 +26,11 @@ urlpatterns = patterns(
     url(r'^admin/', include(admin.site.urls)),
 )
 
+# Include the login and logout views for the API.
+urlpatterns += patterns('',
+    url(r'^api-token-auth/', 'rest_framework.authtoken.views.obtain_auth_token')
+)
+
 
 # Allow access to the Media folder from the browser
 if settings.DEBUG:

@@ -16,8 +16,13 @@ urlpatterns = patterns(
     url(r'^videostream/', include('videostream.urls')),
     url(r'^detectors/', include('detectors.urls')),
 
+    # create account over api
+    (r'^accounts/api/', include('accounts.urls')),
+
     # userena app
     (r'^accounts/', include('userena.urls')),
+
+
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

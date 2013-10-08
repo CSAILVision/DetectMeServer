@@ -8,7 +8,7 @@ import uuid
 class Detector(models.Model):
     name = models.CharField(max_length=50)
     target_class = models.CharField(max_length=50)
-    author = models.ForeignKey('accounts.LabelMeProfile')
+    author = models.ForeignKey('accounts.DetectMeProfile')
     is_public = models.BooleanField(default=False)
     average_image = models.ImageField(upload_to='average_image/',
                                       default='average_image/default.jpg')
@@ -48,7 +48,7 @@ class AnnotatedImage(models.Model):
     box_y = models.FloatField()
     box_height = models.FloatField()
     box_width = models.FloatField()
-    author = models.ForeignKey('accounts.LabelMeProfile', editable=False)
+    author = models.ForeignKey('accounts.DetectMeProfile', editable=False)
     detector = models.ForeignKey(Detector)
 
     def save(self, *args, **kwargs):

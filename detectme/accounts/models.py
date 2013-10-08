@@ -7,7 +7,7 @@ from rest_framework.authtoken.models import Token
 from django.db.models.signals import post_save
 
 
-class LabelMeProfile(UserenaBaseProfile):
+class DetectMeProfile(UserenaBaseProfile):
     user = models.OneToOneField(User,
                                 unique = True,
                                 verbose_name = _('user'),

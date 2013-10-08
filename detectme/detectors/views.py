@@ -7,7 +7,7 @@ from .serializers import DetectorSerializer, AnnotatedImageSerializer
 from .permissions import IsOwnerOrReadOnly
 
 
-# API Views
+###### API Views
 class DetectorAPIList(generics.ListCreateAPIView):
     serializer_class = DetectorSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)

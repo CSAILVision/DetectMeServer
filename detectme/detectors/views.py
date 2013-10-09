@@ -2,7 +2,7 @@ from django.views.generic import ListView, DetailView
 from django.db.models import Q
 from rest_framework import generics, permissions
 from rest_framework.parsers import MultiPartParser, FileUploadParser, JSONParser
-from .models import Detector, AnnotatedImage
+from .models import Detector 
 from .serializers import DetectorSerializer, AnnotatedImageSerializer
 from .permissions import IsOwnerOrReadOnly
 
@@ -15,7 +15,6 @@ class DetectorAPIList(generics.ListCreateAPIView):
 
     def pre_save(self, obj):
         obj.author = self.request.user.get_profile()
-        #print 'saving author with:' + self.request.user.get_profile()
 
     def get_queryset(self):
         return (Detector.objects
@@ -28,12 +27,11 @@ class DetectorAPIDetail(generics.RetrieveUpdateDestroyAPIView):
     #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
                           #IsOwnerOrReadOnly,)
     parser_classes = (JSONParser, MultiPartParser, FileUploadParser,)
-    model = Detector
 
     def pre_save(self, obj):
         # remove all the images and wait for the new ones to be updated
         obj.annotatedimage_set.all().delete()
-        #obj.author = self.request.user.get_profile()
+        obj.author = self.request.user.get_profile()
 
     def get_queryset(self):
         qs = super(DetectorAPIDetail, self).get_queryset()
@@ -44,11 +42,9 @@ class AnnotatedImageAPIList(generics.ListCreateAPIView):
     serializer_class = AnnotatedImageSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     parser_classes = (JSONParser, MultiPartParser, FileUploadParser,)
-    model = AnnotatedImage
 
     def pre_save(self, obj):
         obj.author = self.request.user.get_profile()
-        #print 'saving author with:' + self.request.user.get_profile()
 
 
 class AnnotatedImageAPIDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -56,7 +52,6 @@ class AnnotatedImageAPIDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
     parser_classes = (JSONParser, MultiPartParser, FileUploadParser,)
-    model = AnnotatedImage
 
     def pre_save(self, obj):
         obj.author = self.request.user.get_profile()

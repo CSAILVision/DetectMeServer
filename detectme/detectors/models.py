@@ -21,6 +21,7 @@ class Detector(models.Model):
     is_deleted = models.BooleanField(default=False)
     hash_value = models.CharField(max_length=32, blank=True,
                                   editable=False, unique=True)
+    parent = models.ForeignKey('self', null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.hash_value:

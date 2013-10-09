@@ -16,6 +16,11 @@ class DetectMeProfile(UserenaBaseProfile):
     favourite_snack = models.CharField(_('favourite snack'),
                                        max_length=5)
 
+    # Property
+    def _get_username(self):
+        return self.user.username
+    username = property(_get_username)
+
 
 @receiver(post_save, sender=User)
 def create_auth_token(sender, instance=None, created=False, **kwargs):

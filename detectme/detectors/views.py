@@ -10,8 +10,6 @@ from .permissions import IsOwnerOrReadOnly
 ###### API Views
 class DetectorAPIList(generics.ListCreateAPIView):
     serializer_class = DetectorSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    parser_classes = (JSONParser, MultiPartParser, FileUploadParser,)
 
     def pre_save(self, obj):
         obj.author = self.request.user.get_profile()
@@ -24,9 +22,8 @@ class DetectorAPIList(generics.ListCreateAPIView):
 
 class DetectorAPIDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = DetectorSerializer
-    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-                          #IsOwnerOrReadOnly,)
-    parser_classes = (JSONParser, MultiPartParser, FileUploadParser,)
+    # permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+                          # IsOwnerOrReadOnly,)
 
     def pre_save(self, obj):
         # remove all the images and wait for the new ones to be updated
@@ -40,8 +37,6 @@ class DetectorAPIDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class AnnotatedImageAPIList(generics.ListCreateAPIView):
     serializer_class = AnnotatedImageSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    parser_classes = (JSONParser, MultiPartParser, FileUploadParser,)
 
     def pre_save(self, obj):
         obj.author = self.request.user.get_profile()
@@ -49,9 +44,8 @@ class AnnotatedImageAPIList(generics.ListCreateAPIView):
 
 class AnnotatedImageAPIDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = AnnotatedImageSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-                          IsOwnerOrReadOnly,)
-    parser_classes = (JSONParser, MultiPartParser, FileUploadParser,)
+    # permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          # IsOwnerOrReadOnly,)
 
     def pre_save(self, obj):
         obj.author = self.request.user.get_profile()

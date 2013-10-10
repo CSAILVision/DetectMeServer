@@ -13,8 +13,11 @@
             <img src="{{ detector.average_image.url }}" alt="image" height="200" width="200"/>
             <div class="caption">
               <h3>{{ detector.name }}</h3>
-              <p>Detects {{ detector.object_class }}</p>
-              <p>and it has been made by {{ detector.author.user }}</p>
+              <p>Detects class: {{ detector.target_class }}</p>
+              <p>Made by: {{ detector.author.user }}</p>
+              {% if detector.parent %}
+                <p>Son of: <a href="{% url 'detector_detail' detector.parent.id %}"> {{ detector.parent.name }} </a>
+              {% endif %}
               <p><a href="{% url 'detector_detail' detector.pk %}" class="btn btn-primary">More details</a> <a href="#" class="btn btn-default">Execute</a></p>
             </div>
           </div>

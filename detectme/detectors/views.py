@@ -22,6 +22,7 @@ class DetectorAPIList(generics.ListCreateAPIView):
 
 class DetectorAPIDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = DetectorSerializer
+    model = Detector
     # permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
                           # IsOwnerOrReadOnly,)
 

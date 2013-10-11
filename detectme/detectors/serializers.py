@@ -12,7 +12,7 @@ class DetectorSerializer(serializers.ModelSerializer):
         model = Detector
         fields = ('id', 'name', 'target_class',
                   'author', 'is_public', 'average_image',
-                  'uploaded_at',  # created_at, updated_at
+                  'uploaded_at', 'is_deleted',
                   'weights', 'sizes', 'support_vectors', 'parent')
         read_only = ('author', 'uploaded_at', 'id')
 

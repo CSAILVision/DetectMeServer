@@ -27,3 +27,6 @@ class AnnotatedImageSerializer(serializers.ModelSerializer):
                   'box_width', 'box_height',
                   'detector')
         read_only = ('uploaded_at', 'image_height', 'image_width')
+
+
+# http://stackoverflow.com/questions/2929422/multi-thread-conversation-in-django-like-reddit

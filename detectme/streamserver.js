@@ -28,7 +28,8 @@ io.sockets.on('connection', function (socket){
       console.log(clientid + ' has just connected.');
     });
 
-    io.sockets.volatile.emit('bc_begin_connection', address.address);
+    // io.sockets.volatile.emit('bc_begin_connection', address.address);
+    io.sockets.volatile.emit('bc_begin_connection', iphoneAddress);
   });
 
   // socket.on('mobile_connecting', function(sessionData){

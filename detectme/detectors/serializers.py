@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Detector, AnnotatedImage
+from .models import Detector, AnnotatedImage, Rating
 
 
 class DetectorSerializer(serializers.ModelSerializer):
@@ -29,4 +29,10 @@ class AnnotatedImageSerializer(serializers.ModelSerializer):
         read_only = ('uploaded_at', 'image_height', 'image_width')
 
 
-# http://stackoverflow.com/questions/2929422/multi-thread-conversation-in-django-like-reddit
+class RatingSerializer(serializers.ModelSerializer):
+  
+    class Meta:
+        model = Rating
+        fields = ('detector', 'rating')
+
+

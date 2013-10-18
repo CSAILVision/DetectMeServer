@@ -1,58 +1,10 @@
 from django.views.generic import ListView, DetailView
 from django.db.models import Q
-from rest_framework import generics, permissions
-from rest_framework.parsers import MultiPartParser, FileUploadParser, JSONParser
 from .models import Detector 
-from .serializers import DetectorSerializer, AnnotatedImageSerializer
-from .permissions import IsOwnerOrReadOnly
 
 
-###### API Views
-class DetectorAPIList(generics.ListCreateAPIView):
-    serializer_class = DetectorSerializer
-
-    def pre_save(self, obj):
-        obj.author = self.request.user.get_profile()
-
-    def get_queryset(self):
-        return (Detector.objects
-                .filter(get_allowed_detectors(self.request.user))
-                .order_by('-created_at'))
 
 
-class DetectorAPIDetail(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = DetectorSerializer
-    model = Detector
-    # permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-                          # IsOwnerOrReadOnly,)
-
-    def pre_save(self, obj):
-        # remove all the images and wait for the new ones to be updated
-        obj.annotatedimage_set.all().delete()
-        obj.author = self.request.user.get_profile()
-
-    def get_queryset(self):
-        qs = super(DetectorAPIDetail, self).get_queryset()
-        return qs.filter(get_allowed_detectors(self.request.user))
-
-
-class AnnotatedImageAPIList(generics.ListCreateAPIView):
-    serializer_class = AnnotatedImageSerializer
-
-    def pre_save(self, obj):
-        obj.author = self.request.user.get_profile()
-
-
-class AnnotatedImageAPIDetail(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = AnnotatedImageSerializer
-    # permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-                          # IsOwnerOrReadOnly,)
-
-    def pre_save(self, obj):
-        obj.author = self.request.user.get_profile()
-
-
-###### General views
 class DetectorList(ListView):
     model = Detector
     context_object_name = 'detector_list'

@@ -1,8 +1,7 @@
-from django.db.models import Q
 from rest_framework import generics, permissions
-# from rest_framework.parsers import MultiPartParser, FileUploadParser, JSONParser
 from .models import Detector, Rating
 from .serializers import DetectorSerializer, AnnotatedImageSerializer, RatingSerializer
+from .views import get_allowed_detectors
 # from .permissions import IsOwnerOrReadOnly
 
 from rest_framework.views import APIView
@@ -54,13 +53,6 @@ class AnnotatedImageAPIDetail(generics.RetrieveUpdateDestroyAPIView):
         obj.author = self.request.user.get_profile()
 
 
-def get_allowed_detectors(user):
-    if user.is_authenticated():
-        return (Q(author=user.get_profile()) | Q(is_public=True))
-    else:
-        return Q(is_public=True)
-
-
 class RatingAPIList(APIView):
     """
     Store the rating as a new rating only if it is the first
@@ -85,11 +77,4 @@ class RatingAPIList(APIView):
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-# class RatingAPIDetail(generics.RetrieveUpdateDestroyAPIView):
-#     serializer_class = RatingSerializer
-
-#     def pre_save(self, obj):
-#         obj.author = self.request.user.get_profile()
 

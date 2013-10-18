@@ -33,7 +33,13 @@ class DetectorDetail(DetailView):
 
 
 def get_allowed_detectors(user):
+    """
+    Query only detectors not deleted and (public or private if I am the owner)
+    """
     if user.is_authenticated():
-        return (Q(author=user.get_profile()) | Q(is_public=True))
+        return ((Q(author=user.get_profile()) | Q(is_public=True)) &
+                Q(is_deleted=False))
     else:
-        return Q(is_public=True)
+        return (Q(is_public=True) &
+                Q(is_deleted=False))
+

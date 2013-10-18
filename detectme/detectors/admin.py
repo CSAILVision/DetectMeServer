@@ -4,6 +4,7 @@ from .models import Detector, AnnotatedImage, Rating
 
 class DetectorAdmin(admin.ModelAdmin):
     readonly_fields = ('hash_value', 'average_rating', 'number_ratings')
+    list_filter = ('is_deleted', 'is_public')
 
     def average_rating(self, instance):
         return instance.average_rating

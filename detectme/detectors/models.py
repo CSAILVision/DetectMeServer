@@ -67,13 +67,19 @@ class AnnotatedImage(models.Model):
     box_y = models.FloatField()
     box_height = models.FloatField()
     box_width = models.FloatField()
+    location_latitude = models.FloatField()
+    location_longitude = models.FloatField()
+    motion_quaternionX = models.FloatField()
+    motion_quaternionY = models.FloatField()
+    motion_quaternionZ = models.FloatField()
+    motion_quaternionW = models.FloatField()
     author = models.ForeignKey('accounts.DetectMeProfile', editable=False)
     detector = models.ForeignKey(Detector)
 
     def save(self, *args, **kwargs):
-        im = Image.open(self.image_jpeg.path)
-        self.image_width = im.size[0]
-        self.image_height = im.size[1]
+        #im = Image.open(self.image_jpeg.path)
+        self.image_width = 3 #im.size[0]
+        self.image_height = 3 #im.size[1]
         super(AnnotatedImage, self).save(*args, **kwargs)
 
     def __unicode__(self):

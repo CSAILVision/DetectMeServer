@@ -74,6 +74,7 @@ CACHES = {
 }
 ########## END CACHE CONFIGURATION
 
+DEBUG = True
 
 ########## SECRET CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key

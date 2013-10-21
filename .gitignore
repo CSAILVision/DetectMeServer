@@ -26,3 +26,5 @@ detectme/reports
 
 #Uploaded files by user
 detectme/media
+
+*.pem

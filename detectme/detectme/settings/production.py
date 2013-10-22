@@ -49,21 +49,22 @@ EMAIL_USE_TLS = True
 SERVER_EMAIL = EMAIL_HOST_USER
 ########## END EMAIL CONFIGURATION
 
-#TODO: Configure Database and caches for production!!
-
 ########## DATABASE CONFIGURATION
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': normpath(join(DJANGO_ROOT, 'default.db')),
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', 
+        'NAME': 'detectmedb',
+        'USER': 'detectmeuser',
+        'PASSWORD': 'detectme',
+        'HOST': 'localhost', 
         'PORT': '',
     }
 }
 ########## END DATABASE CONFIGURATION
 
+
+
+#TODO: Configure caches for production!!
 
 ########## CACHE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#caches

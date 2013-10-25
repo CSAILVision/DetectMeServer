@@ -49,7 +49,7 @@ io.sockets.on('connection', function (socket){
   // Notify web browser that the iphone is transmitting
   socket.on('begin_connection', function(){
     var address = socket.handshake.address;
-    console.log("New connection from " + address.address + ":" + address.port);
+    console.log("New iphone connection from " + address.address + ":" + address.port);
     iphoneAddress = address.address;
     io.sockets.volatile.emit('bc_begin_connection', address.address);
   });

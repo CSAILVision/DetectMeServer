@@ -1,7 +1,7 @@
 /************** WEB SOCKET *****************/
 
 // Establish the connection with the server
-var socket = io.connect('http://127.0.0.1:7000');
+var socket = io.connect('http://128.52.160.100:7000');
 
 socket.on('bc_begin_connection', function(address){
   console.log('Initiating connection to:' + address);

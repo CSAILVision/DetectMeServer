@@ -1,3 +1,4 @@
+// Connects as a client to the iphone to get the images send
 
 var webSocketClient =  (function(){
   var _address = '127.0.0.1';
@@ -42,9 +43,3 @@ var webSocketClient =  (function(){
   };
 
 }());
-
-
-
-$('#connect-button').click(function(e) {
-	webSocketClient.beginListening();
-});

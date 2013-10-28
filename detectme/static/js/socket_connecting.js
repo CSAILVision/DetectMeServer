@@ -17,6 +17,7 @@ socket.on('stop_listening_iphone', function(){
 
 // Create a new socket connection
 socket.on('connect', function() {
-  socket.emit('browser_connect', 'username');
+  console.log('Current username' + '{{ username }}');
+  socket.emit('browser_connect', '{{ username}}');
 });
 

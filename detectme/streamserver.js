@@ -1,14 +1,9 @@
 var http = require('http').createServer();
 var io = require('socket.io').listen(http);
 // var redis = require('redis').createClient();
-var iphoneAddress;
+
 var browser_clients = {}; // 'id': socket
 var iphone_clients = {}; // 'id': 'iphone_ip'
-
-var connection = (function(){
-
-}());
-
 
 
 http.listen(7000, function() {
@@ -24,8 +19,9 @@ io.sockets.on('connection', function (socket){
   
 
   socket.on('browser_connect', function(username){
-    console.log(username + ' browser connected');
+    console.log(username + ' browser connected.');
 
+    socket.set('username',username, function(){});
     browser_clients[username] = socket;
 
     iphone_ip = iphone_clients[username];
@@ -48,17 +44,20 @@ io.sockets.on('connection', function (socket){
 
   socket.on('iphone_disconnect', function(username){
     console.log(username + ' iphone has disconnected');
-    
+
     browser_socket = browser_clients[username];
     if(browser_socket!==undefined){
       browser_socket.emit('stop_listening_iphone', '');
     }
+
+    delete iphone_clients.username;
   });
 
     // Handle disconnection of clients
   socket.on('disconnect', function () {
-    socket.get('clientid', function (err, clientid) {
-      console.log(clientid + 'has disconnected.');
+    socket.get('username', function (err, username) {
+      console.log(username + ' browser has disconnected. Removing her information');
+      delete browser_clients.username;
     });
   });
 

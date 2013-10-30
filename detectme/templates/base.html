@@ -1,5 +1,6 @@
 {% load staticfiles %}
 {% load bootstrap_toolkit %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,10 +11,9 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    {# <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"> #}
-    {# <link href="{% static 'css/bootstrap-responsive.min.css' %}" rel="stylesheet"> #}
     {% bootstrap_stylesheet_tag %}
     {% bootstrap_stylesheet_tag "responsive" %}
+    <link href="{% static 'css/bootstrap/docs.css' %}" rel="stylesheet">
     <style>
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -39,52 +39,20 @@
 
   <body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href={% url 'home' %}>DetectMe</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><a href={% url 'about' %}>About</a></li>
-              <li><a href={% url 'contact' %}>Contact</a></li>
-              <li><a href={% url 'detector_list' %}>Detectors</a></li>
-              <li><a href={% url 'videostream' %}>Stream</a></li>
-            </ul>
-            <ul class="nav pull-right">
-              {% if request.user.is_authenticated %}
-                <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  {{ request.user }}
-                  <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a href="{% url 'userena_profile_edit' request.user.username %}"><i class="icon-user"></i> Settings</a></li>
-                  <li class="divider"></li>
-                  <li><a href="{% url 'userena_signout' %}"><i class="icon-off"></i> Log out</a></li>
-                </ul>
-                </li>
-              {% else %}
-                <li><a href="{% url 'userena_signin' %}">Log in</a></li>
-                <li class="navbar-text">or</li>
-                <li><a href="{% url 'userena_signup' %}">Sign up</a></li>
-              {% endif %}
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div><!--/.container -->
-      </div><!--/.navbar-inner -->
-    </div><!--/.navbar ... -->
+    <!-- NAVIGATION BAR -->
+    {% include "core/navbar.html" %}
+
+    {% block extra_container %}
+    {% endblock extra_container %}
 
     <div class="container">
       
-      <h1>{% block page_title %}DetectMe Server{% endblock page_title %}</h1>
+      <!-- TITLE -->
+      {% block page_title %}
+      {% endblock page_title %}
 
+      <!-- CONTENT -->
       {% block content %}
-        <p>Detection from the iPhone LabelMe application.</p>
       {% endblock content %}
 
     </div> <!-- /container -->

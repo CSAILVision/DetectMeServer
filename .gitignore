@@ -28,3 +28,4 @@ detectme/reports
 detectme/media
 
 *.pem
+openstack/

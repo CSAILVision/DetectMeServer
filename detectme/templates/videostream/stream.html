@@ -77,8 +77,6 @@ Let's get the video stream!
 <!-- <script src="{% static 'js/socket_connecting.js' %}"></script> -->
 <script src="{% static 'js/socket_receiving.js' %}"></script>
 <script>
-  /************** WEB SOCKET *****************/
-
   // Establish the connection with the server
   var socket = io.connect('http://128.52.160.100:7000');
 
@@ -96,7 +94,7 @@ Let's get the video stream!
 
   // Create a new socket connection
   socket.on('connect', function() {
-    console.log('Current username' + '{{ request.user.username }}');
+    console.log('Current username' + ' {{ request.user.username }}');
     socket.emit('browser_connect', '{{ request.user.username }}');
   });
 </script>

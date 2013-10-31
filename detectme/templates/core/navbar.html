@@ -9,10 +9,9 @@
       <a class="brand" href={% url 'home' %}>DetectMe</a>
       <div class="nav-collapse collapse">
         <ul class="nav">
-          <li id="about"><a href={% url 'about' %}>About</a></li>
-          <li id="contact"><a href={% url 'contact' %}>Contact</a></li>
           <li id="detectors"><a href={% url 'detector_list' %}>Detectors</a></li>
           <li id="stream"><a href={% url 'videostream' %}>Stream</a></li>
+          <li id="about"><a href={% url 'about' %}>About</a></li>
         </ul>
         <ul class="nav pull-right">
           {% if request.user.is_authenticated %}

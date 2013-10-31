@@ -38,6 +38,10 @@
         <dt>{% trans "About me" %}</dt>
         <dd>{{ profile.about_me }}</dd>
       {% endif %}
+      {% if profile.favourite_snack %}
+        <dt>Favourite snack</dt>
+        <dd>{{ profile.favourite_snack }}</dd>
+      {% endif %}
     {% endblock %}
   </dl>
 </div> 

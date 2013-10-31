@@ -9,12 +9,11 @@ admin.autodiscover()
 urlpatterns = patterns(
     '',
     url(r'^$', TemplateView.as_view(template_name='index.html'), name="home"),
+    url(r'^detectors/', include('detectors.urls')),
+    url(r'^videostream/', include('videostream.urls')),
     url(r'^about/$', TemplateView.as_view(template_name='about.html'),
         name="about"),
-    url(r'^contact/$', TemplateView.as_view(template_name='contact.html'),
-        name="contact"),
-    url(r'^videostream/', include('videostream.urls')),
-    url(r'^detectors/', include('detectors.urls')),
+
 
     # create account over api
     (r'^accounts/api/', include('accounts.urls')),

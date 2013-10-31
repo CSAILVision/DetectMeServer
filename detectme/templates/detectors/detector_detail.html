@@ -1,15 +1,99 @@
 {% extends "base.html" %}
 
-{% block page_title %}Detector Detail{% endblock page_title %}
+{% block extra_css %}
+<style>
+.img-container { position: relative; }
+.box { position: absolute;}
+</style>
+{% endblock extra_css %}
 
+
+
+{% block page_title %}
+<div class="page-header">
+<h1>Detector {{ detector.name }} - {{ detector.pk }}</h1>
+</div>
+{% endblock page_title %}
 
 {% block content %}
-  <p>Details about the detector: {{ object.name }}</p>
-  <p>annotations associated</p>
-  <ul>
-    {% for annotatedimage in annotatedimage_list %}
-      <li>({{ annotatedimage.box_x }}, {{ annotatedimage.box_y }})</li>
-      <img src="{{ annotatedimage.image_jpeg.url }}" alt="image" height="200" width="200"/>
-    {% endfor %}
-  </ul>
+  <div class="row">
+
+    <div class="span6">
+      <p class="text-center">
+      <img src="{{ detector.average_image.url }}" class="img-rounded" height="300" width="300">
+    </p>
+    </div>
+
+    <div class="span4">
+      <table class="table table-bordered">
+      <tbody>
+        <tr><td>Author</td><td><a href="{% url 'userena_profile_detail' detector.author.user.username %}">{{ detector.author.username }}</a></td></tr>
+        <tr><td>Created at</td><td>{{ detector.created_at }}</td></tr>
+        <tr><td>Average rating</td><td>{{ detector.average_rating }}</td></tr>
+        <tr><td>Number ratings</td><td>{{ detector.number_ratings }}</td></tr>
+        {% if detector.parent %}
+          <tr><td>Parent</td><td><a href="{% url 'detector_detail' detector.parent.id %}"> {{ detector.parent.name }} - {{ detector.parent.pk }} </a></td>
+        {% endif %}
+      </tbody>
+      </table>
+    </div>
+
+    
+    <div class="span12">    
+      <hr>
+      <h3> Annotated Images </h3>
+      <ul class="thumbnails">
+        {% for annotatedimage in annotatedimage_list %}
+          <li class="span3">
+            <div class="thumbnail">
+                <div class="img-container">
+                <img id="detecting-image" src="{{ annotatedimage.image_jpeg.url }}" alt="image" height="200" width="200"/>
+                </div>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+  </div>
 {% endblock content %}
+
+<img id="detecting-image" src="" alt="video streaming" class="img-responsive img-rounded"/>
+
+
+{% block extra_js %}
+    <script>
+      //draw boxes in each annotated image
+      $(document).ready(function() {
+      
+      
+        var rects = [];
+        var color = 'red';
+
+        {% for annotatedimage in annotatedimage_list %}
+          rects.push({x:{{ annotatedimage.box_x }}, y:{{ annotatedimage.box_y }}, w:{{ annotatedimage.box_width }}, h:{{ annotatedimage.box_height }} });
+        {% endfor %}
+        
+        var imgContainers = document.getElementsByClassName("img-container");
+
+        for(var i=0; i<imgContainers.length; i++){
+          var imgContainer = imgContainers[i];
+          var rect = rects[i];
+          var height = $(imgContainer).find("img").height();
+          var width = $(imgContainer).find("img").width();
+          
+
+          $('<div class="box"/>').appendTo(imgContainer)
+            .css("left", rect.x*width + "px")
+            .css("top", rect.y*height + "px")
+            .css("width", rect.w*width + "px")
+            .css("height", rect.h*height + "px")
+            .css("border", "3px solid " + color);
+        }
+
+      });
+  
+    </script>
+{% endblock extra_js %}
+
+

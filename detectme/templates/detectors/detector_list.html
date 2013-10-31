@@ -19,7 +19,7 @@
             </a>
             <div class="caption">
               <h3>{{ detector.name }} - {{ detector.pk }}</h3>
-              <p>By <a href="#">{{ detector.author.user }}</a></p>
+              <p>By <a href="{% url 'userena_profile_detail' detector.author.user.username %}">{{ detector.author.user }}</a></p>
               {% if detector.parent %}
                 <p>Son of: <a href="{% url 'detector_detail' detector.parent.id %}"> {{ detector.parent.name }} </a>
               {% endif %}

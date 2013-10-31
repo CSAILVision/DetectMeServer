@@ -19,6 +19,7 @@ class DetectorList(ListView):
 class DetectorDetail(DetailView):
     model = Detector
     template_name = 'detectors/detector_detail'
+    context_object_name = 'detector'
 
     def get_queryset(self):
         qs = super(DetectorDetail, self).get_queryset()

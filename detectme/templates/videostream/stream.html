@@ -30,14 +30,18 @@
   </style>
 {% endblock extra_css %}
 
-{% block page_title %}Video Stream{% endblock page_title %}
+{% block page_title %}
+<div class="page-header">
+<h1>Real time detections</h1>
+</div>
+{% endblock page_title %}
 
 {% block content %}
-Let's get the video stream!
+<p class="lead">Got to your app and execute a detection. In that window, click "connect" to see the detections realtime on the browser. <p>
 
   
   <div class="row">
-    <div class="col-md-6"> {#  container-canvas #}
+    <div class="span6 offset3"> {#  container-canvas #}
       <div class="canvas-container">
         <img id="detecting-image" src="" alt="video streaming" class="img-responsive img-rounded"/>
         <canvas id="detecting-canvas" width="360" height="480">
@@ -54,14 +58,6 @@ Let's get the video stream!
     </div>
   </div>
 
-  <select id="select-color">
-    <option id="colBlack" value="black" selected="selected">Black</option>
-    <option id="colRed" value="red">Red</option>
-    <option id="colBlue" value="blue">Blue</option>
-    <option id="colGreen" value="green">Green</option>
-    <option id="colOrange" value="orange">Orange</option>
-    <option id="colYellow" value="yellow">Yellow</option>
-  </select>
 
   <ul class="list-group" id="broadcast-msg">
     <li class="list-group-item">Box position</li>

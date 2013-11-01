@@ -35,6 +35,10 @@
         </li>
       {% endfor %}
     </ul>
+
+    {% if not detector_list%}
+      <p> Sorry, no detectors found.</p>
+    {% endif %}
   </div>
 
 {% endblock content %}

@@ -9,7 +9,14 @@
 
 {% block content %}
   
-  <div class="row-fluid">
+  <div class="row">
+  <form action="{% url 'detector_list' %}" method="get" class="form-search">
+    <input id="search-box" class="span5" type="text" class="input-medium search-query" name="q">
+  <button type="submit" class="btn">Search</button>
+  </form>
+  </div>
+  
+  <div class="row">
     <ul class="thumbnails">
       {% for detector in detector_list %}
         <li class="span3">
@@ -38,4 +45,10 @@
 <script>
   $("#detectors").addClass("active")
 </script>
+
+<script>
+var searchTerm = $("#search-box").val();
+
+</script>
+
 {% endblock extra_js %}

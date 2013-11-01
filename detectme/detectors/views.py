@@ -3,17 +3,21 @@ from django.db.models import Q
 from .models import Detector 
 
 
-
-
 class DetectorList(ListView):
     model = Detector
     context_object_name = 'detector_list'
     template_name = 'detectors/detector_list'
 
     def get_queryset(self):
-        return (Detector.objects
-                .filter(get_allowed_detectors(self.request.user))
-                .order_by('-created_at'))
+        queryset = (Detector.objects
+                    .filter(get_allowed_detectors(self.request.user))
+                    .order_by('-created_at'))
+
+        if 'q' in self.request.GET:
+            search_term = self.request.GET['q']
+            queryset = queryset.filter(name__contains=search_term)
+    
+        return queryset
 
 
 class DetectorDetail(DetailView):

@@ -1,5 +1,5 @@
 from rest_framework import generics, permissions
-from .models import Detector, Rating
+from .models import Detector, Rating, AnnotatedImage
 from .serializers import DetectorSerializer, AnnotatedImageSerializer, RatingSerializer
 from .views import get_allowed_detectors
 # from .permissions import IsOwnerOrReadOnly
@@ -12,8 +12,17 @@ from rest_framework import status
 class DetectorAPIList(generics.ListCreateAPIView):
     serializer_class = DetectorSerializer
 
+    # def get_serializer(self, instance=None, data=None, files=None, many=False, partial=False):
+    #     print 'getting serializer!!'
+    #     if not files:
+    #         files = {'average_image':''}
+    #     print files
+    #     return super(DetectorAPIList, self).get_serializer(instance, data, files, many, partial)
+
+
     def pre_save(self, obj):
         obj.author = self.request.user.get_profile()
+        print 'pre save is being called!!'
 
     def get_queryset(self):
         return (Detector.objects
@@ -51,6 +60,16 @@ class AnnotatedImageAPIDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def pre_save(self, obj):
         obj.author = self.request.user.get_profile()
+
+
+class AnnotatedImagesForDetector(generics.ListAPIView):
+    serializer_class = AnnotatedImageSerializer
+
+    def get_queryset(self):
+        # Returns list of AnnotatedImage for the requested detector
+        detector = self.kwargs['detector']
+        return AnnotatedImage.objects.filter(detector=detector)
+
 
 
 class RatingAPIList(APIView):

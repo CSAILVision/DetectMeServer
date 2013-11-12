@@ -12,7 +12,8 @@ class Detector(models.Model):
     author = models.ForeignKey('accounts.DetectMeProfile')
     is_public = models.BooleanField(default=False)
     average_image = models.ImageField(upload_to='average_image/',
-                                      default='average_image/default.jpg')
+                                      default='defaults/default.png',
+                                      null=True, blank=True)
     created_at = models.DateTimeField(null=True, blank=True)
     updated_at = models.DateTimeField(null=True, blank=True)
     uploaded_at = models.DateTimeField(auto_now=True)

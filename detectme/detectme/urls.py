@@ -14,14 +14,11 @@ urlpatterns = patterns(
     url(r'^about/$', TemplateView.as_view(template_name='about.html'),
         name="about"),
 
-
     # create account over api
     (r'^accounts/api/', include('accounts.urls')),
 
     # userena app
     (r'^accounts/', include('userena.urls')),
-
-
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

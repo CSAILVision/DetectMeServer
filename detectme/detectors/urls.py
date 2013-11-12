@@ -6,11 +6,23 @@ from detectors import views, views_api
 # Patters for the API access.
 urlpatterns = patterns(
     '',
-    url(r'^api/$', views_api.DetectorAPIList.as_view()),
-    url(r'^api/(?P<pk>[0-9]+)/$', views_api.DetectorAPIDetail.as_view()),
-    url(r'^api/annotatedimages/$', views_api.AnnotatedImageAPIList.as_view()),
-    url(r'^api/annotatedimages/(?P<pk>[0-9]+)/$', views_api.AnnotatedImageAPIDetail.as_view()),
-    url(r'^api/ratings/$', views_api.RatingAPIList.as_view()),
+    url(r'^api/$',
+        views_api.DetectorAPIList.as_view()),
+    
+    url(r'^api/(?P<pk>[0-9]+)/$',
+        views_api.DetectorAPIDetail.as_view()),
+    
+    url(r'^api/annotatedimages/$',
+        views_api.AnnotatedImageAPIList.as_view()),
+    
+    url(r'^api/annotatedimages/(?P<pk>[0-9]+)/$',
+        views_api.AnnotatedImageAPIDetail.as_view()),
+    
+    url(r'^api/annotatedimages/fordetector/(?P<detector>[0-9]+)/$',
+        views_api.AnnotatedImagesForDetector.as_view()),
+    
+    url(r'^api/ratings/$',
+        views_api.RatingAPIList.as_view()),
 )
 
 # Add suffix to nice access to the detectors.

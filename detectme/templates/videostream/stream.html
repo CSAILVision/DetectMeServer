@@ -74,7 +74,7 @@
 <script src="{% static 'js/socket_receiving.js' %}"></script>
 <script>
   // Establish the connection with the server
-  var socket = io.connect('http://128.52.160.116:7000');
+  var socket = io.connect('http://128.52.128.116:7000'); 
 
   socket.on('start_listening_iphone', function(address){
     console.log('Initiating connection to:' + address);

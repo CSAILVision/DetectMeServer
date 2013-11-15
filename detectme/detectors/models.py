@@ -3,7 +3,6 @@ from datetime import datetime
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
 import uuid
-import Image
 
 
 class Detector(models.Model):
@@ -57,6 +56,14 @@ class Detector(models.Model):
         ordering = ('created_at',)
 
 
+# Delete image files when deleting objects from the database
+@receiver(post_delete, sender=Detector)
+def detector_post_delete_handler(sender, **kwargs):
+    detector = kwargs['instance']
+    storage, path = detector.average_image.storage, detector.average_image.path
+    storage.delete(path)
+
+
 class AnnotatedImage(models.Model):
     created_at = models.DateTimeField(null=True, blank=True)
     uploaded_at = models.DateTimeField(auto_now=True)
@@ -78,13 +85,20 @@ class AnnotatedImage(models.Model):
     detector = models.ForeignKey(Detector)
 
     def save(self, *args, **kwargs):
-        #im = Image.open(self.image_jpeg.path)
-        self.image_width = 3 #im.size[0]
-        self.image_height = 3 #im.size[1]
+        self.image_width = self.image_jpeg.width
+        self.image_height = self.image_jpeg.height
         super(AnnotatedImage, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return u'%s' % self.image_jpeg.name
+
+
+@receiver(post_delete, sender=AnnotatedImage)
+def annotatedImage_post_delete_handler(sender, **kwargs):
+    annotatedImage = kwargs['instance']
+    storage, path = (annotatedImage.image_jpeg.storage,
+                     annotatedImage.image_jpeg.path)
+    storage.delete(path)
 
 
 class Rating(models.Model):
@@ -98,19 +112,6 @@ class Rating(models.Model):
 
 
 
-# Delete image files when deleting objects from the database
-@receiver(post_delete, sender=Detector)
-def detector_post_delete_handler(sender, **kwargs):
-    detector = kwargs['instance']
-    storage, path = detector.average_image.storage, detector.average_image.path
-    storage.delete(path)
 
-
-@receiver(post_delete, sender=AnnotatedImage)
-def annotatedImage_post_delete_handler(sender, **kwargs):
-    annotatedImage = kwargs['instance']
-    storage, path = (annotatedImage.image_jpeg.storage,
-                     annotatedImage.image_jpeg.path)
-    storage.delete(path)
 
 

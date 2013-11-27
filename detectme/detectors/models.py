@@ -23,6 +23,7 @@ class Detector(models.Model):
     hash_value = models.CharField(max_length=32, blank=True,
                                   editable=False, unique=True)
     parent = models.ForeignKey('self', null=True, blank=True)
+    training_log = models.TextField(null=True, blank=True)
 
     @property
     def average_rating(self):
@@ -49,7 +50,7 @@ class Detector(models.Model):
         super(Detector, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return u'%s: %s class by %s' % (self.name, self.target_class,
+        return u'%s - %s: %s class by %s' % (self.name, self.pk, self.target_class,
                                         self.author.user)
 
     class Meta:

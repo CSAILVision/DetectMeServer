@@ -14,7 +14,8 @@ class DetectorSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'target_class',
                   'author', 'is_public', 'average_image',
                   'uploaded_at', 'is_deleted', 'average_rating',
-                  'weights', 'sizes', 'support_vectors', 'parent')
+                  'weights', 'sizes', 'support_vectors', 'parent',
+                  'training_log')
         read_only = ('author', 'uploaded_at', 'id', 'average_rating')
 
 

@@ -20,6 +20,9 @@ urlpatterns = patterns(
     
     url(r'^api/annotatedimages/fordetector/(?P<detector>[0-9]+)/$',
         views_api.AnnotatedImagesForDetector.as_view()),
+
+    url(r'^api/supportvectors/(?P<pk>[0-9]+)/$',
+        views_api.SupportVectorsForDetector.as_view()),
     
     url(r'^api/ratings/$',
         views_api.RatingAPIList.as_view()),

@@ -1,6 +1,7 @@
 from rest_framework import generics, permissions
 from .models import Detector, Rating, AnnotatedImage
-from .serializers import DetectorSerializer, AnnotatedImageSerializer, RatingSerializer
+from .serializers import DetectorSerializer, AnnotatedImageSerializer,\
+                          RatingSerializer, SupportVectorSerializer
 from .views import get_allowed_detectors
 # from .permissions import IsOwnerOrReadOnly
 
@@ -70,6 +71,10 @@ class AnnotatedImagesForDetector(generics.ListAPIView):
         detector = self.kwargs['detector']
         return AnnotatedImage.objects.filter(detector=detector)
 
+
+class SupportVectorsForDetector(generics.RetrieveAPIView):
+    serializer_class = SupportVectorSerializer
+    model = Detector
 
 
 class RatingAPIList(APIView):

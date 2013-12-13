@@ -14,9 +14,15 @@ class DetectorSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'target_class',
                   'author', 'is_public', 'average_image',
                   'uploaded_at', 'is_deleted', 'average_rating',
-                  'weights', 'sizes', 'support_vectors', 'parent',
+                  'weights', 'sizes', 'parent', 'support_vectors',
                   'training_log')
         read_only = ('author', 'uploaded_at', 'id', 'average_rating')
+
+    def to_native(self, obj):
+        '''Support vectors field write only'''
+        ret = super(DetectorSerializer, self).to_native(obj)
+        del ret['support_vectors']
+        return ret
 
 
 class AnnotatedImageSerializer(serializers.ModelSerializer):
@@ -32,6 +38,14 @@ class AnnotatedImageSerializer(serializers.ModelSerializer):
                   'motion_quaternionZ', 'motion_quaternionW',
                   'detector')
         read_only = ('uploaded_at', 'image_height', 'image_width')
+
+
+class SupportVectorSerializer(serializers.ModelSerializer):
+    ''' Class to just return the SV associated to a detector'''
+
+    class Meta:
+        model = Detector
+        fields = ('support_vectors',)
 
 
 class RatingSerializer(serializers.ModelSerializer):

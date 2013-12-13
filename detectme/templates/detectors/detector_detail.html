@@ -4,6 +4,7 @@
 <style>
 .img-container { position: relative; }
 .box { position: absolute;}
+.thumbnail { border:0;}
 </style>
 {% endblock extra_css %}
 
@@ -53,6 +54,16 @@
           </li>
         {% endfor %}
       </ul>
+    </div>
+
+    <div class="span12">    
+      <hr>
+      <h3> Log </h3>
+      <p>
+        {% autoescape off %}
+        {{ detector.training_log|linebreaks }}
+        {% endautoescape %}
+      </p>
     </div>
 
   </div>

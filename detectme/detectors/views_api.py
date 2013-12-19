@@ -1,3 +1,4 @@
+import dateutil.parser
 from rest_framework import generics, permissions
 from .models import Detector, Rating, AnnotatedImage
 from .serializers import DetectorSerializer, AnnotatedImageSerializer,\
@@ -8,6 +9,7 @@ from .views import get_allowed_detectors
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+
 
 
 class DetectorAPIList(generics.ListCreateAPIView):
@@ -23,7 +25,6 @@ class DetectorAPIList(generics.ListCreateAPIView):
 
     def pre_save(self, obj):
         obj.author = self.request.user.get_profile()
-        print 'pre save is being called!!'
 
     def get_queryset(self):
         return (Detector.objects

@@ -8,6 +8,7 @@ class DetectorSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(many=False, read_only=True,
                                           slug_field='username')
     average_rating = serializers.Field()
+    number_ratings = serializers.Field()
 
     class Meta:
         model = Detector
@@ -15,8 +16,9 @@ class DetectorSerializer(serializers.ModelSerializer):
                   'author', 'is_public', 'average_image',
                   'uploaded_at', 'is_deleted', 'average_rating',
                   'weights', 'sizes', 'parent', 'support_vectors',
-                  'training_log')
-        read_only = ('author', 'uploaded_at', 'id', 'average_rating')
+                  'training_log', 'created_at', 'updated_at', 'number_ratings')
+        read_only = ('author', 'uploaded_at', 'id', 'average_rating',
+                     'number_ratings')
 
     def to_native(self, obj):
         '''Support vectors field write only'''
@@ -26,7 +28,6 @@ class DetectorSerializer(serializers.ModelSerializer):
 
 
 class AnnotatedImageSerializer(serializers.ModelSerializer):
-    
     class Meta:
         model = AnnotatedImage
         fields = ('id', 'image_jpeg',
@@ -42,16 +43,12 @@ class AnnotatedImageSerializer(serializers.ModelSerializer):
 
 class SupportVectorSerializer(serializers.ModelSerializer):
     ''' Class to just return the SV associated to a detector'''
-
     class Meta:
         model = Detector
         fields = ('support_vectors',)
 
 
 class RatingSerializer(serializers.ModelSerializer):
-  
     class Meta:
         model = Rating
         fields = ('detector', 'rating')
-
-

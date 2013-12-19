@@ -1,4 +1,3 @@
-import dateutil.parser
 from rest_framework import generics, permissions
 from .models import Detector, Rating, AnnotatedImage
 from .serializers import DetectorSerializer, AnnotatedImageSerializer,\

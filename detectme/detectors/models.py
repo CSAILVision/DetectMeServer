@@ -25,6 +25,7 @@ class Detector(models.Model):
     parent = models.ForeignKey('self', null=True, blank=True)
     training_log = models.TextField(null=True, blank=True)
 
+
     @property
     def average_rating(self):
         "Returns the average rating for the detector"
@@ -41,6 +42,10 @@ class Detector(models.Model):
     @property
     def number_ratings(self):
         return len(self.rating_set.all())
+
+    @property
+    def number_images(self):
+        return len(self.annotatedimage_set.all())
 
     def save(self, *args, **kwargs):
         if not self.hash_value:

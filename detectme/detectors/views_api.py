@@ -49,6 +49,7 @@ class DetectorAPIDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class AnnotatedImageAPIList(generics.ListCreateAPIView):
     serializer_class = AnnotatedImageSerializer
+    model = AnnotatedImage
 
     def pre_save(self, obj):
         obj.author = self.request.user.get_profile()

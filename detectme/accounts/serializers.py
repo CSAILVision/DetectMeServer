@@ -16,8 +16,11 @@ class UserSerializer(serializers.ModelSerializer):
 
 class DetectMeProfileSerializer(serializers.ModelSerializer):
     mugshot = serializers.ImageField()
+    num_annotated_images = serializers.Field()
+    username = serializers.Field()
 
     class Meta:
         model = DetectMeProfile
-        fields = ('mugshot', )
+        fields = ('mugshot', 'num_annotated_images','username')
+        read_only = ('num_annotated_images','username')
 

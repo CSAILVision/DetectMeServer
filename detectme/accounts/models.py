@@ -16,10 +16,13 @@ class DetectMeProfile(UserenaBaseProfile):
     favourite_snack = models.CharField(_('favourite snack'),
                                        max_length=5)
 
-    # Property
-    def _get_username(self):
+    @property
+    def username(self):
         return self.user.username
-    username = property(_get_username)
+
+    @property
+    def num_annotated_images(self):
+        return len(self.annotatedimage_set.all())
 
 
 @receiver(post_save, sender=User)

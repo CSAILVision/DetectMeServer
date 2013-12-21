@@ -15,7 +15,7 @@ class AccountAPICreate(generics.CreateAPIView):
             p.save()
 
 
-class UserenaBaseProfileAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
+class AccountAPIDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = DetectMeProfileSerializer
     model = DetectMeProfile
 

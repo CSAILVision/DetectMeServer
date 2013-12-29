@@ -1,8 +1,9 @@
-# -*- coding: utf-8 -*-
+    # -*- coding: utf-8 -*-
 import datetime
 from south.db import db
 from south.v2 import DataMigration
 from django.db import models
+from detectors.core import queryset_iterator
 
 class Migration(DataMigration):
 
@@ -11,7 +12,8 @@ class Migration(DataMigration):
         # Note: Don't use "from appname.models import ModelName". 
         # Use orm.ModelName to refer to models in this application,
         # and orm['appname.ModelName'] for models in other applications.
-        for detector in orm.Detector.objects.all():
+        my_queryset = queryset_iterator(orm.Detector.objects.all())
+        for detector in my_queryset:
             info = orm.ExtraInfo(detector=detector)
             info.support_vectors = detector.support_vectors
             info.training_log = detector.training_log

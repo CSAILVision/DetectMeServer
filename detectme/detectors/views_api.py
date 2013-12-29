@@ -83,7 +83,6 @@ class RatingAPIList(APIView):
     Store the rating as a new rating only if it is the first
     time this user rates this detector
     """
-
     def post(self, request, format=None):
         serializer = RatingSerializer(data=request.DATA)
         author = self.request.user.get_profile()

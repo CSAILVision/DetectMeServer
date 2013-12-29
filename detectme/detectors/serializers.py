@@ -1,5 +1,7 @@
+from django.core.exceptions import ValidationError
 from rest_framework import serializers
-from .models import Detector, AnnotatedImage, Rating
+from .models import Detector, AnnotatedImage, Rating, ExtraInfo
+
 
 
 class DetectorSerializer(serializers.ModelSerializer):
@@ -10,21 +12,29 @@ class DetectorSerializer(serializers.ModelSerializer):
     average_rating = serializers.Field()
     number_ratings = serializers.Field()
 
+    support_vectors = serializers.Field()
+    training_log = serializers.Field()
+
     class Meta:
         model = Detector
         fields = ('id', 'name', 'target_class',
                   'author', 'is_public', 'average_image',
                   'uploaded_at', 'is_deleted', 'average_rating',
-                  'weights', 'sizes', 'parent', 'support_vectors',
-                  'training_log', 'created_at', 'updated_at', 'number_ratings')
+                  'weights', 'sizes', 'parent', 'created_at',
+                  'updated_at', 'number_ratings')
         read_only = ('author', 'uploaded_at', 'id', 'average_rating',
                      'number_ratings')
 
-    def to_native(self, obj):
-        '''Support vectors field write only'''
-        ret = super(DetectorSerializer, self).to_native(obj)
-        del ret['support_vectors']
-        return ret
+    def from_native(self, data, files):
+        """
+        Override the default method to deal with extra information.
+        """
+        sv = data.get('support_vectors')
+        tl = data.get('training_log')
+        detector = super(serializers.ModelSerializer, self).from_native(data, files)
+        extra_info = ExtraInfo(detector=detector, support_vectors=sv, training_log=tl)
+        if not self._errors:
+            return self.full_clean(detector)
 
 
 class AnnotatedImageSerializer(serializers.ModelSerializer):
@@ -42,13 +52,18 @@ class AnnotatedImageSerializer(serializers.ModelSerializer):
 
 
 class SupportVectorSerializer(serializers.ModelSerializer):
-    ''' Class to just return the SV associated to a detector'''
+    """
+    Just returns the support vectors for the detector retraining
+    """
+    support_vectors = serializers.Field()
+    
     class Meta:
         model = Detector
-        fields = ('support_vectors',)
+        fields = ('support_vectors', )
 
 
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
         fields = ('detector', 'rating')
+

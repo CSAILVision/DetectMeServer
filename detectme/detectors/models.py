@@ -1,6 +1,6 @@
 from django.db import models
 from datetime import datetime
-from django.db.models.signals import post_delete
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 import uuid
 
@@ -18,17 +18,17 @@ class Detector(models.Model):
     uploaded_at = models.DateTimeField(auto_now=True)
     weights = models.TextField()  # arrays to be serialized with JSON
     sizes = models.TextField()
-    support_vectors = models.TextField()
     is_deleted = models.BooleanField(default=False)
     hash_value = models.CharField(max_length=32, blank=True,
                                   editable=False, unique=True)
     parent = models.ForeignKey('self', null=True, blank=True)
-    training_log = models.TextField(null=True, blank=True)
 
 
     @property
     def average_rating(self):
-        "Returns the average rating for the detector"
+        """
+        Returns the average rating for the detector
+        """
         ratings = self.rating_set.all()
         if len(ratings) is 0:
             return 0
@@ -47,6 +47,10 @@ class Detector(models.Model):
     def number_images(self):
         return len(self.annotatedimage_set.all())
 
+    @property
+    def support_vectors(self):
+        return self.extrainfo.support_vectors
+
     def save(self, *args, **kwargs):
         if not self.hash_value:
             self.hash_value = uuid.uuid1().hex
@@ -62,12 +66,25 @@ class Detector(models.Model):
         ordering = ('created_at',)
 
 
-# Delete image files when deleting objects from the database
 @receiver(post_delete, sender=Detector)
 def detector_post_delete_handler(sender, **kwargs):
+    """
+    Delete associated image when deleting a detector
+    """
     detector = kwargs['instance']
     storage, path = detector.average_image.storage, detector.average_image.path
     storage.delete(path)
+
+
+@receiver(post_save, sender=Detector)
+def save_extra_info(sender,instance, signal, created, **kwargs):
+    """
+    Save extra info after creating a detector.
+    """
+    if created:
+        print 'Created and saving!!'
+        instance.extrainfo.detector = instance
+        instance.extrainfo.save()
 
 
 class AnnotatedImage(models.Model):
@@ -101,6 +118,9 @@ class AnnotatedImage(models.Model):
 
 @receiver(post_delete, sender=AnnotatedImage)
 def annotatedImage_post_delete_handler(sender, **kwargs):
+    """
+    Delete associated images when deleting a detector
+    """
     annotatedImage = kwargs['instance']
     storage, path = (annotatedImage.image_jpeg.storage,
                      annotatedImage.image_jpeg.path)
@@ -116,6 +136,17 @@ class Rating(models.Model):
     def __unicode__(self):
         return u'%s rated %s by %s' % (self.author.user, self.detector.name, self.rating)
 
+
+class ExtraInfo(models.Model):
+    """
+    Stores heavy information from the detector. Prevents big detector tables.
+    """
+    detector = models.OneToOneField(Detector)
+    support_vectors = models.TextField()
+    training_log = models.TextField(null=True, blank=True)
+
+    def __unicode__(self):
+        return u'Extra info for %s' % (self.detector.name)
 
 
 

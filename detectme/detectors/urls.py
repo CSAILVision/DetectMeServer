@@ -9,6 +9,10 @@ urlpatterns = patterns(
     url(r'^api/$',
         views_api.DetectorAPIList.as_view()),
     
+    # get detectors uploaded later than time
+    url(r'api/lastupdated/(?P<time>[0-9]+)/$', 
+        views_api.DetectorAPITimeList.as_view()),
+
     url(r'^api/(?P<pk>[0-9]+)/$',
         views_api.DetectorAPIDetail.as_view()),
     

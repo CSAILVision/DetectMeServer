@@ -1,3 +1,5 @@
+from django.db.models import Q
+from datetime import date
 from rest_framework import generics, permissions
 from .models import Detector, Rating, AnnotatedImage
 from .serializers import DetectorSerializer, AnnotatedImageSerializer,\
@@ -10,17 +12,8 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
-
 class DetectorAPIList(generics.ListCreateAPIView):
     serializer_class = DetectorSerializer
-
-    # def get_serializer(self, instance=None, data=None, files=None, many=False, partial=False):
-    #     print 'getting serializer!!'
-    #     if not files:
-    #         files = {'average_image':''}
-    #     print files
-    #     return super(DetectorAPIList, self).get_serializer(instance, data, files, many, partial)
-
 
     def pre_save(self, obj):
         obj.author = self.request.user.get_profile()
@@ -30,6 +23,22 @@ class DetectorAPIList(generics.ListCreateAPIView):
                 .filter(get_allowed_detectors(self.request.user))
                 .order_by('-created_at'))
 
+
+class DetectorAPITimeList(generics.ListAPIView):
+    """
+    Send list of detectors uploaded later than the time parameter.
+    Used for just sending last updates
+    """
+    serializer_class = DetectorSerializer
+
+    def get_queryset(self):
+        uploaded_time = int(self.kwargs['time'])
+        uploaded_time = date.fromtimestamp(uploaded_time)
+        query = get_allowed_detectors(self.request.user)
+        query = query & Q(uploaded_at__gte=uploaded_time)
+        return (Detector.objects.filter(query)
+                .order_by('-created_at'))
+            
 
 class DetectorAPIDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = DetectorSerializer

@@ -27,7 +27,8 @@ class DetectorSerializer(serializers.ModelSerializer):
 
     def from_native(self, data, files):
         """
-        Override the default method to deal with extra information.
+        Override the default method to extract extra information and store it
+        separetedly
         """
         sv = data.get('support_vectors')
         tl = data.get('training_log')
@@ -56,7 +57,7 @@ class SupportVectorSerializer(serializers.ModelSerializer):
     Just returns the support vectors for the detector retraining
     """
     support_vectors = serializers.Field()
-    
+
     class Meta:
         model = Detector
         fields = ('support_vectors', )

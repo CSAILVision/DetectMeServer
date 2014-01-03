@@ -1,8 +1,8 @@
-from django.db import models
 from datetime import datetime
+import uuid
+from django.db import models
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
-import uuid
 
 
 class Detector(models.Model):
@@ -23,7 +23,6 @@ class Detector(models.Model):
                                   editable=False, unique=True)
     parent = models.ForeignKey('self', null=True, blank=True)
 
-
     @property
     def average_rating(self):
         """
@@ -37,7 +36,7 @@ class Detector(models.Model):
         for rating in ratings:
             sum_ratings = sum_ratings + rating.rating
 
-        return sum_ratings*1.0/len(ratings)
+        return sum_ratings * 1.0 / len(ratings)
 
     @property
     def number_ratings(self):
@@ -77,12 +76,11 @@ def detector_post_delete_handler(sender, **kwargs):
 
 
 @receiver(post_save, sender=Detector)
-def save_extra_info(sender,instance, signal, created, **kwargs):
+def save_extra_info(sender, instance, signal, created, **kwargs):
     """
     Save extra info after creating a detector.
     """
     if created:
-        print 'Created and saving!!'
         instance.extrainfo.detector = instance
         instance.extrainfo.save()
 
@@ -148,6 +146,24 @@ class ExtraInfo(models.Model):
     def __unicode__(self):
         return u'Extra info for %s' % (self.detector.name)
 
+
+class Performance(models.Model):
+    """
+    Stores performance metrics for the detector.
+    Calculated outside with a test set.
+    """
+    created_at = models.DateTimeField(auto_now=True)
+    detector = models.ForeignKey(Detector)
+    average_precision = models.FloatField()
+    precision = models.TextField(blank=True, null=True)
+    recall = models.TextField(blank=True, null=True)
+    test_set = models.TextField(blank=True, null=True)
+
+    def __unicode__(self):
+        return u'Performance of %s - %s by %s is %s' % (self.detector.name,
+                                                        self.detector.pk,
+                                                        self.detector.author.username,
+                                                        self.average_precision)
 
 
 

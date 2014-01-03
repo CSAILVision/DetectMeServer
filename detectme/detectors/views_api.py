@@ -3,12 +3,14 @@ from datetime import date
 from rest_framework import generics, permissions
 from .models import Detector, Rating, AnnotatedImage
 from .serializers import DetectorSerializer, AnnotatedImageSerializer,\
-                          RatingSerializer, SupportVectorSerializer
+                          RatingSerializer, SupportVectorSerializer,\
+                          PerformanceSerializer
 from .views import get_allowed_detectors
 # from .permissions import IsOwnerOrReadOnly
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.parsers import JSONParser
 from rest_framework import status
 
 
@@ -110,4 +112,14 @@ class RatingAPIList(APIView):
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PerformanceAPICreate(generics.CreateAPIView):
+    serializer_class = PerformanceSerializer
+    parser_classes = (JSONParser,)
+
+    def pre_save(self, obj):
+        print 'Debug:'
+        print obj.detector
+        print obj.average_precision
 

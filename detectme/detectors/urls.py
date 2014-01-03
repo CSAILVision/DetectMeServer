@@ -10,7 +10,7 @@ urlpatterns = patterns(
         views_api.DetectorAPIList.as_view()),
     
     # get detectors uploaded later than time
-    url(r'api/lastupdated/(?P<time>[0-9]+)/$', 
+    url(r'^api/lastupdated/(?P<time>[0-9]+)/$', 
         views_api.DetectorAPITimeList.as_view()),
 
     url(r'^api/(?P<pk>[0-9]+)/$',
@@ -30,6 +30,10 @@ urlpatterns = patterns(
     
     url(r'^api/ratings/$',
         views_api.RatingAPIList.as_view()),
+
+    # post of the detector performance
+    url(r'^api/performance/$',
+        views_api.PerformanceAPICreate.as_view()),
 )
 
 # Add suffix to nice access to the detectors.

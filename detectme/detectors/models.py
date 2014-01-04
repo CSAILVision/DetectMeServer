@@ -147,23 +147,23 @@ class ExtraInfo(models.Model):
         return u'Extra info for %s' % (self.detector.name)
 
 
-class Performance(models.Model):
-    """
-    Stores performance metrics for the detector.
-    Calculated outside with a test set.
-    """
-    created_at = models.DateTimeField(auto_now=True)
-    detector = models.ForeignKey(Detector)
-    average_precision = models.FloatField()
-    precision = models.TextField(blank=True, null=True)
-    recall = models.TextField(blank=True, null=True)
-    test_set = models.TextField(blank=True, null=True)
+# class Performance(models.Model):
+#     """
+#     Stores performance metrics for the detector.
+#     Calculated outside with a test set.
+#     """
+#     created_at = models.DateTimeField(auto_now=True)
+#     detector = models.ForeignKey(Detector)
+#     average_precision = models.FloatField()
+#     precision = models.TextField(blank=True, null=True)
+#     recall = models.TextField(blank=True, null=True)
+#     test_set = models.TextField(blank=True, null=True)
 
-    def __unicode__(self):
-        return u'Performance of %s - %s by %s is %s' % (self.detector.name,
-                                                        self.detector.pk,
-                                                        self.detector.author.username,
-                                                        self.average_precision)
+#     def __unicode__(self):
+#         return u'Performance of %s - %s by %s is %s' % (self.detector.name,
+#                                                         self.detector.pk,
+#                                                         self.detector.author.username,
+#                                                         self.average_precision)
 
 
 

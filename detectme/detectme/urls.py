@@ -10,6 +10,7 @@ urlpatterns = patterns(
     '',
     url(r'^$', TemplateView.as_view(template_name='index.html'), name="home"),
     url(r'^detectors/', include('detectors.urls')),
+    url(r'^leaderboard/', include('leaderboards.urls')),
     url(r'^videostream/', include('videostream.urls')),
     url(r'^about/$', TemplateView.as_view(template_name='about.html'),
         name="about"),

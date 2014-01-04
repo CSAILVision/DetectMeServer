@@ -213,6 +213,7 @@ LOCAL_APPS = (
     'accounts',
     'videostream',
     'detectors',
+    'leaderboards',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

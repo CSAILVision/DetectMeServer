@@ -1,6 +1,6 @@
 from django.core.exceptions import ValidationError
 from rest_framework import serializers
-from .models import Detector, AnnotatedImage, Rating, ExtraInfo, Performance
+from .models import Detector, AnnotatedImage, Rating, ExtraInfo
 
 
 
@@ -69,9 +69,9 @@ class RatingSerializer(serializers.ModelSerializer):
         fields = ('detector', 'rating')
 
 
-class PerformanceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Performance
-        fields = ('detector', 'average_precision', 'precision',
-                  'recall', 'test_set')
+# class PerformanceSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Performance
+#         fields = ('detector', 'average_precision', 'precision',
+#                   'recall', 'test_set')
 

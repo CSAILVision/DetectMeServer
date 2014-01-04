@@ -31,9 +31,9 @@ urlpatterns = patterns(
     url(r'^api/ratings/$',
         views_api.RatingAPIList.as_view()),
 
-    # post of the detector performance
-    url(r'^api/performance/$',
-        views_api.PerformanceAPICreate.as_view()),
+    # # post of the detector performance
+    # url(r'^api/performance/$',
+    #     views_api.PerformanceAPICreate.as_view()),
 )
 
 # Add suffix to nice access to the detectors.

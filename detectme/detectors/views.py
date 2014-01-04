@@ -1,6 +1,6 @@
 from django.views.generic import ListView, DetailView
 from django.db.models import Q
-from .models import Detector 
+from .models import Detector
 
 
 class DetectorList(ListView):
@@ -47,4 +47,3 @@ def get_allowed_detectors(user):
     else:
         return (Q(is_public=True) &
                 Q(is_deleted=False))
-

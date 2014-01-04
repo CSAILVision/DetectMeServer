@@ -19,9 +19,9 @@ class Performance(models.Model):
         super(Performance, self).save(*args, **kwargs)
         name = self.detector.name
         try:
-            category = Category.object.get(name=name.split("_")[0])
+            category = Category.objects.get(name=name.split("_")[0])
         except Category.DoesNotExist:
-            category = Category.object.get(name="NA")
+            category = Category.objects.get(name="NA")
         user_score = UserScore(user=self.detector.author, category=category)
         user_score.save()
     

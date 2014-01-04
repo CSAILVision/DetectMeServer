@@ -64,10 +64,11 @@ class UserScore(models.Model):
     def max_score(self):
         detectors = self.detectors
         
-        max_score = detectors[0].performance.average_precision
+        max_score = detectors[0].performance_set.all()[0].average_precision
         for detector in detectors:
-            if detector.performance.average_precision > max_score:
-                max_score = detector.performance.average_precision
+            ap = detector.performance_set.all()[0].average_precision
+            if  ap > max_score:
+                max_score = ap
         return max_score
 
     def __unicode__(self):

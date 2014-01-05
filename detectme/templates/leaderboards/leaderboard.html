@@ -13,4 +13,10 @@
     <p> Leaderboard for {{ category.name }}</p>
   </div>
 
+  <div class="row">
+    {% for team in teams %}
+    <p>{{ team.user.username }}, {{ team.max_score }}, {{ team.num_entries }}</p>
+    {% endfor %}
+  </div>
+
 {% endblock content %}

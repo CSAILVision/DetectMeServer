@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from .models import Category
+from .models import Category, UserScore
 
 
 def competition_detail(request):
@@ -12,6 +12,8 @@ def competition_detail(request):
 
 def show_leaderboard(request, category):
     category = Category.objects.get(name=category)
+    teams = UserScore.objects.filter(category=category)
+    teams = sorted(teams, key=lambda t: t.max_score, reverse=True)
     return render_to_response('leaderboards/leaderboard.html',
-                              {"category": category},
+                              {"teams": teams, "category": category},
                               context_instance=RequestContext(request))

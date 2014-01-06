@@ -112,8 +112,4 @@ class RatingAPIList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# class PerformanceAPICreate(generics.CreateAPIView):
-#     serializer_class = PerformanceSerializer
-#     parser_classes = (JSONParser,)
-
 

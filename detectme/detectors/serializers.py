@@ -1,7 +1,5 @@
-from django.core.exceptions import ValidationError
 from rest_framework import serializers
 from .models import Detector, AnnotatedImage, Rating, ExtraInfo
-
 
 
 class DetectorSerializer(serializers.ModelSerializer):
@@ -15,7 +13,6 @@ class DetectorSerializer(serializers.ModelSerializer):
 
     support_vectors = serializers.Field()
     training_log = serializers.Field()
-
 
     class Meta:
         model = Detector
@@ -70,10 +67,4 @@ class RatingSerializer(serializers.ModelSerializer):
         model = Rating
         fields = ('detector', 'rating')
 
-
-# class PerformanceSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Performance
-#         fields = ('detector', 'average_precision', 'precision',
-#                   'recall', 'test_set')
 

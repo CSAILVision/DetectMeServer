@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+  <style>
+    /* Jumbotron header all in one line */
+    .subhead h1{
+      margin-right:0px;
+    }
+  </style>
+{% endblock extra_css %}
+
+
+{% block extra_container %}
+<header class="jumbotron subhead" id="overview">
+  <div class="container">
+    <h1>Open Object Detector Challenge</h1>
+    <p class="lead">MIT Computer Vision Competition</p>
+  </div>
+</header>
+{% endblock extra_container %}
+
+
+{% block content %}
+  
+  <div class="row">    
+    <div class="span3 bs-docs-sidebar">
+      <ul class="nav nav-list bs-docs-sidenav affix-top">
+        <li><a href="{% url 'competition_detail' %}"><i class="icon-chevron-right"></i> Details</a></li>
+        <li><a href=""  class="btn btn-large disabled"> Leaderboards </a></li>
+        {% for category in categories %}
+          <li> <a href="{% url 'leaderboard' category.name %}">
+            <i class="icon-chevron-right"></i>
+            {{ category.name }} </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="span9">
+      {% block competition_content %}
+      {% endblock competition_content %}
+    </div>
+
+  </div>
+
+{% endblock content %}

@@ -1,19 +1,14 @@
-{% extends "base.html" %}
+{% extends "leaderboards/base.html" %}
 
 {% block page_title %}
 <div class="page-header">
-<h1>Computer Vision Competition</h1>
+<h1>Competition Details</h1>
 </div>
 {% endblock page_title %}
 
 
-{% block content %}
+{% block competition_content %}
   
-  <div class="row">
-    <p> Competition details </p>
-    {% for category in categories %}
-    <p> Category: <a href="{% url 'leaderboard' category.name %}">{{ category.name }} </a></p>
-    {% endfor %}
-  </div>
+    <p> Explanation about competition details </p>
 
-{% endblock content %}
+{% endblock competition_content %}

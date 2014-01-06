@@ -42,8 +42,12 @@ def get_allowed_detectors(user):
     Query only detectors not deleted and (public or private if I am the owner)
     """
     if user.is_authenticated():
-        return ((Q(author=user.get_profile()) | Q(is_public=True)) &
-                Q(is_deleted=False))
+        
+        if user.is_staff:
+            return Q(is_deleted=False)
+        else:
+            return ((Q(author=user.get_profile()) | Q(is_public=True)) &
+                    Q(is_deleted=False))
     else:
         return (Q(is_public=True) &
                 Q(is_deleted=False))

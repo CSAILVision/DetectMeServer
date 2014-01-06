@@ -5,7 +5,8 @@ from rest_framework import permissions
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
     """
-    Custom permission to only allow authors of the detector to edit it.
+    Custom permission to only allow authors of the detector to edit it
+    throught the API.
     """
 
     def has_object_permission(self, request, view, obj):

@@ -44,11 +44,26 @@ class Detector(models.Model):
 
     @property
     def number_images(self):
-        return len(self.annotatedimage_set.all())
+        """
+        Number of images taking into account the inheritance
+        """
+        num = len(self.annotatedimage_set.all())
+        for d in self.parent_detectors():
+            num = num + len(d.annotatedimage_set.all())
+        return num
 
     @property
     def support_vectors(self):
         return self.extrainfo.support_vectors
+
+    def parent_detectors(self):
+        """
+        List of parent detectors
+        """
+        if self.parent:
+            return [self.parent] + self.parent.parent_detectors()
+        else:
+            return []
 
     def save(self, *args, **kwargs):
         if not self.hash_value:

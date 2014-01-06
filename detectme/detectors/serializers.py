@@ -11,9 +11,11 @@ class DetectorSerializer(serializers.ModelSerializer):
                                           slug_field='username')
     average_rating = serializers.Field()
     number_ratings = serializers.Field()
+    number_images = serializers.Field()
 
     support_vectors = serializers.Field()
     training_log = serializers.Field()
+
 
     class Meta:
         model = Detector
@@ -21,9 +23,9 @@ class DetectorSerializer(serializers.ModelSerializer):
                   'author', 'is_public', 'average_image',
                   'uploaded_at', 'is_deleted', 'average_rating',
                   'weights', 'sizes', 'parent', 'created_at',
-                  'updated_at', 'number_ratings')
+                  'updated_at', 'number_ratings', 'number_images')
         read_only = ('author', 'uploaded_at', 'id', 'average_rating',
-                     'number_ratings')
+                     'number_ratings', 'number_images')
 
     def from_native(self, data, files):
         """

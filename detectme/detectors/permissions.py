@@ -1,5 +1,4 @@
 # Custom permissions for the detectors API
-
 from rest_framework import permissions
 
 

@@ -162,8 +162,12 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'tracking.middleware.VisitorTrackingMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # tracking users
+
 )
 ########## END MIDDLEWARE CONFIGURATION
 
@@ -206,6 +210,8 @@ THIRD_PARTY_APPS = (
     'guardian',
     'easy_thumbnails',
 
+    # Tracking users
+    'tracking',
 )
 
 # Apps specific for this project go here.

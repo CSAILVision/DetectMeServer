@@ -6,16 +6,6 @@ from detectors.models import Detector
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
-    start_date = models.DateTimeField(null=True, blank=True)
-    finish_date = models.DateTimeField(null=True, blank=True)
-
-    @property
-    def days_to_go(self):
-        days = 0
-        if self.finish_date:
-            dt = self.finish_date - datetime.now()
-            days = dt.days
-        return days
 
     @property
     def num_teams(self):
@@ -28,6 +18,19 @@ class Category(models.Model):
 
     def __unicode__(self):
         return u'%s' % self.name
+
+
+class Competition(models.Model):
+    start_date = models.DateTimeField(null=True, blank=True)
+    finish_date = models.DateTimeField(null=True, blank=True)
+
+    @property
+    def days_to_go(self):
+        days = 0
+        if self.finish_date:
+            dt = self.finish_date - datetime.now()
+            days = dt.days
+        return days
 
 
 class Performance(models.Model):

@@ -1,4 +1,6 @@
 {% extends "leaderboards/base.html" %}
+{% load staticfiles %}
+
 
 {% block page_title %}
 <div class="page-header">
@@ -9,6 +11,56 @@
 
 {% block competition_content %}
   
-    <p> Explanation about competition details </p>
+    <h3>Introduction</h3>
+      <p>The Open Object Detector Challenge is a competition to train object detectors using the iOS app DetectMe. The competition consist on taking different images of objects with the DetectMe app to create an object detector. This object detector will be evaluated on a secret test set and given a grade according to its performance.<p>
+
+      <p> There are 10 different object categories you can participate in. </p>
+
+      <p>The puropse of the competition is to find what set of images can better train an object detector. There are 10 different categories of objects to compete on.</p>
+
+      <center><img src="{% static "img/competition.jpg" %}" alt="some_text"></center>
+
+    
+    <h3>Rules</h3>
+    <p>The rules of the <b>Open Object Detector Challenge</b> are very
+    simple. For each different category, one user can submit as many
+    detector as desired with an only constrain: the detector cannot be
+    trained with more than 30 images.</p>
+
+    <p>To submit a detector, a user should train a detector and name it
+    starting with: "[name of the category]_". For instance, if one wants
+    to submit his table's detector, it could name it
+    <b>table_detector</b>. After the detector training process, it will be
+    automatically uploaded to our server. We strongly recommend to mark
+    the detectors submitted for competition as private, otherwise they
+    will be available to the all other users.</p>
+
+     <center><img src="{% static "img/ex.png" %}" alt="some_text" height="32"></center>
+     
+
+    <p>Each time a user submit a detector, our system will evaluate it and
+    show its performance in the leaderboard. If a user submits more than
+    one detector per category, the leaderboard will only take into account
+    the best of his detectors.</p>
+
+    <p>Finally, every user is free to submit detectors to as many categories
+    as he want. The evaluation for prizing will be completely
+    category-independent: the performance of one user will be evaluated
+    separately per each different category.</p>
+
+
+    <h3>Evaluation</h3>
+    <p> The evaluation process will consist of a test against a large data of
+    images containing objects of the different categories. Each detector
+    will be tested to detect object in the images and the average
+    precision of this process will be taken as the metric to evaluate its
+    performance. The test set has been taken by different persons in order
+    to reduce the possible bias on it.</p>
+
+
+    <h3>Prizes</h3>
+    <p>To be done. </p>
+
+    <h3> References </h3>
 
 {% endblock competition_content %}

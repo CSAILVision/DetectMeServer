@@ -1,5 +1,4 @@
-from django.views.generic import TemplateView
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, url, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from leaderboards import views, views_api
 
@@ -19,6 +18,7 @@ urlpatterns = format_suffix_patterns(urlpatterns)
 # Patterns for the normal access.
 urlpatterns += patterns(
     '',
+    url(r'^forum/', include('pybb.urls', namespace='pybb')),
     url(r'^$', views.competition_detail, name="competition_detail"),
-    url(r'^(?P<category>\w+)$', views.show_leaderboard, name='leaderboard'),
+    url(r'^category/(?P<category>\w+)$', views.show_leaderboard, name='leaderboard'),
 )

@@ -1,0 +1,16 @@
+<div class="span3 bs-docs-sidebar">
+  <ul class="nav nav-list bs-docs-sidenav affix-top">
+    {% if selected_item == "details" %} <li  class="active"> {% else %} <li> {% endif %}
+      <a href="{% url 'competition_detail' %}"><i class="icon-chevron-right"></i> Details</a></li>
+    {% if selected_item == "forum" %} <li  class="active"> {% else %} <li> {% endif %}
+      <a href="{% url 'pybb:index' %}"><i class="icon-chevron-right"></i> Forum</a></li>
+    <li><a href=""  class="btn btn-large disabled"> Leaderboards </a></li>
+    {% for cat in categories %}
+        {% if selected_item == cat.name %}<li class="active"> {% else %} <li> {% endif %} 
+        <a href="{% url 'leaderboard' cat.name %}">
+        <i class="icon-chevron-right"></i>
+        {{ cat.name }} </a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>

@@ -139,6 +139,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
+
+    # pybb
+    'pybb.context_processors.processor',
+
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
@@ -166,8 +170,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    # tracking users
-
+    #pybb
+    'pybb.middleware.PybbMiddleware',
 )
 ########## END MIDDLEWARE CONFIGURATION
 
@@ -212,6 +216,9 @@ THIRD_PARTY_APPS = (
 
     # Tracking users
     'tracking',
+
+    # Forum pybb
+    'pybb',
 )
 
 # Apps specific for this project go here.
@@ -300,3 +307,12 @@ REST_FRAMEWORK = {
 
 ########## END DJANGO-REST-FRAMEWORK SPECIFIC
 
+
+########## PYBB FORUM SPECIFIC
+# https://pybbm.readthedocs.org/en/latest/index.html
+
+PYBB_PROFILE_RELATED_NAME = 'detectme_profile'
+PYBB_TEMPLATE = "leaderboards/base.html"
+
+
+########## END PYBB FORUM SPECIFIC

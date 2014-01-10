@@ -1,17 +1,21 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
-from userena.models import UserenaBaseProfile
 from django.dispatch import receiver
-from rest_framework.authtoken.models import Token
 from django.db.models.signals import post_save
+from rest_framework.authtoken.models import Token
+from userena.models import UserenaBaseProfile
+
+from pybb.profiles import PybbProfile
+# from annoying.fields import AutoOneToOneField
+# from django.core.urlresolvers import reverse
 
 
-class DetectMeProfile(UserenaBaseProfile):
+class DetectMeProfile(UserenaBaseProfile, PybbProfile):
     user = models.OneToOneField(User,
                                 unique = True,
                                 verbose_name = _('user'),
-                                related_name = 'my_profile')
+                                related_name = 'detectme_profile')
     
     favourite_snack = models.CharField(_('favourite snack'),
                                        max_length=5)
@@ -29,3 +33,19 @@ class DetectMeProfile(UserenaBaseProfile):
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
+
+
+
+# class Profile(PybbProfile):
+#     """
+#     Profile class that can be used if you doesn't have
+#     your site profile.
+#     """
+#     user = AutoOneToOneField(User, related_name='pybb_profile', verbose_name=_('User'))
+
+#     class Meta(object):
+#         verbose_name = _('Profile')
+#         verbose_name_plural = _('Profiles')
+
+#     def get_absolute_url(self):
+#         return reverse('pybb:user', kwargs={'username': getattr(self.user, username_field)})

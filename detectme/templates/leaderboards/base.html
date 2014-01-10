@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load leaderboards_extras %}
 
 {% block extra_css %}
   <style>
@@ -21,21 +22,9 @@
 
 
 {% block content %}
-<div class="row">    
-  <div class="span3 bs-docs-sidebar">
-    <ul class="nav nav-list bs-docs-sidenav affix-top">
-      {% if category %} <li> {% else %} <li class="active"> {% endif %}
-        <a href="{% url 'competition_detail' %}"><i class="icon-chevron-right"></i> Details</a></li>
-      <li><a href=""  class="btn btn-large disabled"> Leaderboards </a></li>
-      {% for cat in categories %}
-          {% if cat.name == category.name %}<li class="active"> {% else %} <li> {% endif %} 
-          <a href="{% url 'leaderboard' cat.name %}">
-          <i class="icon-chevron-right"></i>
-          {{ cat.name }} </a>
-        </li>
-      {% endfor %}
-    </ul>
-  </div>
+<div class="row">
+
+  {% navmenu selected_item %}
 
   <div class="span9">
     {% block competition_content %}

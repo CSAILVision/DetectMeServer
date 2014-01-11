@@ -60,7 +60,7 @@ class Detector(models.Model):
         """
         List of parent detectors
         """
-        if self.parent:
+        if self.parent and (self.parent != self):
             return [self.parent] + self.parent.parent_detectors()
         else:
             return []

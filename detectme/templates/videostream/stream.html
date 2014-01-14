@@ -12,9 +12,9 @@
       margin: 0 auto; 
       background: black; 
       position:relative; 
-      border:5px solid black; 
-      border-radius: 10px; 
-      box-shadow: 0 5px 50px #333
+      border:0px solid black; 
+      /*border-radius: 10px; */
+      /*box-shadow: 0 5px 50px #333*/
     }
 
   #detecting-image{
@@ -25,6 +25,7 @@
   #detecting-canvas{
       position:relative;
       z-index:20;
+      border:0px;
   }
 
   </style>
@@ -59,12 +60,6 @@
   </div>
 
 
-  <ul class="list-group" id="broadcast-msg">
-    <li class="list-group-item">Box position</li>
-    <li id="replaceable">Box position</li>
-  </ul>
-
-
 {% endblock content %}
 
 {% block extra_js %}
@@ -74,7 +69,8 @@
 <script src="{% static 'js/socket_receiving.js' %}"></script>
 <script>
   // Establish the connection with the server
-  var socket = io.connect('http://128.52.128.116:7000'); 
+  var socket = io.connect('http://128.30.99.154:7000'); 
+  // var socket = io.connect('http://128.52.128.116:7000'); 
 
   socket.on('start_listening_iphone', function(address){
     console.log('Initiating connection to:' + address);

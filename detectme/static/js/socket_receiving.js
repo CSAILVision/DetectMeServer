@@ -29,10 +29,7 @@ var webSocketClient =  (function(){
 			document.getElementById('detecting-image').src="data:image/jpeg;base64,"+ messageContent.imageBase64;
 
 			// draw bb
-			var msg = '<li>' + messageContent.bb.xcoord + ',' + messageContent.bb.ycoord + '</li>';
 			boundingBox.drawBox(messageContent.bb);
-			$('#replaceable').replaceWith(msg);
-			//console.log('received bounding box:',messageContent.bb);
 		};
 	},
 

@@ -43,7 +43,14 @@
     <!-- NAVIGATION BAR -->
     {% include "core/navbar.html" %}
 
+    <!-- Title jumbotron -->
     {% block extra_container %}
+    <header class="jumbotron subhead" id="overview">
+      <div class="container">
+        {% block jumbotron_title %}
+        {% endblock jumbotron_title %}
+      </div>
+    </header>
     {% endblock extra_container %}
 
     <div class="container">
@@ -56,7 +63,7 @@
       {% block content %}
       {% endblock content %}
 
-    </div> <!-- /container -->
+    </div>
 
     <!-- Le javascript
     ================================================== -->

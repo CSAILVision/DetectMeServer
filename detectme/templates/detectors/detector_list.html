@@ -1,45 +1,59 @@
 {% extends "base.html" %}
 
-{% block page_title %}
-<div class="page-header">
-<h1>Detectors Gallery</h1>
-</div>
-{% endblock page_title %}
+{% block jumbotron_title %}
+<h1>Detectors Public Gallery</h1>
+<p class="lead">Inspect detector properties</p>
+{% endblock jumbotron_title %}
 
 
 {% block content %}
-  
   <div class="row">
-  <form action="{% url 'detector_list' %}" method="get" class="form-search">
-    <input id="search-box" class="span5" type="text" class="input-medium search-query" name="q">
-  <button type="submit" class="btn">Search</button>
-  </form>
-  </div>
-  
-  <div class="row">
-    <ul class="thumbnails">
-      {% for detector in detector_list %}
-        <li class="span3">
-          <div class="thumbnail">
-            <a href="{% url 'detector_detail' detector.pk %}" class="thumbnail">
-              <img src="{{ detector.average_image.url }}" alt="image" height="200" width="200"/>
-            </a>
-            <div class="caption">
-              <h3>{{ detector.name }} - {{ detector.pk }}</h3>
+
+    <!-- Search bar -->
+    <section id="search">
+      <div class="span6 offset3">
+        <form action="{% url 'detector_list' %}" method="get" class="form-search">
+          <input id="search-box" class="span5" type="text" class="input-medium search-query" name="q">
+          <button type="submit" class="btn">Search</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Separator bar -->
+    <div class="span10 offset1">
+      <hr class="bs-docs-separator">
+    </div>
+
+    <!-- Detector list -->
+    <div class="span12">
+      <div id="wrapper">
+        <div id="columns">
+
+          {% for detector in detector_list%}
+          <div class="pin">
+              <a href="{% url 'detector_detail' detector.pk %}">
+                <img src="{{ detector.average_image.url }}"/>
+              </a>
+            <p>
+              <h3>{{ detector.name }}</h3>
+              <p>ID: {{ detector.pk }}<p/>
               <p>By <a href="{% url 'userena_profile_detail' detector.author.user.username %}">{{ detector.author.user }}</a></p>
-              {% if detector.parent %}
-                <p>Son of: <a href="{% url 'detector_detail' detector.parent.id %}"> {{ detector.parent.name }} </a>
-              {% endif %}
-            </div>
-          </div>
-        </li>
-      {% endfor %}
-    </ul>
+                {% if detector.parent %}
+              <p>Son of: <a href="{% url 'detector_detail' detector.parent.id %}"> {{ detector.parent.name }} - {{ detector.parent.pk}} </a></p>
+                {% endif %}
+            </p>
+          </div> <!--/pin -->
+          {% endfor %}
+
+        </div> <!--/columns -->
+      </div> <!--/wrapper -->
+    </div><!--/span12 -->
 
     {% if not detector_list%}
       <p> Sorry, no detectors found.</p>
     {% endif %}
-  </div>
+
+  </div><!--/row -->
 
 {% endblock content %}
 

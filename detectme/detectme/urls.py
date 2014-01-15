@@ -12,6 +12,8 @@ urlpatterns = patterns(
     url(r'^detectors/', include('detectors.urls')),
     url(r'^leaderboard/', include('leaderboards.urls')),
     url(r'^videostream/', include('videostream.urls')),
+    url(r'^how_it_works/$', TemplateView.as_view(template_name='how_it_works.html'),
+        name="how_it_works"),
     url(r'^about/$', TemplateView.as_view(template_name='about.html'),
         name="about"),
 

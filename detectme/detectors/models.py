@@ -162,6 +162,29 @@ class ExtraInfo(models.Model):
         return u'Extra info for %s' % (self.detector.name)
 
 
+class AbuseReport(models.Model):
+    """
+    Keep information about report abuses by the users about detectors
+    """
+    TYPE_CHOICES = (
+            ('SP', 'Spam'),
+            ('NU', 'Nudity or Pornography'),
+            ('VI', 'Graphic Violence'),
+            ('SE', 'Actively promotes self-harm'),
+            ('AT', 'Attacks a group or individual'),
+            ('HA', 'Hateful Speech or Symbols'),
+            ('OT', 'Other'),
+        )
+    detector = models.ForeignKey(Detector)
+    author = models.ForeignKey('accounts.DetectMeProfile')
+    abuse_type = models.CharField(max_length=2,
+                                  choices=TYPE_CHOICES,
+                                  default='SP')
+
+    def __unicode__(self):
+        return u'Report for %s from %s' % (self.detector.name, self.author.username)
+
+
 
 
 

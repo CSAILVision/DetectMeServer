@@ -48,5 +48,6 @@ urlpatterns += patterns(
 urlpatterns += patterns(
     '',
     url(r'^$', views.DetectorList.as_view(), name='detector_list'),
-    url(r'^(?P<pk>[0-9]+)/$', views.DetectorDetail.as_view(), name='detector_detail')
+    url(r'^(?P<pk>[0-9]+)/$', views.DetectorDetail.as_view(), name='detector_detail'),
+    url(r'^report/(?P<detector_pk>[0-9]+)/$', views.report_view, name='report_view'),
 )

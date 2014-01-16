@@ -30,6 +30,9 @@ urlpatterns = patterns(
     
     url(r'^api/ratings/$',
         views_api.RatingAPIList.as_view()),
+
+    url(r'^api/report/$', 
+        views_api.AbuseReportAPICreate.as_view()),
 )
 
 # Add suffix to nice access to the detectors.

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Detector, AnnotatedImage, Rating, ExtraInfo
+from .models import Detector, AnnotatedImage, Rating, ExtraInfo, AbuseReport
 
 
 class DetectorSerializer(serializers.ModelSerializer):
@@ -66,5 +66,11 @@ class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
         fields = ('detector', 'rating')
+
+
+class AbuseReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AbuseReport
+        fields = ('detector',)    
 
 

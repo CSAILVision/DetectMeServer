@@ -15,8 +15,10 @@ var canvasModule =  (function(){
     },
 
     drawRectangle: function(x,y,w,h){
-      _ctx.strokeStyle = 'black';
+      _ctx.strokeStyle = 'red';
+      _ctx.lineWidth = 5;
       _ctx.strokeRect(x,y,w,h);
+
     },
 
     drawUnitaryRectangle: function(x,y,w,h){
@@ -50,7 +52,19 @@ var boundingBox =  (function(){
     drawBox: function(bb){
       this.setBoxFromReceived(bb);
       canvasModule.clearScreen();
-      canvasModule.drawUnitaryRectangle(_x,_y,_w,_h);
+
+      var img = new Image();
+      img.src = document.getElementById('detecting-image').src;
+      document.getElementById('detecting-canvas').width = img.width;
+      document.getElementById('detecting-canvas').height = img.height;
+      
+      if(img.height/img.width > 1){
+        canvasModule.drawUnitaryRectangle(_x,_y,_w,_h);
+      }else{
+        canvasModule.drawUnitaryRectangle(_y,_x,_h,_w);
+      }
+
+      
     }
   };
 

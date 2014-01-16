@@ -29,3 +29,8 @@ detectme/media
 
 *.pem
 openstack/
+
+detectme/assets/
+detectme/node_modules/
+
+.DS_Store

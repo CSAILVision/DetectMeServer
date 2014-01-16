@@ -54,6 +54,17 @@
     {% endblock extra_container %}
 
     <div class="container">
+
+      <!-- MESSAGES -->
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert bs-alert-old-docs {% if message.tags %} {{ message.tags }}{% endif %}">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+
       
       <!-- TITLE -->
       {% block page_title %}

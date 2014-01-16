@@ -1,6 +1,12 @@
 /*! project specific CSS goes here. */
 
-/*! canvas element */
+
+/* MESSAGES */
+.bs-alert-old-docs {
+	margin: 30px 0 0;
+}
+
+/* CANVAS ELEMENT */
 .container-main {
     margin-top: 75px;
 }
@@ -13,7 +19,6 @@
 canvas {
     border: 1px solid #333;
 }
-
 
 /* FORUM */
 .post-info {

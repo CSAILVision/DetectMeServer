@@ -1,5 +1,6 @@
 from django.views.generic import ListView, DetailView
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from .models import Detector, AbuseReport
@@ -38,6 +39,13 @@ class DetectorDetail(DetailView):
         # Add in a QuerySet of all the books
         context['annotatedimage_list'] = self.object.annotatedimage_set.all()
         context['report_form'] = AbuseReportForm()
+
+        # Add reported message
+        detector = self.get_object()
+        profile = self.request.user.get_profile()
+        r = AbuseReport.objects.filter(detector=detector, author=profile)
+        if r:
+            messages.add_message(self.request, messages.ERROR, 'You have reported this detector for abuse.')
         return context
 
 

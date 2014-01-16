@@ -112,6 +112,19 @@ STATICFILES_FINDERS = (
 SECRET_KEY = r"vy^q592)vonx06n%yj3%)959t19sm1srf807^#nyjj!@&3e^82"
 ########## END SECRET CONFIGURATION
 
+########## MESSAGES CONFIGURATION
+# Message tag to integrate with bootstrap
+
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.DEBUG: '',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: '',
+    messages.ERROR: 'alert-error',
+}
+########## MESSAGES CONFIGURATION
+
 
 ########## SITE CONFIGURATION
 # Hosts/domain names that are valid for this site

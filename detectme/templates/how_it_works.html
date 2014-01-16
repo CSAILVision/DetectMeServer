@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+
 
 {% block jumbotron_title %}
 <h1>How DetectMe works</h1>
@@ -19,7 +21,7 @@
           <li><a href="#create"><i class="icon-chevron-right"></i> Create a detector</a></li>
           <li><a href="#retrain"><i class="icon-chevron-right"></i> Retrain a detector</a></li>
           <li><a href="#multiple-detectors"><i class="icon-chevron-right"></i> Multiple detectors</a></li>
-          <li><a href="#streaming"><i class="icon-chevron-right"></i> Real-time streaming</a></li>
+          <!--<li><a href="#streaming"><i class="icon-chevron-right"></i> Real-time streaming</a></li>-->
           <li><a href="#licenses"><i class="icon-chevron-right"></i> Licenses</a></li>
           <li><a href="#privacy"><i class="icon-chevron-right"></i> Privacy</a></li>
           <li><a href="#citation"><i class="icon-chevron-right"></i> Citation</a></li>
@@ -39,7 +41,7 @@
           </div>
           <p class="lead">Are you wishing to start training your detectors? Open the App Store application of your iPhone and search for "DetectMe: the open object detector". Or just click the link below. Install it and enjoy detecting!</p>
 
-			<p> <center><a class="btn btn-large btn-primary" href="https://itunes.apple.com/us/app/labelme/id582509736?mt=8">Download DetectMe</a></center></p>
+			     <p> <center><a class="btn btn-large btn-primary" href="https://itunes.apple.com/us/app/labelme/id582509736?mt=8">Download DetectMe</a></center></p>
 
         </section>
 
@@ -52,6 +54,8 @@
             <h1>2. Create an account</h1>
           </div>
           <p class="lead">The first step to use DetectMe is to sign up for an account. This can be done through the iPhone App, using the Sign Up option. </p>
+
+          <center><img style="border:1px solid black" src="{% static "img/how/sign_up.jpg" %}" alt="some_text" ></center><!--Login Image-->
 
           <p class="lead">Alternatively, one can sign up directly at the <a href="http://detectme.csail.mit.edu/accounts/signup/">Sign Up web page</a>. </p>
 
@@ -69,6 +73,9 @@
          
           <p class="lead">To train a detector, select <i>My Single Detectors</i> from the initial screen. There, push the <i>+</i> button at the top right corner of the screen and take some photos of the selected object. Ensure to fit your object in the red bounding box without leaving much free space. </p> 
 
+          <center><img style="border:1px solid black" src="{% static "img/how/single_detectors.jpg" %}" alt="some_text"></center><!--My Single Detectors-->
+
+
          <p class="lead"> Here we give you some advises on how to train the detector to ensure its good performance: </p>
 
           <ul lass="lead">
@@ -79,13 +86,22 @@
             <p class="lead"> The training set is all those annotated images you will use to train the detector. The performance of the detector is most affected by those images. Take pictures of the object to recognize with from all the perspectives you would like to recognize it from. Also take pictures in different environments so this would make the detector more robust. The number of images needed for the detector depends mostly on how complex is the object (different perspectives) and how robust you want it to be to a different change of environments. Usual numbers are around 20 images per detector. For example, a chair is more complex than a sphere, as it has more different perspectives. If I want the detector to recognize all possible chairs, I will also need to provide annotated images for different kind of chairs for different perspectives.</p></li>
           </ul>
 
-  
+          <center><img style="border:1px solid black" src="{% static "img/how/take_image.jpg" %}" alt="some_text"></center><!--Taking Photos -->
 
           <p class="lead"> After having taken the desired images, click the <b>Next</b> button at the top right corner of the screen and write a name for the detector. In this screen, you are also able to choose whether you want to create a <b>public</b> or a <b>private</b> detector. If you choose to create a public detector, your detector will be shared among other users and, eventually, improved with a retrain. If you choose to create a private detector, only you will have access to the detector information. </p>
 
+          <center><img style="border:1px solid black" src="{% static "img/how/name_single.jpg" %}" alt="some_text"></center><!--Writing Image Name -->
+
+
           <p class="lead"> Finally, the training time has come! Just push the <b>Finish</b> button and wait for the detector to be trained. Once finished this process, click the <b>Done</b> button at the center of the screen and your detector will be added to your detector's list. </p>
 
-		  <p class="lead"> To use your detector, just select it from the detector's list and push the <b>Detect</b> button in the details screen. By moving the camera around the object, you will be able to see how the object is being detected. </p>
+          <center><img style="border:1px solid black" src="{% static "img/how/done.jpg" %}" alt="some_text"></center> <!--Done -->
+
+
+    		  <p class="lead"> To use your detector, just select it from the detector's list and push the <b>Detect</b> button in the details screen. By moving the camera around the object, you will be able to see how the object is being detected. </p>
+
+          <center><img style="border:1px solid black" src="{% static "img/how/detecting.jpg" %}" alt="some_text"></center> <!--Detecting -->
+
 
         </section>
 
@@ -100,6 +116,9 @@
           <p class="lead"> Training a new detector is only the first step in the DetectMe world. Public detectors are shared among all the users, who can use his imagination to improve them. In the <b>retrain</b> process, one can add new images to an already created detector to improve it.</p>
 
           <p class="lead"> To retrain a detector, access its <b>detail page</b> by clicking on them in the detector's list. There, click the <b>retrain</b> button and add new images to the detector with the <i>+</i> symbol at the right top corner of the screen. Once the new images have been taken, hit the <i>Next</i> button and finally click the <i>Retrain!</i> button to retrain the detector. Your retrained detector will appear on your single detector's screen. </p>
+
+                    <center><img style="border:1px solid black" src="{% static "img/how/retrain.jpg" %}" alt="some_text"></center> <!--Adding Retrain Images -->
+
         </section>
 
         <!-- Multiple Detectors
@@ -112,13 +131,16 @@
 
           <p class="lead"> To create a multiple detector, go to <b>My multiples detectors</b> section. There, click on the <i>+</i> symbol to add a new multiples detector and in the following screen select which detectors do you want to join in your multiple detector. Click <i>Next</i>, write the desired name, click the <b>Return</b> button on your keyboard and your multiple detector will appear in your multiple detector's library. </p>
 
+                      <center><img style="border:1px solid black" src="{% static "img/how/name_multiple.jpg" %}" alt="some_text"></center> <!--Choose multiple detector-->
+
+
        
         </section>
 
 
 
         <!-- Real-time streaming
-        ================================================== -->
+        ================================================== 
         <section id="streaming">
           <div class="page-header">
             <h1>6. Real-time streaming </h1>
@@ -126,6 +148,9 @@
           <p class="lead">DetectMe allows to follow from a browser the real-time detections of your iPhone. If you want to use your detector in the robot, you can follow your detections remotely.</p>
 
           <p class="lead"> If you want to transmit your detection, just enter in the detection's screen and hit the <i>Stream</i> button at the top right corner. To access from the browser, just go the <a href="http://detectme.csail.mit.edu/videostream/"> Stream section </a> and watch your detections. </p>
+
+                        <center><img style="border:1px solid black" src="{% static "img/how/streaming.jpg" %}" alt="some_text"></center> 
+-->
           
         </section>
 
@@ -133,7 +158,7 @@
         ================================================== -->
         <section id="licenses">
           <div class="page-header">
-            <h1>7. Licenses </h1>
+            <h1>6. Licenses </h1>
           </div>
           <p class="lead">Please make sure that the images you upload are copyright-free and do not contain inappropriate content. The images that you upload and annotate will be considered part of the public domain and other people might see them. As the goal of DetectMe is to provide a tool for research, the images and annotations are expected to become available to the research comunity without restrictions.</p>
 
@@ -145,7 +170,7 @@
         ================================================== -->
         <section id="privacy">
           <div class="page-header">
-            <h1>8. Privacy</h1>
+            <h1>7. Privacy</h1>
           </div>
           <p class="lead"> All the images used to train detectors will be accessible for research purposes. Therefore, do not upload personal material that you do not want others to see. </p>
           
@@ -155,7 +180,7 @@
         ================================================== -->
         <section id="citation">
           <div class="page-header">
-            <h1>9. Citation</h1>
+            <h1>8. Citation</h1>
           </div>
           <p class="lead"> If you use DetectMe or any functions on this website, we would appreciate it if you cite:</p>
 		  <p class="lead"> B. C. Russell, A. Torralba, K. P. Murphy, W. T. Freeman, LabelMe: a database and web-based tool for image annotation. International Journal of Computer Vision, pages 157-173, Volume 77, Numbers 1-3, May, 2008. (<a href="http://people.csail.mit.edu/brussell/research/AIM-2005-025-new.pdf">paper.pdf</a>)</p>
@@ -168,7 +193,7 @@
         ================================================== -->
         <section id="suggestions">
           <div class="page-header">
-            <h1>10. Suggestions</h1>
+            <h1>9. Suggestions</h1>
           </div>
           <p class="lead">Send an email to detectme@csail.mit.edu if you have suggestions, find bugs or there are new features that you would like to see in the tool.
 
@@ -180,7 +205,7 @@
         ================================================== -->
         <section id="credits">
           <div class="page-header">
-            <h1>11. Credits</h1>
+            <h1>10. Credits</h1>
           </div>
           <p class="lead">The DetectMe app has been developed by Aina Torralba, David Way, Josep Marc Mingot, Adrià Recasens and Antonio Torralba.			</p>
           

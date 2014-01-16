@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% load staticfiles %}
 
 
@@ -7,6 +8,14 @@
 <p class="lead">A quick guide</p>
 {% endblock jumbotron_title %}
 
+{% block extra_css %}
+
+<style id="holderjs-style" type="text/css">
+.holderjs-fluid {font-size:16px;font-weight:bold;text-align:center;font-family:sans-serif;margin:0}
+</style>
+
+{% endblock extra_css %}
+
 
 {% block content %}
 
@@ -14,8 +23,9 @@
  <!-- Docs nav
     ================================================== -->
     <div class="row">
-      <div class="span3 bs-docs-sidebar">
-        <ul class="nav nav-list bs-docs-sidenav">
+
+      <div class="span3 bs-docs-sidebar" id="navmenu">
+        <ul class="nav nav-list bs-docs-sidenav" >
           <li><a href="#download_detectme"><i class="icon-chevron-right"></i> Download</a></li>
           <li><a href="#account"><i class="icon-chevron-right"></i> Create an account</a></li>
           <li><a href="#create"><i class="icon-chevron-right"></i> Create a detector</a></li>
@@ -60,7 +70,6 @@
           <p class="lead">Alternatively, one can sign up directly at the <a href="http://detectme.csail.mit.edu/accounts/signup/">Sign Up web page</a>. </p>
 
         </section>
-
 
 
         <!-- Create a Detector
@@ -123,8 +132,8 @@
 
         <!-- Multiple Detectors
         ================================================== -->
-        <section id="retrain">
-          <div class="multiple-detectors">
+        <section id="multiple-detectors">
+          <div class="page-header">
             <h1>5. Multiples detectors</h1>
           </div>
           <p class="lead"> Do you want to detect two objects at once? This is your section! With a multiple detector, you will be able to detect different objects in real-time. </p>
@@ -162,7 +171,7 @@
           </div>
           <p class="lead">Please make sure that the images you upload are copyright-free and do not contain inappropriate content. The images that you upload and annotate will be considered part of the public domain and other people might see them. As the goal of DetectMe is to provide a tool for research, the images and annotations are expected to become available to the research comunity without restrictions.</p>
 
-		  <p class="lead"> You are free to post your collected database of images and annotations on your own website. For example, you may do this when you release your database with your research publications. </p>
+		      <p class="lead"> You are free to post your collected database of images and annotations on your own website. For example, you may do this when you release your database with your research publications. </p>
           
         </section>
 
@@ -172,6 +181,7 @@
           <div class="page-header">
             <h1>7. Privacy</h1>
           </div>
+          
           <p class="lead"> All the images used to train detectors will be accessible for research purposes. Therefore, do not upload personal material that you do not want others to see. </p>
           
         </section>
@@ -182,8 +192,10 @@
           <div class="page-header">
             <h1>8. Citation</h1>
           </div>
+          
           <p class="lead"> If you use DetectMe or any functions on this website, we would appreciate it if you cite:</p>
-		  <p class="lead"> B. C. Russell, A. Torralba, K. P. Murphy, W. T. Freeman, LabelMe: a database and web-based tool for image annotation. International Journal of Computer Vision, pages 157-173, Volume 77, Numbers 1-3, May, 2008. (<a href="http://people.csail.mit.edu/brussell/research/AIM-2005-025-new.pdf">paper.pdf</a>)</p>
+		      
+          <p class="lead"> B. C. Russell, A. Torralba, K. P. Murphy, W. T. Freeman, LabelMe: a database and web-based tool for image annotation. International Journal of Computer Vision, pages 157-173, Volume 77, Numbers 1-3, May, 2008. (<a href="http://people.csail.mit.edu/brussell/research/AIM-2005-025-new.pdf">paper.pdf</a>)</p>
 
 
           
@@ -211,42 +223,19 @@
           
         </section>
 
-
-
-
-
-
       </div>
     </div>
 
-  </div>
+{% endblock content %}
 
-
-
-   
+{% block extra_js %}   
 
 
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-    <script src="assets/js/jquery.js"></script>
-    <script src="assets/js/bootstrap-transition.js"></script>
-    <script src="assets/js/bootstrap-alert.js"></script>
-    <script src="assets/js/bootstrap-modal.js"></script>
-    <script src="assets/js/bootstrap-dropdown.js"></script>
-    <script src="assets/js/bootstrap-scrollspy.js"></script>
-    <script src="assets/js/bootstrap-tab.js"></script>
-    <script src="assets/js/bootstrap-tooltip.js"></script>
-    <script src="assets/js/bootstrap-popover.js"></script>
-    <script src="assets/js/bootstrap-button.js"></script>
-    <script src="assets/js/bootstrap-collapse.js"></script>
-    <script src="assets/js/bootstrap-carousel.js"></script>
-    <script src="assets/js/bootstrap-typeahead.js"></script>
-    <script src="assets/js/bootstrap-affix.js"></script>
 
-    <script src="assets/js/holder/holder.js"></script>
-    <script src="assets/js/google-code-prettify/prettify.js"></script>
-
-    <script src="assets/js/application.js"></script>
-{% endblock content %}
+    <script src="{% static 'js/bootstrap/application.js' %}"></script>
+    <script src="{% static 'js/bootstrap/bootstrap-scrollspy.js' %}"></script>
+    <script> $('body').scrollspy({ target: '#navmenu' });</script>
+{% endblock extra_js %}

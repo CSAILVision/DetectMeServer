@@ -1,0 +1,19 @@
+<!-- Modal -->
+{% load bootstrap_toolkit %}
+
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Report Abuse</h3>
+  </div>
+  <div class="modal-body">
+    <form class="well" method="post" action="{% url 'report_view' detector_pk=detector.pk %}" id="report-form">
+      {% csrf_token %}
+      {{ report_form|as_bootstrap }}
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-danger" type="submit" form="report-form">Report</button>
+  </div>
+</div>

@@ -1,6 +1,9 @@
 from django.views.generic import ListView, DetailView
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from django.db.models import Q
-from .models import Detector
+from .models import Detector, AbuseReport
+from .forms import AbuseReportForm
 
 
 class DetectorList(ListView):
@@ -34,7 +37,22 @@ class DetectorDetail(DetailView):
         context = super(DetectorDetail, self).get_context_data(**kwargs)
         # Add in a QuerySet of all the books
         context['annotatedimage_list'] = self.object.annotatedimage_set.all()
+        context['report_form'] = AbuseReportForm()
         return context
+
+
+def report_view(request, detector_pk):
+    """
+    Handles the validation of the abuse report form
+    """
+    if request.POST:
+        report = AbuseReport(author=request.user.get_profile(),
+                             detector=Detector.objects.get(pk=detector_pk))
+        print report
+        form = AbuseReportForm(request.POST, instance=report)
+        if form.is_valid():
+            report = form.save()
+            return HttpResponseRedirect(reverse('detector_detail', args=(detector_pk,)))
 
 
 def get_allowed_detectors(user):

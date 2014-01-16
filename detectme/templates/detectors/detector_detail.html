@@ -12,8 +12,13 @@
 
 {% block page_title %}
 <div class="page-header">
-<h1>Detector {{ detector.name }} - {{ detector.pk }}</h1>
+  <h1>Detector {{ detector.name }} 
+  {% if request.user.is_authenticated %}
+  <a href="#myModal" role="button" data-toggle="modal" class="btn btn-medium pull-right"><i class="icon-flag"></i> report</a>
+  {% endif %}
+  </h1>
 </div>
+{% include 'detectors/report_modal.html' %}
 {% endblock page_title %}
 
 {% block content %}
@@ -29,7 +34,9 @@
       <table class="table table-bordered">
       <tbody>
         <tr><td>Author</td><td><a href="{% url 'userena_profile_detail' detector.author.user.username %}">{{ detector.author.username }}</a></td></tr>
+        <tr><td>ID</td><td>{{ detector.pk }}</td/></tr>
         <tr><td>Created at</td><td>{{ detector.created_at }}</td></tr>
+        <tr><td>Annotated images</td><td>{{ detector.number_images }}</td></tr>
         <tr><td>Average rating</td><td>{{ detector.average_rating }}</td></tr>
         <tr><td>Number ratings</td><td>{{ detector.number_ratings }}</td></tr>
         {% if detector.parent %}

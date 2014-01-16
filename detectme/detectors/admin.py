@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Detector, AnnotatedImage, Rating, ExtraInfo
+from .models import Detector, AnnotatedImage, Rating,\
+                    ExtraInfo, AbuseReport
 
 
 class DetectorAdmin(admin.ModelAdmin):
@@ -40,3 +41,4 @@ admin.site.register(Detector, DetectorAdmin)
 admin.site.register(AnnotatedImage, AnnotatedImageAdmin)
 admin.site.register(Rating, RatingAdmin)
 admin.site.register(ExtraInfo)
+admin.site.register(AbuseReport)

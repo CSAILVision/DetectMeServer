@@ -30,7 +30,17 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "detectme.settings.production")
 # file. This includes Django's development server, if the WSGI_APPLICATION
 # setting points here.
 from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
+_application = get_wsgi_application()
+
+# Import OS enviroment variables to the underlying application
+# reference: http://ericplumb.com/blog/passing-apache-environment-variables-to-django-via-mod_wsgi.html
+env_variables_to_pass = ['SECRET_KEY', 'EMAIL_HOST', ]
+def application(environ, start_response):
+    # pass the WSGI environment variables on through to os.environ
+    for var in env_variables_to_pass:
+        os.environ[var] = environ.get(var, '')
+    return _application(environ, start_response)
+
 
 # Apply WSGI middleware here.
 # from helloworld.wsgi import HelloWorldApplication

@@ -41,11 +41,12 @@ class DetectorDetail(DetailView):
         context['report_form'] = AbuseReportForm()
 
         # Add reported message
-        detector = self.get_object()
-        profile = self.request.user.get_profile()
-        r = AbuseReport.objects.filter(detector=detector, author=profile)
-        if r:
-            messages.add_message(self.request, messages.ERROR, 'You have reported this detector for abuse.')
+        if self.request.user.is_authenticated():
+            detector = self.get_object()
+            profile = self.request.user.get_profile()
+            r = AbuseReport.objects.filter(detector=detector, author=profile)
+            if r:
+                messages.add_message(self.request, messages.ERROR, 'You have reported this detector for abuse.')
         return context
 
 

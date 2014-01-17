@@ -1,5 +1,5 @@
 from django.db.models import Q
-from datetime import date
+from datetime import date,datetime
 from rest_framework import generics, permissions
 from .models import Detector, Rating, AnnotatedImage
 from .serializers import DetectorSerializer, AnnotatedImageSerializer,\
@@ -34,7 +34,7 @@ class DetectorAPITimeList(generics.ListAPIView):
 
     def get_queryset(self):
         uploaded_time = int(self.kwargs['time'])
-        uploaded_time = date.fromtimestamp(uploaded_time)
+        uploaded_time = datetime.fromtimestamp(uploaded_time)
         query = get_allowed_detectors(self.request.user)
         query = query & Q(uploaded_at__gte=uploaded_time)
         return (Detector.objects.filter(query)

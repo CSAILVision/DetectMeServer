@@ -112,6 +112,7 @@ STATICFILES_FINDERS = (
 SECRET_KEY = r"vy^q592)vonx06n%yj3%)959t19sm1srf807^#nyjj!@&3e^82"
 ########## END SECRET CONFIGURATION
 
+
 ########## MESSAGES CONFIGURATION
 # Message tag to integrate with bootstrap
 
@@ -326,6 +327,4 @@ REST_FRAMEWORK = {
 
 PYBB_PROFILE_RELATED_NAME = 'detectme_profile'
 PYBB_TEMPLATE = "leaderboards/base.html"
-
-
 ########## END PYBB FORUM SPECIFIC

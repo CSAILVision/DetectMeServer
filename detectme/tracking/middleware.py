@@ -130,6 +130,7 @@ class VisitorTrackingMiddleware(object):
 
         # determine whether or not the user is logged in
         user = request.user
+        print user
         if isinstance(user, AnonymousUser):
             user = None
 

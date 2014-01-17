@@ -3,7 +3,8 @@ from datetime import date
 from rest_framework import generics, permissions
 from .models import Detector, Rating, AnnotatedImage
 from .serializers import DetectorSerializer, AnnotatedImageSerializer,\
-                          RatingSerializer, SupportVectorSerializer
+                          RatingSerializer, SupportVectorSerializer,\
+                          AbuseReportSerializer
 from .views import get_allowed_detectors
 # from .permissions import IsOwnerOrReadOnly
 
@@ -110,6 +111,19 @@ class RatingAPIList(APIView):
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AbuseReportAPICreate(generics.CreateAPIView):
+    """
+    Store a new abuse report from the mobile device.  
+    """
+    serializer_class = AbuseReportSerializer
+
+    def pre_save(self, obj):
+        obj.author = self.request.user.get_profile()
+        obj.abuse_type ='OT'
+
+
 
 
 

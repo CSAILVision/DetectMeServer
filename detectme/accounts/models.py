@@ -28,6 +28,10 @@ class DetectMeProfile(UserenaBaseProfile, PybbProfile):
     def num_annotated_images(self):
         return len(self.annotatedimage_set.all())
 
+    @property
+    def current_detectors(self):
+        return self.detector_set.all().filter(is_deleted=False)
+
 
 @receiver(post_save, sender=User)
 def create_auth_token(sender, instance=None, created=False, **kwargs):

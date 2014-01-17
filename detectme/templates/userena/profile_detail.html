@@ -46,7 +46,7 @@
   <hr>
   <h3> Detectors </h3>
   <ul class="thumbnails">
-  {% for detector in profile.detector_set.all %}
+  {% for detector in profile.current_detectors%}
     <li class="span3">
         <div class="thumbnail">
           <a href="{% url 'detector_detail' detector.pk %}" class="thumbnail">  

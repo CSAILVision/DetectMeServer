@@ -35,6 +35,10 @@ urlpatterns += patterns('',
     url(r'^api-token-auth/', 'rest_framework.authtoken.views.obtain_auth_token')
 )
 
+# Django Time profiler
+urlpatterns += patterns('',
+    url(r'^profiler/', include('profiler.urls'))
+)
 
 # Allow access to the Media folder from the browser
 if settings.DEBUG:

@@ -130,7 +130,8 @@ class VisitorTrackingMiddleware(object):
 
         # determine whether or not the user is logged in
         user = request.user
-        print user
+        print 'CACA'
+        print request.META.get('HTTP_AUTHORIZATION', b'')
         if isinstance(user, AnonymousUser):
             user = None
 

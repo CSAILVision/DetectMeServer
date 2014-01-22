@@ -1,25 +1,26 @@
 from django.db.models import Q
 from datetime import date
-from rest_framework import generics, permissions
+from rest_framework import generics
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from app_metrics.utils import metric
 from .models import Detector, Rating, AnnotatedImage
 from .serializers import DetectorSerializer, AnnotatedImageSerializer,\
                           RatingSerializer, SupportVectorSerializer,\
                           AbuseReportSerializer
 from .views import get_allowed_detectors
-# from .permissions import IsOwnerOrReadOnly
-
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
 
 
 class DetectorAPIList(generics.ListCreateAPIView):
     serializer_class = DetectorSerializer
 
     def pre_save(self, obj):
+        # metric('api_detectors_create')
         obj.author = self.request.user.get_profile()
 
     def get_queryset(self):
+        # metric('api_detectors_list')
         return (Detector.objects
                 .filter(get_allowed_detectors(self.request.user))
                 .order_by('-created_at'))
@@ -48,6 +49,7 @@ class DetectorAPIDetail(generics.RetrieveUpdateDestroyAPIView):
                           # IsOwnerOrReadOnly,)
 
     def pre_save(self, obj):
+        # metric('api_detectors_update')
         # remove all the images and wait for the new ones to be updated
         obj.annotatedimage_set.all().delete()
         obj.author = self.request.user.get_profile()
@@ -62,6 +64,7 @@ class AnnotatedImageAPIList(generics.ListCreateAPIView):
     model = AnnotatedImage
 
     def pre_save(self, obj):
+        # metric('api_annotatedimages_create')
         obj.author = self.request.user.get_profile()
 
 
@@ -86,6 +89,10 @@ class AnnotatedImagesForDetector(generics.ListAPIView):
 class SupportVectorsForDetector(generics.RetrieveAPIView):
     serializer_class = SupportVectorSerializer
     model = Detector
+
+    def get_queryset(self):
+        # metric('api_supportvectors_list')
+        return super(SupportVectorsForDetector, self).get_queryset()
 
 
 class RatingAPIList(APIView):

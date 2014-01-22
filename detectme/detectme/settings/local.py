@@ -50,6 +50,9 @@ CACHES = {
 # See: https://github.com/django-debug-toolbar/django-debug-toolbar#installation
 INSTALLED_APPS += (
     'debug_toolbar',
+    'profiler',
+    'app_metrics',
+    # 'djcelery',
 )
 
 # See: https://github.com/django-debug-toolbar/django-debug-toolbar#installation
@@ -58,6 +61,7 @@ INTERNAL_IPS = ('127.0.0.1',)
 # See: https://github.com/django-debug-toolbar/django-debug-toolbar#installation
 MIDDLEWARE_CLASSES += (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'profiler.middleware.ProfilerMiddleware',
 )
 
 # See: https://github.com/django-debug-toolbar/django-debug-toolbar#installation
@@ -66,3 +70,20 @@ DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TEMPLATE_CONTEXT': True,
 }
 ########## END TOOLBAR CONFIGURATION
+
+########## DJANGO-LIVE-PROFILER CONFIGURATION
+# Query profiling for django
+# https://github.com/InviteBox/django-live-profiler
+########## DJANGO-LIVE-PROFILER CONFIGURATION
+
+
+########## DJANGO-APP-METRICS CONFIGURATION
+# Server side aggregated metrics
+# http://django-app-metrics.readthedocs.org/en/latest/
+CELERY_ALWAYS_EAGER = True
+# BROKER_BACKEND = "djkombu.transport.DatabaseTransport"
+
+# app.conf.update(
+#     CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend',
+# )
+########## DJANGO-APP-METRICS CONFIGURATION

@@ -1,7 +1,95 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
-{% block page_title %}About{% endblock page_title %}
+
+{% block jumbotron_title %}
+<h1>About us</h1>
+<p class="lead">(That is correct to say publicly)</p>
+{% endblock jumbotron_title %}
 
 {% block content %}
-<p>CSAIL.</p>
+
+  
+  <div class="row">
+    <div class="span8">
+    <section id="about"> 
+     
+        <table class="table">
+              <tbody>
+
+                <!--mingot-->
+                <tr>
+                  <td><img src="{% static 'img/contributors/mingot.png' %}" class="img-rounded" height="500" width="500"></td>
+                  <td>
+                  <p><strong>Josep Marc Mingot</strong></p>
+                  <p>
+                    My research is in the areas of computer vision, machine learning and human visual perception. I am interested in scene and object recognition, among other things.
+
+                    Scene and object recognition are two related visual tasks generally studied separately. However, by devising systems that solve these tasks in an integrated fashion I believe it is possible to build more efficient and robust recognition systems.
+                  </p>
+                  </td> 
+                </tr>
+
+                <!--adria-->
+                <tr>
+                  <td><img src="{% static 'img/contributors/adria.jpg' %}" class="img-rounded" height="500" width="500"></td>
+                  <td>
+                  <p><strong>Adria Recasens</strong></p>
+                  <p>
+                    My research is in the areas of computer vision, machine learning and human visual perception. I am interested in scene and object recognition, among other things.
+
+                    Scene and object recognition are two related visual tasks generally studied separately. However, by devising systems that solve these tasks in an integrated fashion I believe it is possible to build more efficient and robust recognition systems.
+                  </p>
+                  </td> 
+                </tr>
+
+                <!--antonio-->
+                <tr>
+                  <td><img src="{% static 'img/contributors/antonio.jpg' %}" class="img-rounded" height="500" width="500"></td>
+                  <td>
+                  <p><strong>Antonio Torralba</strong></p>
+                  <p>
+                    My research is in the areas of computer vision, machine learning and human visual perception. I am interested in scene and object recognition, among other things.
+
+                    Scene and object recognition are two related visual tasks generally studied separately. However, by devising systems that solve these tasks in an integrated fashion I believe it is possible to build more efficient and robust recognition systems.
+                  </p>
+                  </td> 
+                </tr>
+
+                <!--aina-->
+                <tr>
+                  <td><img src="{% static 'img/contributors/aina.jpg' %}" class="img-rounded" height="500" width="500"></td>
+                  <td>
+                  <p><strong>Aina Torralba</strong></p>
+                  <p>
+                    My research is in the areas of computer vision, machine learning and human visual perception. I am interested in scene and object recognition, among other things.
+
+                    Scene and object recognition are two related visual tasks generally studied separately. However, by devising systems that solve these tasks in an integrated fashion I believe it is possible to build more efficient and robust recognition systems.
+                  </p>
+                  </td> 
+                </tr>
+
+                <!--dolores-->
+                <tr>
+                  <td><img src="{% static 'img/contributors/dolores.png' %}" class="img-rounded" height="500" width="500"></td>
+                  <td>
+                  <p><strong>Dolores Blanco</strong></p>
+                  <p>
+                    My research is in the areas of computer vision, machine learning and human visual perception. I am interested in scene and object recognition, among other things.
+
+                    Scene and object recognition are two related visual tasks generally studied separately. However, by devising systems that solve these tasks in an integrated fashion I believe it is possible to build more efficient and robust recognition systems.
+                  </p>
+                  </td> 
+                </tr>
+
+
+
+              </tbody>
+            </table>
+
+    </section>
+    </div>
+  </div>
+
+
 {% endblock content %}

@@ -233,6 +233,9 @@ THIRD_PARTY_APPS = (
 
     # Forum pybb
     'pybb',
+
+    # Contact form
+    'envelope',
 )
 
 # Apps specific for this project go here.
@@ -328,3 +331,28 @@ REST_FRAMEWORK = {
 PYBB_PROFILE_RELATED_NAME = 'detectme_profile'
 PYBB_TEMPLATE = "leaderboards/base.html"
 ########## END PYBB FORUM SPECIFIC
+
+
+########## ENVELOPE CONTACT FORM SPECIFIC
+#http://django-envelope.readthedocs.org/en/latest/configuration.html
+
+# This is the sender of the email sent with your contact form.
+# DEFAULT_FROM_EMAIL = 'detectme.csail.mit.edu'
+
+# A tuple of pairs describing possible choices for message type. 
+# The numeric values are pretty much arbitrary. Remember to leave an empty value 
+# for the choice when the field is initially unset ('Choose').
+ENVELOPE_CONTACT_CHOICES = (
+    ('',    u"Choose"),
+    (10,    u"A general question regarding the website"),
+    (None,   u"Other"),
+)
+
+# The prefix for subject line of the email message. This is different 
+# than EMAIL_SUBJECT_PREFIX which is global for the whole project. 
+# ENVELOPE_SUBJECT_INTRO goes after the global prefix and is followed 
+# by the actual subject entered in the form by website's user.
+ENVELOPE_SUBJECT_INTRO = '[Contact Form]'
+
+
+########## ENVELOPE CONTACT FORM SPECIFIC

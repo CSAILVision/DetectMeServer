@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load envelope_tags %}
+
+
+
+{% block jumbotron_title %}
+<h1>Contact us</h1>
+{% endblock jumbotron_title %}
+
+{% block content %}
+
+<section id="contact">
+  {% render_contact_form %}
+</section>
+
+{% endblock content %}

@@ -16,6 +16,7 @@ urlpatterns = patterns(
         name="how_it_works"),
     url(r'^about/$', TemplateView.as_view(template_name='about.html'),
         name="about"),
+    url(r'^contact/', include('envelope.urls'), name="contact"),
 
     # create account over api
     (r'^accounts/api/', include('accounts.urls')),

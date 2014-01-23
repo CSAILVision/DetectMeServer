@@ -105,3 +105,18 @@ DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TEMPLATE_CONTEXT': True,
 }
 ########## END TOOLBAR CONFIGURATION
+
+
+########## SENTRY CONFIGURATION
+# See http://sentry.readthedocs.org/en/latest/quickstart/index.html
+# Set your DSN value
+RAVEN_CONFIG = {
+    'dsn': 'http://890fed90c14e467ebcdf00971fd4d2e2:14719749a32d4910b3714c099608c4a4@detectme.csail.mit.edu:9000/1',
+}
+
+# Add raven to the list of installed apps
+INSTALLED_APPS = INSTALLED_APPS + (
+    # ...
+    'raven.contrib.django.raven_compat',
+)
+########## SENTRY CONFIGURATION

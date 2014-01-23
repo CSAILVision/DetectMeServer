@@ -87,3 +87,19 @@ CELERY_ALWAYS_EAGER = True
 #     CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend',
 # )
 ########## DJANGO-APP-METRICS CONFIGURATION
+
+
+
+########## SENTRY CONFIGURATION
+# See http://sentry.readthedocs.org/en/latest/quickstart/index.html
+# Set your DSN value
+RAVEN_CONFIG = {
+    'dsn': 'http://890fed90c14e467ebcdf00971fd4d2e2:14719749a32d4910b3714c099608c4a4@127.0.0.1:9000/1',
+}
+
+# Add raven to the list of installed apps
+INSTALLED_APPS = INSTALLED_APPS + (
+    # ...
+    'raven.contrib.django.raven_compat',
+)
+########## SENTRY CONFIGURATION

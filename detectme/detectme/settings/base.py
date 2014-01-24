@@ -186,6 +186,9 @@ MIDDLEWARE_CLASSES = (
 
     #pybb
     'pybb.middleware.PybbMiddleware',
+
+    #django-live-profiler
+    'profiler.middleware.ProfilerMiddleware',
 )
 ########## END MIDDLEWARE CONFIGURATION
 

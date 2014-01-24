@@ -239,6 +239,9 @@ THIRD_PARTY_APPS = (
 
     # Contact form
     'envelope',
+
+    # django-live-profiler (query profiler)
+    'profiler',
 )
 
 # Apps specific for this project go here.

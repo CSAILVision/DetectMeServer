@@ -37,9 +37,9 @@ urlpatterns += patterns('',
 )
 
 # Django Time profiler
-#urlpatterns += patterns('',
-#    url(r'^profiler/', include('profiler.urls'))
-#)
+urlpatterns += patterns('',
+    url(r'^profiler/', include('profiler.urls'))
+)
 
 # Allow access to the Media folder from the browser
 if settings.DEBUG:

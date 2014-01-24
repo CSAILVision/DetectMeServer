@@ -17,6 +17,18 @@
           <li id="about"><a href={% url 'about' %}>About</a></li>
         </ul>
         <ul class="nav pull-right">
+          {% if request.user.is_staff %}
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration<b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="/admin"><i class="icon-home"></i> Admin site</a></li>
+              <li><a href="https://www.google.com/analytics/web/?hl=en#report/visitors-overview/a46904906w78050409p80696512/"><i class="icon-tasks"></i> Google Analytics</a></li>
+              <li><a href="/profiler"><i class="icon-time"></i> SQL Profile</a></li>
+              <li><a href="http://128.52.160.245:9000/"><i class="icon-warning-sign"></i> Sentry Bug Report</a></li>
+            </ul>
+            </li>
+          {% endif %}
           {% if request.user.is_authenticated %}
             <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">

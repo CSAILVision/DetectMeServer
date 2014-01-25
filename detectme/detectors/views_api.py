@@ -5,7 +5,7 @@ from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-# from app_metrics.utils import metric
+from redis_metrics import metric
 
 from datetime import date,datetime
 from rest_framework import generics, permissions
@@ -21,11 +21,11 @@ class DetectorAPIList(generics.ListCreateAPIView):
     serializer_class = DetectorSerializer
 
     def pre_save(self, obj):
-        # metric('api_detectors_create')
+        metric('api_detectors_create')
         obj.author = self.request.user.get_profile()
 
     def get_queryset(self):
-        # metric('api_detectors_list')
+        metric('api_detectors_list')
         return (Detector.objects
                 .filter(get_allowed_detectors(self.request.user))
                 .order_by('-created_at'))
@@ -54,7 +54,7 @@ class DetectorAPIDetail(generics.RetrieveUpdateDestroyAPIView):
                           # IsOwnerOrReadOnly,)
 
     def pre_save(self, obj):
-        # metric('api_detectors_update')
+        metric('api_detectors_update')
         # remove all the images and wait for the new ones to be updated
         obj.annotatedimage_set.all().delete()
         obj.author = self.request.user.get_profile()
@@ -69,7 +69,7 @@ class AnnotatedImageAPIList(generics.ListCreateAPIView):
     model = AnnotatedImage
 
     def pre_save(self, obj):
-        # metric('api_annotatedimages_create')
+        metric('api_annotatedimages_create')
         obj.author = self.request.user.get_profile()
 
 
@@ -96,7 +96,7 @@ class SupportVectorsForDetector(generics.RetrieveAPIView):
     model = Detector
 
     def get_queryset(self):
-        # metric('api_supportvectors_list')
+        metric('api_supportvectors_list')
         return super(SupportVectorsForDetector, self).get_queryset()
 
 

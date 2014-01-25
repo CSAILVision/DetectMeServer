@@ -13,3 +13,5 @@ pybbm==0.15.1
 sorl-thumbnail==11.12
 django-envelope==0.7
 django-live-profiler==0.0.9
+redis==2.8.0
+django-redis-metrics==0.7.1

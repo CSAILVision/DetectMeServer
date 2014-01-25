@@ -240,8 +240,11 @@ THIRD_PARTY_APPS = (
     # Contact form
     'envelope',
 
-    # django-live-profiler (query profiler)
+    # django-live-profiler (SQL query profiler)
     'profiler',
+
+    # django-redis-metrics (API metrics)
+    'redis_metrics',
 )
 
 # Apps specific for this project go here.

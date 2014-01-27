@@ -53,10 +53,10 @@ SERVER_EMAIL = EMAIL_HOST_USER
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', 
-        'NAME': 'detectmedb',
-        'USER': 'detectmeuser',
-        'PASSWORD': 'detectme',
-        'HOST': 'localhost', 
+        'NAME': environ.get('DB_NAME', ''), #'detectmedb',
+        'USER': environ.get('DB_USER', ''), #'detectmeuser',
+        'PASSWORD': environ.get('DB_PASSWORD', ''), #'detectme',
+        'HOST': environ.get('DB_HOST', ''), #'localhost', 
         'PORT': '',
     }
 }

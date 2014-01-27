@@ -37,3 +37,6 @@ detectme/node_modules/
 
 # sentry local configuration
 sentry/
+
+# metrics log
+detectme/dump.rdb

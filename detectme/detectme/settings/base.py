@@ -310,6 +310,8 @@ ANONYMOUS_USER_ID = -1
 
 AUTH_PROFILE_MODULE = 'accounts.DetectMeProfile'
 
+USERENA_HIDE_EMAIL = True
+
 LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'

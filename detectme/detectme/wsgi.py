@@ -34,7 +34,8 @@ _application = get_wsgi_application()
 
 # Import OS enviroment variables to the underlying application
 # reference: http://ericplumb.com/blog/passing-apache-environment-variables-to-django-via-mod_wsgi.html
-env_variables_to_pass = ['SECRET_KEY', 'EMAIL_HOST', ]
+env_variables_to_pass = ['SECRET_KEY', 'EMAIL_HOST', 'DB_NAME',
+                         'DB_USER', 'DB_PASSWORD', 'DB_HOST']
 def application(environ, start_response):
     # pass the WSGI environment variables on through to os.environ
     for var in env_variables_to_pass:

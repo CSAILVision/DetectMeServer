@@ -2,6 +2,7 @@
 
 
 from os.path import abspath, basename, dirname, join, normpath
+from os import environ
 from sys import path
 
 
@@ -34,6 +35,7 @@ TEMPLATE_DEBUG = DEBUG
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
 ADMINS = (
     ('Josep Marc Mingot', 'jm.mingot@gmail.com'),
+    ('Adria Recasens', 'recasens@mit.edu'),
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
@@ -109,7 +111,7 @@ STATICFILES_FINDERS = (
 ########## SECRET CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 # Note: This key should only be used for development and testing.
-SECRET_KEY = r"vy^q592)vonx06n%yj3%)959t19sm1srf807^#nyjj!@&3e^82"
+SECRET_KEY = environ.get('SECRET_KEY', '')
 ########## END SECRET CONFIGURATION
 
 

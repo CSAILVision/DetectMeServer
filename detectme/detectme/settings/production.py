@@ -5,6 +5,10 @@ from os import environ
 
 from base import *
 
+###### IMPORTANT: Django Deployment Check list
+# https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
+######
+
 # Normally you should not import ANYTHING from Django directly
 # into your settings, but ImproperlyConfigured is an exception.
 from django.core.exceptions import ImproperlyConfigured
@@ -53,10 +57,10 @@ SERVER_EMAIL = EMAIL_HOST_USER
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', 
-        'NAME': environ.get('DB_NAME', ''), #'detectmedb',
-        'USER': environ.get('DB_USER', ''), #'detectmeuser',
-        'PASSWORD': environ.get('DB_PASSWORD', ''), #'detectme',
-        'HOST': environ.get('DB_HOST', ''), #'localhost', 
+        'NAME': environ.get('DB_NAME', ''), 
+        'USER': environ.get('DB_USER', ''), 
+        'PASSWORD': environ.get('DB_PASSWORD', ''),
+        'HOST': environ.get('DB_HOST', ''), 
         'PORT': '',
     }
 }

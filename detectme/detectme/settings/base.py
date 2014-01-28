@@ -246,9 +246,6 @@ THIRD_PARTY_APPS = (
 
     # django-live-profiler (SQL query profiler)
     'profiler',
-
-    # API documentation
-    'rest_framework_swagger',
 )
 
 # Apps specific for this project go here.
@@ -370,21 +367,3 @@ ENVELOPE_CONTACT_CHOICES = (
 ENVELOPE_SUBJECT_INTRO = '[Contact Form]'
 ########## ENVELOPE CONTACT FORM SPECIFIC
 
-
-########## SWAGGER REST DOCUMENTATION SPECIFIC
-#https://github.com/marcgibbons/django-rest-swagger
-
-SWAGGER_SETTINGS = {
-    "exclude_namespaces": ['api-token-auth',], # List URL namespaces to ignore
-    "api_version": '0.1',  # Specify your API's version
-    "api_path": "/",  # Specify the path to your API not a root level
-    "enabled_methods": [  # Specify which methods to enable in Swagger UI
-        'get',
-        'post',
-    ],
-    "api_key": '', # An API key
-    "is_authenticated": False,  # Set to True to enforce user authentication,
-    "is_superuser": False,  # Set to True to enforce admin only access
-}
-
-########## SWAGGER REST DOCUMENTATION SPECIFIC

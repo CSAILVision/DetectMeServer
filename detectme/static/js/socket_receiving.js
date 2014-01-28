@@ -25,6 +25,8 @@ var webSocketClient =  (function(){
 
 			var messageContent = JSON.parse(message.data);
 
+			console.log(messageContent);
+
 			// output video
 			document.getElementById('detecting-image').src="data:image/jpeg;base64,"+ messageContent.imageBase64;
 

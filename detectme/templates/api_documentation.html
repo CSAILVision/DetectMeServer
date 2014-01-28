@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+
+{% block jumbotron_title %}
+  <h1>Public API Documentation</h1>
+  <p class="lead">A quick guide</p>
+{% endblock jumbotron_title %}
+
+{% block extra_css %}
+
+<link href="{% static 'css/prettify.css' %}" rel="stylesheet">
+<style id="holderjs-style" type="text/css">
+.holderjs-fluid {font-size:16px;font-weight:bold;text-align:center;font-family:sans-serif;margin:0}
+</style>
+
+{% endblock extra_css %}
+
+
+{% block content %}
+
+
+ <!-- Docs nav
+    ================================================== -->
+    <div onload="prettyPrint()" class="row">
+
+      <div class="span3 bs-docs-sidebar" id="navmenu">
+        <ul class="nav nav-list bs-docs-sidenav" >
+          <li><a href="#overview"><i class="icon-chevron-right"></i> Overview</a></li>
+          <li><a href="#public-data"><i class="icon-chevron-right"></i> Public Data API</a></li>
+          <li><a href="#detection-streaming"><i class="icon-chevron-right"></i> Detection Streaming</a></li>
+          <li><a href="#matlab"><i class="icon-chevron-right"></i> Matlab library </a></li>
+        </ul>
+      </div>
+
+
+
+      <div class="span9">
+
+
+        <!-- Overview
+        ================================================== -->
+        <section id="overview">
+          <div class="page-header">
+            <h1>Overview</h1>
+          </div>
+          <p class="lead">DetectMe app let their users train detectors taking images and annotating them. We present here the public API of the DetectMe app. The API purpose is twofold: on one hang it let the users access the data from public and their own detectors (name, number of training images, support vectors, weights,...) as well as the annotated images data associated (images, annotations, gps position). On the other hand it let the users access to the real time detections remotely. </p>
+
+        </section>
+
+        
+        <!-- Public Data API
+        ================================================== -->
+        <section id="public-data">
+          <div class="page-header">
+            <h1>Public Data API</h1>
+          </div>
+          <p class="lead">DetectMe server stores the data about the detectors created as well as the annotated images. The public data API let's you receive the data contained in a detector as well as the annotated images in JSON format. You can use your favourite framework to access the data. Furthermore we have developed the Matlab libraries to make the effort painless.</p>
+
+          <h2>Queries</h2>
+          <p>DetectMe provide 3 different data structures that can be accessed: detectors, annotated images and support vectors.</p>
+
+          <p><strong>Detectors</strong></p>
+          <ul>
+            <li><code>id: </code> Detector public ID. </li>
+            <li><code>name: </code> Detector name. </li>
+            <li><code>target_class: </code> Detector name. </li>
+            <li><code>author: </code> User who last trained the detector. </li>
+            <li><code>is_public: </code> Flag indicating if the detector is public. </li>
+            <li><code>average_image: </code> URL of the average image of the detector. </li>
+            <li><code>uploaded_at: </code> Timestamp when the detector was uploaded to the server. </li>
+            <li><code>is_deleted: </code> Flag indicating if the detector is deleted. Must be always <code>True</code>. </li>
+            <li><code>average_rating: </code> Average rating given by the users to the detector. </li>
+            <li><code>weights: </code> SVM weights for each of the features. Number of features given by the next parameter. Stored with double precision. </li>
+            <li><code>sizes: </code> 3 dimensional array indicating the sizes of the features. First two components indicate the height and width of the HOG features and the last one indicates the number of different hog features using (31). See the <a href="#">documentation</a> for more information.</li>
+            <li><code>parent: </code> In case the detector was created retraining a public one, public ID of that detector. Otherwise <code>null</code>.</li>
+            <li><code>created_at: </code> Timestamp when the detector was created on the device.</li>
+            <li><code>updated_at: </code> Timestamp when the detector was updated on the device.</li>
+            <li><code>number_ratings: </code> Number of people that have ranked the detector.</li>
+            <li><code>number_images: </code> Total number of images associated to the detector taking into account all the inheretinace. </li>
+          </ul>
+
+          <p><strong>Annotated Images</strong></p>
+          <ul>
+            <li><code>id: </code> Annotated image public ID. </li>
+            <li><code>detector: </code> Detector public ID. </li>
+            <li><code>image_jpeg: </code> URL of the image on the server. </li>
+            <li><code>image_width: </code> Resolution width of the image. </li>
+            <li><code>image_height: </code> Resolution height of the image. </li>
+            <li><code>box_width: </code> Annotated box width. Float between 0 and 1. </li>
+            <li><code>box_height: </code> Annotated box height. Float between 0 and 1.</li>
+            <li><code>box_x: </code>Annotated box x position of the top left corner. Float between 0 and 1.</li>
+            <li><code>box_y: </code>Annotated box y position of the top left corner. Float between 0 and 1.</li>
+            <li><code>location_longitude: </code> GPS longitude where the image was taken. </li>
+            <li><code>location_latitude: </code> GPS latitude where the image was taken. </li>
+            <li><code>motion_quaternionX: </code> X coordinate of the <a href="https://developer.apple.com/library/IOs/documentation/CoreMotion/Reference/CMAttitude_Class/Reference/Reference.html#//apple_ref/doc/c_ref/CMQuaternion">quaternion</a> when the image was taken</li>
+            <li><code>motion_quaternionY: </code> Y coordinate. </li>
+            <li><code>motion_quaternionZ: </code> Z coordinate. </li>
+            <li><code>motion_quaternionW: </code> W coordinate. </li>
+          </ul>
+
+          <p><strong>Support vectors</strong></p>
+          <p>The support vectors are returned with just one field <strong>support_vectors</strong> containing a JSON string. This JSON contains a dictionary of support vectors and its weights. For each support vector, <code>"label"</code> indicates the label of the support vector, and <code>"weights"</code> its weights. The number of weights per support vector correspond with the number of features of the SVM. See the <a href="#">documentation</a> for more details. </p>
+
+
+          <h3> Get a specific detector </h3>
+          <p> To get just the JSON information of a specific detector, you first need to know the public ID of a detector. You can obtain the ID of a detector in its detailed view of the and the app and the web. To obtained it with <a href="http://en.wikipedia.org/wiki/CURL">curl</a> type in the terminal:</p>
+          <pre class="prettyprint lang-py">$ curl http://detectme.csail.mit.edu/detectors/api/201
+{
+    "id": 201, 
+    "name": "hands", 
+    "target_class": "hands", 
+    "author": "adria", 
+    "is_public": true, 
+    "average_image": "average_image/hands_average_image.jpeg", 
+    "uploaded_at": "2014-01-22T17:56:57.128Z", 
+    "is_deleted": false, 
+    "average_rating": 3.0, 
+    "weights": "[-0.007774271733618613,-0.1150926115034901, ... ,0.1100269825119174,0.1681116880540463,0.2686900083582726,-0.01774940191480756,-0.2526562328418914,0.1011166588333134,0.005985405603673943,-0.02146811771647911,0.005403190346242447,0.1973689913439872,0.1908833684336373,0.1976436135490752,0.01125792164217517,-0.168711432518017,5.462616673335679]", 
+    "sizes": "[7,8,31]", 
+    "parent": null, 
+    "created_at": "2014-01-22T17:56:53Z", 
+    "updated_at": "2014-01-22T17:56:53Z", 
+    "number_ratings": 3, 
+    "number_images": 37
+}
+          </pre>
+          <a class="btn btn-primary btn-small" href="http://detectme.csail.mit.edu/detectors/api/201"> Browsable API</a>
+          <p> The previous command will only allow you to access public detectors. If you want to access your private detectors as well, you will have to authenticate yourself. The authentication method used is <a href="http://en.wikipedia.org/wiki/Basic_access_authentication">basic access authentication</a>. For example to access to the tester private detectors:</p>
+          <pre class="prettyprint lang-py">$ curl -u tester:tester http://detectme.csail.mit.edu/detectors/api/201</pre>
+          <p>On the following examples we will omit the authentication but remember that without it you will only have access to the public detectors.</p>
+          <p>We have implemented the API with the <a href="http://www.django-rest-framework.org/">Django Rest Framework</a> package. This package also allows you to  the API to return a fully web-browsable HTML representation. For example, try to access the previous URL directly in your browser to see what happens:</p>
+          <p><a href="http://detectme.csail.mit.edu/detectors/api/201">http://detectme.csail.mit.edu/detectors/api/201</a></p>
+
+          
+          <h3> Get the list of all detectors </h3>
+          <p> The list of all the public detectors can be obtained with: </p>
+          <pre class="prettyprint lang-py">$ curl http://detectme.csail.mit.edu/detectors/api/
+[
+    {
+        "id": 293, 
+        "name": "lamp", 
+        "target_class": "lamp", 
+        "author": "supernan312", 
+        "is_public": true, 
+        "average_image": "average_image/lamp_average_image_2.jpeg", 
+        "uploaded_at": "2014-01-28T00:41:07.923Z", 
+        "is_deleted": false, 
+        "average_rating": 0, 
+        "weights": "[0.06941780882921939, ... , -0.03801274715344526,-0.0440870543104124,-0.01682527284996809,0.02397107234742005,0.007658464492699956,1.342294990906015]", 
+        "sizes": "[7,8,31]", 
+        "parent": null, 
+        "created_at": "2014-01-28T00:40:42Z", 
+        "updated_at": "2014-01-28T00:40:42Z", 
+        "number_ratings": 0, 
+        "number_images": 1
+    }, 
+    ...
+]
+          </pre>
+          <a class="btn btn-primary btn-small" href="http://detectme.csail.mit.edu/detectors/api/"> Browsable API</a>
+          <p> Remember that if you want the list to include your private detectors as well, you will need to authenticate yourself.</p>
+
+
+          <h3> Get the annotated images for a specific detector </h3>
+          <p>Each detector has a set of annotated images associated with it that have been used to train it. You can access the information stored in this images with:</p>
+          <pre class="prettyprint lang-py">$ curl http://detectme.csail.mit.edu/detectors/api/annotatedimages/fordetector/201/
+[
+    {
+        "id": 1072, 
+        "image_jpeg": "annotated_images/hands_annotated_image.jpeg", 
+        "image_height": 480, 
+        "image_width": 360, 
+        "box_x": 0.3403751, 
+        "box_y": 0.271831, 
+        "box_width": 0.3755869, 
+        "box_height": 0.3443661, 
+        "location_latitude": 42.3616800858711, 
+        "location_longitude": -71.0910852939372, 
+        "motion_quaternionX": 0.747675, 
+        "motion_quaternionY": 0.2492315, 
+        "motion_quaternionZ": 0.3015933, 
+        "motion_quaternionW": 0.5365699, 
+        "detector": 201
+    }, 
+    ...
+]
+          </pre>
+          <a class="btn btn-primary btn-small" href="http://detectme.csail.mit.edu/detectors/api/annotatedimages/fordetector/201/"> Browsable API</a>
+          <p>The actual image in JPEG format can be accessed through the <code>"image_jpeg"</code> field of the JSON.</p>
+          <p> In inheritance, just the images of the last training are returned. This means for example that if a public detector with 10 images have been retrained with just one image, this last image is the only one returned. To access to all the ancestry images, you can achieve it in a recursive fashion by accessing the parents images. </p>
+
+          
+          <h3> Get the support vectors for a specific detector </h3>
+          The <a href="http://docs.opencv.org/doc/tutorials/ml/introduction_to_svm/introduction_to_svm.html">support vectors</a> obtained with the SVM for each detector are stored in a separate table to optimize the storing process. Given a detector and its public ID you can obtain its support vectors and their weights with: 
+          <pre class="prettyprint lang-py">$ curl http://detectme.csail.mit.edu/detectors/api/supportvectors/201/
+
+{
+    "support_vectors": "[{\"label\":-1,\"weights\":[0.009084593,0.01268152, ... ,45303,0.005386756,0.3407807,0.1002774,0.1972223,0.2946981,0.02159446,0.0337317,0.006480988,0.4,0.2849261,0.3949687,0.4,0.04345109,0.02103199,0.1230799]}]"
+}
+          </pre>
+          <p> Be careful when querying for the support vectors for a detector as the result can be quite big. Usually the detecotors have around 150 support vector with each of them storing around 2000 weights with double precision.</p>
+
+        </section>
+
+
+        <!-- Detection Streaming
+        ================================================== -->
+        <section id="detection-streaming">
+          <div class="page-header">
+            <h1>Real time detection streaming</h1>
+          </div>
+          <p class="lead">One of the coolest features of the DetectMe app is the possibility to stream the detections you are doing with your iOS device directly to the browser or any other framework that can handle connection using the <a href="http://en.wikipedia.org/wiki/WebSocket">Web Socket protocol</a>. A web browser is one of such frameworks capable to handle de Websocket connection.  </p>
+
+          <p> When in streaming mode, the iOS device behaves as a WebSocket server accepting connections at the port 9000. The connections are only allowed within the same network range (i.e. under the same wi-fi connections) between server and client for security reasons.</p>
+
+          <p>When the client (i.e browser, matlab client,...) connects to the iOS device, it begins receiving detections when the user pushes the "stream" button. At a speed of about 4 FPS, for each frame the server sends a JSON object with the following fields:</p>
+
+          <ul>
+            <li><code> imageBase64: </code> The JPEG image encoded with the <a href="http://en.wikipedia.org/wiki/Base64">base64 format</a>. </li>
+            <li><code> bb: </code> An array of different bounding boxes representing each detection done in the image. Each bounding box contains the following fields describing the detected bounding box with relative measures (i.e. a float number between 0 and 1) .</li>
+            <ul>
+              <li><code> xcord: </code> X coordinate of the top left corner of the detection.</li>
+              <li><code> ycord: </code> Y coordinate of the top left corner of the detection.</li>
+              <li><code> width: </code> width of the detected bounding box. </li>
+              <li><code> height: </code> height of the detection bounding box. </li>
+            </ul>
+          </ul>
+          
+          <p>Suggestion: take a look at the javascript code of the stream page to see a working example.</p>
+
+        </section>
+
+
+        <!-- Matlab Library
+        ================================================== -->
+        <section id="matlab">
+          <div class="page-header">
+            <h1>Matlab library</h1>
+          </div>
+          <p class="lead"> We have developed a Matlab library that includes all the functionality explained so far. </p>
+
+
+        </section>
+
+
+        </div><!--/span-->
+    </div><!--/row-->
+
+{% endblock content %}
+
+{% block extra_js %}   
+    <script src="{% static 'js/prettify.js' %}"></script>
+    <script src="{% static 'js/bootstrap/application.js' %}"></script>
+    <script src="{% static 'js/bootstrap/bootstrap-scrollspy.js' %}"></script>
+    <script> $('body').scrollspy({ target: '#navmenu' });</script>
+{% endblock extra_js %}

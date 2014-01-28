@@ -95,6 +95,12 @@ canvas {
 	opacity: 0.7;
 }
 
+/* Make the code scrollable. Used for the detectors API documentation*/
+pre {
+  overflow: auto;
+  word-wrap: normal;
+  white-space: pre;
+}
 
 
 

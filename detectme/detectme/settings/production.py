@@ -8,6 +8,8 @@ from base import *
 ###### IMPORTANT: Django Deployment Check list
 # https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
 ######
+PRODUCTION=True
+
 
 # Normally you should not import ANYTHING from Django directly
 # into your settings, but ImproperlyConfigured is an exception.
@@ -124,3 +126,13 @@ INSTALLED_APPS = INSTALLED_APPS + (
     'raven.contrib.django.raven_compat',
 )
 ########## SENTRY CONFIGURATION
+
+
+########## DJANGO REDIS METRICS CONFIGURATION
+#https://github.com/bradmontgomery/django-redis-metrics
+
+INSTALLED_APPS = INSTALLED_APPS + (
+    'redis_metrics',
+)
+########## DJANGO REDIS METRICS CONFIGURATION
+    

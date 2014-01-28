@@ -29,7 +29,7 @@ urlpatterns = patterns(
         views_api.SupportVectorsForDetector.as_view()),
     
     url(r'^api/ratings/$',
-        views_api.RatingAPIList.as_view()),
+        views_api.RatingAPIList.as_view(), name='api_ratings'),
 
     url(r'^api/report/$', 
         views_api.AbuseReportAPICreate.as_view()),

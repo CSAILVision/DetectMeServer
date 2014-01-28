@@ -14,9 +14,12 @@ urlpatterns = patterns(
     url(r'^videostream/', include('videostream.urls')),
     url(r'^how_it_works/$', TemplateView.as_view(template_name='how_it_works.html'),
         name="how_it_works"),
+    url(r'^api_documentation/$', TemplateView.as_view(template_name='api_documentation.html'),
+        name="api_documentation"),
     url(r'^about/$', TemplateView.as_view(template_name='about.html'),
         name="about"),
     url(r'^contact/', include('envelope.urls'), name="contact"),
+    url(r'^docs/', include('rest_framework_swagger.urls')),
 
     # create account over api
     (r'^accounts/api/', include('accounts.urls')),

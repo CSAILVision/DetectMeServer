@@ -1,14 +1,10 @@
+from datetime import datetime
+from django.conf import settings
 from django.db.models import Q
-
-from datetime import date
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
 from redis_metrics import metric
-
-from datetime import date,datetime
-from rest_framework import generics, permissions
 
 from .models import Detector, Rating, AnnotatedImage
 from .serializers import DetectorSerializer, AnnotatedImageSerializer,\
@@ -21,11 +17,11 @@ class DetectorAPIList(generics.ListCreateAPIView):
     serializer_class = DetectorSerializer
 
     def pre_save(self, obj):
-        metric('api_detectors_create')
+        DMmetric('api_detectors_create')
         obj.author = self.request.user.get_profile()
 
     def get_queryset(self):
-        metric('api_detectors_list')
+        DMmetric('api_detectors_list')
         return (Detector.objects
                 .filter(get_allowed_detectors(self.request.user))
                 .order_by('-created_at'))
@@ -54,7 +50,7 @@ class DetectorAPIDetail(generics.RetrieveUpdateDestroyAPIView):
                           # IsOwnerOrReadOnly,)
 
     def pre_save(self, obj):
-        metric('api_detectors_update')
+        DMmetric('api_detectors_update')
         # remove all the images and wait for the new ones to be updated
         obj.annotatedimage_set.all().delete()
         obj.author = self.request.user.get_profile()
@@ -69,7 +65,7 @@ class AnnotatedImageAPIList(generics.ListCreateAPIView):
     model = AnnotatedImage
 
     def pre_save(self, obj):
-        metric('api_annotatedimages_create')
+        DMmetric('api_annotatedimages_create')
         obj.author = self.request.user.get_profile()
 
 
@@ -96,7 +92,7 @@ class SupportVectorsForDetector(generics.RetrieveAPIView):
     model = Detector
 
     def get_queryset(self):
-        metric('api_supportvectors_list')
+        DMmetric('api_supportvectors_list')
         return super(SupportVectorsForDetector, self).get_queryset()
 
 
@@ -127,7 +123,7 @@ class RatingAPIList(APIView):
 
 class AbuseReportAPICreate(generics.CreateAPIView):
     """
-    Store a new abuse report from the mobile device.  
+    Store a new abuse report from the mobile device.
     """
     serializer_class = AbuseReportSerializer
 
@@ -136,6 +132,9 @@ class AbuseReportAPICreate(generics.CreateAPIView):
         obj.abuse_type ='OT'
 
 
+def DMmetric(name):
+    if settings.PRODUCTION:
+        metric(name)
 
 
 

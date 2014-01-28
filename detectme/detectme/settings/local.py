@@ -50,9 +50,6 @@ CACHES = {
 # See: https://github.com/django-debug-toolbar/django-debug-toolbar#installation
 INSTALLED_APPS += (
     'debug_toolbar',
-    'profiler',
-    'app_metrics',
-    # 'djcelery',
 )
 
 # See: https://github.com/django-debug-toolbar/django-debug-toolbar#installation
@@ -70,23 +67,11 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 ########## END TOOLBAR CONFIGURATION
 
+
 ########## DJANGO-LIVE-PROFILER CONFIGURATION
 # Query profiling for django
 # https://github.com/InviteBox/django-live-profiler
 ########## DJANGO-LIVE-PROFILER CONFIGURATION
-
-
-########## DJANGO-APP-METRICS CONFIGURATION
-# Server side aggregated metrics
-# http://django-app-metrics.readthedocs.org/en/latest/
-CELERY_ALWAYS_EAGER = True
-# BROKER_BACKEND = "djkombu.transport.DatabaseTransport"
-
-# app.conf.update(
-#     CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend',
-# )
-########## DJANGO-APP-METRICS CONFIGURATION
-
 
 
 ########## SENTRY CONFIGURATION
@@ -98,7 +83,6 @@ RAVEN_CONFIG = {
 
 # Add raven to the list of installed apps
 INSTALLED_APPS = INSTALLED_APPS + (
-    # ...
     'raven.contrib.django.raven_compat',
 )
 ########## SENTRY CONFIGURATION

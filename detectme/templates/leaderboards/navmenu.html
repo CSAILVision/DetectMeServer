@@ -4,6 +4,8 @@
       <a href="{% url 'competition_detail' %}"><i class="icon-chevron-right"></i> Details</a></li>
     {% if selected_item == "forum" %} <li  class="active"> {% else %} <li> {% endif %}
       <a href="{% url 'pybb:index' %}"><i class="icon-chevron-right"></i> Forum</a></li>
+    {% if selected_item == "submissions" %} <li  class="active"> {% else %} <li> {% endif %}
+      <a href="{% url 'submissions' %}"><i class="icon-chevron-right"></i> Submissions</a></li>
     <li><a href=""  class="btn btn-large disabled"> Leaderboards </a></li>
     {% for cat in categories %}
         {% if selected_item == cat.name %}<li class="active"> {% else %} <li> {% endif %} 

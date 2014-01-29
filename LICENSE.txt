@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------
-|                                DetectMe iOS web server                     |
+|                        DetectMe iOS web server                             |
 ------------------------------------------------------------------------------
 
 Copyright (c) 2013 Josep Marc Mingot, Adria Recasens, Dolores Blanco, Antonio

@@ -20,5 +20,7 @@ urlpatterns += patterns(
     '',
     url(r'^forum/', include('pybb.urls', namespace='pybb')),
     url(r'^$', views.competition_detail, name="competition_detail"),
-    url(r'^category/(?P<category>\w+)$', views.show_leaderboard, name='leaderboard'),
+    url(r'^submissions/$', views.submissions, name='submissions'),
+    url(r'^category/(?P<category>\w+)/$', views.show_leaderboard, name='leaderboard'),
+
 )

@@ -16,10 +16,11 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>position</th>
-          <th>user</th>
-          <th>entries</th>
+          <th>Position</th>
+          <th>User</th>
+          <th>Entries</th>
           <th>AP</th>
+          <th>Images for top score</th>
         </tr>
       </thead>
       <tbody>
@@ -28,7 +29,8 @@
             <td>{{ forloop.counter }}</td>
             <td>{{ team.user.username }}</td>
             <td>{{ team.num_entries }}</td>
-            <td>{{ team.max_score }}</td>
+            <td>{{ team.best_performance.average_precision }}</td>
+            <td>{{ team.best_performance.detector.annotatedimage_set.all|length }}</td>
           </tr>
         {% endfor %}
       </tbody>

@@ -60,7 +60,7 @@ class Performance(models.Model):
         user_score = UserScore.objects.get_or_create(user=self.detector.author,
                                                      category=category)
         super(Performance, self).save(*args, **kwargs)
-    
+
     def __unicode__(self):
         return u'Performance of %s - %s by %s is %s' % (self.detector.name,
                                                         self.detector.pk,
@@ -76,11 +76,10 @@ class UserScore(models.Model):
     category = models.ForeignKey(Category)
 
     @property
-    def max_score(self):
-        perf = (Performance.objects
+    def best_performance(self):
+        return (Performance.objects
                 .filter(detector_author=self.user, category=self.category)
-                .aggregate(max_score=Max('average_precision')))
-        return perf['max_score']
+                .order_by('-average_precision'))[0]
 
     @property
     def num_entries(self):

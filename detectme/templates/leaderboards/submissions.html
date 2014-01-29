@@ -1,0 +1,104 @@
+{% extends "leaderboards/base.html" %}
+{% load staticfiles %}
+
+
+{% block extra_css %}
+<style>
+.hiddenRow {
+    padding: 0 !important;
+}
+
+.accordion-toggle:hover{
+    background: #DCF7DC!important;
+}
+</style>
+{% endblock extra_css %}
+
+{% block page_title %}
+<div class="page-header">
+<h1>My Submitted Detectors</h1>
+</div>
+{% endblock page_title %}
+
+
+{% block competition_content %}
+
+{% if performances %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>Detector Name</th>
+      <th>Category</th>
+      <th>AP</th>
+      <th>Num Images</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for performance in performances %}
+      <tr data-toggle="collapse" data-target="#collapse{{forloop.counter}}" class="accordion-toggle">
+        <td>{{ performance.detector.name }}</td>
+        <td>{{ performance.category.name }}</td>
+        <td>{{ performance.average_precision }}</td>
+        <td>{{ performance.detector.annotatedimage_set.all|length }}</td>
+      </tr>
+      <tr >
+          <td colspan="6" class="hiddenRow">
+            <div class="accordian-body collapse" id="collapse{{forloop.counter}}">
+                <ul class="thumbnails">
+                {% for annotatedimage in performance.detector.annotatedimage_set.all %}
+                  <li class="span3">
+                    <div class="thumbnail">
+                        <div class="img-container">
+                        <img src="{{ annotatedimage.image_jpeg.url }}" alt="image" height="200" width="200"/>
+                        </div>
+                    </div>
+                  </li>
+                {% endfor %}
+                </ul>
+            </div>         
+          </td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% else %}
+  <p>You do not have submissions yet!</p>
+{% endif %}
+
+{% endblock competition_content %}
+
+{% block extra_js %}
+    <script>
+      //draw boxes in each annotated image
+      $( window ).load(function(){
+      
+      
+        var rects = [];
+        var color = 'red';
+
+        {% for annotatedimage in annotatedimage_list %}
+          rects.push({x:{{ annotatedimage.box_x }}, y:{{ annotatedimage.box_y }}, w:{{ annotatedimage.box_width }}, h:{{ annotatedimage.box_height }} });
+        {% endfor %}
+        
+        var imgContainers = document.getElementsByClassName("img-container");
+
+        for(var i=0; i<imgContainers.length; i++){
+          var imgContainer = imgContainers[i];
+          var rect = rects[i];
+          var height = $(imgContainer).find("img").height();
+          var width = $(imgContainer).find("img").width();
+          
+
+          $('<div class="box"/>').appendTo(imgContainer)
+            .css("left", rect.x*width + "px")
+            .css("top", rect.y*height + "px")
+            .css("width", rect.w*width + "px")
+            .css("height", rect.h*height + "px")
+            .css("border", "3px solid " + color);
+        }
+
+      });
+  
+    </script>
+{% endblock extra_js %}

@@ -50,6 +50,7 @@
                     <div class="thumbnail">
                         <div class="img-container">
                         <img src="{{ annotatedimage.image_jpeg.url }}" alt="image" height="200" width="200"/>
+                        <div class="box" style="left: {{ annotatedimage.box_x }}px; top: {{ annotatedimage.box_y }}px; width: {{ annotatedimage.box_width }}px; height: {{ annotatedimage.box_height }}px; border: 3px solid red;"></div>
                         </div>
                     </div>
                   </li>
@@ -73,32 +74,22 @@
       //draw boxes in each annotated image
       $( window ).load(function(){
       
-      
-        var rects = [];
-        var color = 'red';
+      images = $(".img-container").children("img")
+      boxes = $(".img-container").children(".box")
 
-        {% for annotatedimage in annotatedimage_list %}
-          rects.push({x:{{ annotatedimage.box_x }}, y:{{ annotatedimage.box_y }}, w:{{ annotatedimage.box_width }}, h:{{ annotatedimage.box_height }} });
-        {% endfor %}
-        
-        var imgContainers = document.getElementsByClassName("img-container");
+      for(var i=0; i<images.length; i++){
+        image = images[i];
+        height = image.height;
+        width = image.width;
 
-        for(var i=0; i<imgContainers.length; i++){
-          var imgContainer = imgContainers[i];
-          var rect = rects[i];
-          var height = $(imgContainer).find("img").height();
-          var width = $(imgContainer).find("img").width();
-          
-
-          $('<div class="box"/>').appendTo(imgContainer)
-            .css("left", rect.x*width + "px")
-            .css("top", rect.y*height + "px")
-            .css("width", rect.w*width + "px")
-            .css("height", rect.h*height + "px")
-            .css("border", "3px solid " + color);
-        }
-
-      });
+        box = boxes[i];
+        box.style.left = parseFloat(box.style.left.slice(0,-2))*width + "px";
+        box.style.top = parseFloat(box.style.top.slice(0,-2))*height + "px";
+        box.style.width = parseFloat(box.style.width.slice(0,-2))*width + "px";
+        box.style.height = parseFloat(box.style.height.slice(0,-2))*height + "px";
+      }
+    });
   
     </script>
+
 {% endblock extra_js %}

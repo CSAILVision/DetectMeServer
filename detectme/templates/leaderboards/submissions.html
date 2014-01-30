@@ -4,13 +4,13 @@
 
 {% block extra_css %}
 <style>
-.hiddenRow {
-    padding: 0 !important;
-}
+.hiddenRow {padding: 0 !important;}
+.accordion-toggle:hover{background: #DCF7DC!important;}
 
-.accordion-toggle:hover{
-    background: #DCF7DC!important;
-}
+/*annotated images*/
+.img-container { position: relative; }
+.box { position: absolute;}
+.thumbnail { border:0;}
 </style>
 {% endblock extra_css %}
 
@@ -49,8 +49,8 @@
                   <li class="span3">
                     <div class="thumbnail">
                         <div class="img-container">
-                        <img src="{{ annotatedimage.image_jpeg.url }}" alt="image" height="200" width="200"/>
-                        <div class="box" style="left: {{ annotatedimage.box_x }}px; top: {{ annotatedimage.box_y }}px; width: {{ annotatedimage.box_width }}px; height: {{ annotatedimage.box_height }}px; border: 3px solid red;"></div>
+                          <div class="box" style="left: {{ annotatedimage.box_x }}px; top: {{ annotatedimage.box_y }}px; width: {{ annotatedimage.box_width }}px; height: {{ annotatedimage.box_height }}px; border: 3px solid red;"></div>
+                          <img src="{{ annotatedimage.image_jpeg.url }}" alt="image" height="200" width="200"/>
                         </div>
                     </div>
                   </li>
@@ -87,9 +87,11 @@
         box.style.top = parseFloat(box.style.top.slice(0,-2))*height + "px";
         box.style.width = parseFloat(box.style.width.slice(0,-2))*width + "px";
         box.style.height = parseFloat(box.style.height.slice(0,-2))*height + "px";
+
       }
     });
   
     </script>
+
 
 {% endblock extra_js %}

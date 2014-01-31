@@ -117,7 +117,8 @@ DEBUG_TOOLBAR_CONFIG = {
 # See http://sentry.readthedocs.org/en/latest/quickstart/index.html
 # Set your DSN value
 RAVEN_CONFIG = {
-    'dsn': 'http://428fcb89745548dd98a2caba7dda7fe9:6aba4e1412774e27af17b953a980c9b9@128.52.160.245:9000/1',
+    'dsn': 'http://e21ffa4f13e04bc4892f322800ce3b36:c4f0831084124ca5a81d5ffc68f3538c@128.52.160.245:9000/1',
+    
 }
 
 # Add raven to the list of installed apps
